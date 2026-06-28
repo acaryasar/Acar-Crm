@@ -519,22 +519,6 @@ model SalesType {
   @@index([guidId])
 }
 
-model Currency {
-  id        String    @id @default(cuid())
-  code      String
-  name      String
-  isDeleted Boolean   @default(false)
-  deletedAt DateTime?
-  deletedBy String?
-  createdAt DateTime  @default(now())
-  createdBy String?
-  updatedAt DateTime  @updatedAt
-  updatedBy String?
-
-  bankAccounts BankAccount[]
-
-  @@index([deletedAt])
-}
 
 model CustomerType {
   id        String    @id @default(cuid())
@@ -582,8 +566,7 @@ model BankAccount {
   id          String   @id @default(cuid())
   bankId      String
   bank        Bank     @relation(fields: [bankId], references: [id])
-  currencyId  String
-  currency    Currency @relation(fields: [currencyId], references: [id])
+  currencyCode String
   iban        String
   swiftNumber String
   isDeleted   Boolean  @default(false)
@@ -596,7 +579,6 @@ model BankAccount {
 
   @@index([deletedAt])
   @@index([bankId])
-  @@index([currencyId])
 }
 
 model CargoFirm {

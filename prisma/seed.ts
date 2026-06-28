@@ -640,6 +640,26 @@ async function main() {
     });
   }
 
+  // Kargo Firmaları - JSON dosyasından oku
+  const cargoFirmsFilePath = join(__dirname, 'cargo-firms.json');
+  const cargoFirmsData = JSON.parse(readFileSync(cargoFirmsFilePath, 'utf-8'));
+
+  // Kargo firmalarını ekle
+  for (const cargoFirm of cargoFirmsData) {
+    await prisma.cargoFirm.upsert({
+      where: { id: cargoFirm.id },
+      create: {
+        id: cargoFirm.id,
+        name: cargoFirm.name,
+        email: cargoFirm.email,
+        phoneNumber: cargoFirm.phoneNumber,
+        address: cargoFirm.address,
+        isDeleted: !cargoFirm.isActive,
+      },
+      update: {},
+    });
+  }
+
   // Email Inbox - Gelen kutusu
   const emailInboxData = [
     {
@@ -702,6 +722,7 @@ async function main() {
   console.log(`   - ${notifIndex} bildirim`);
   console.log(`   - ${departmentsData.length} departman`);
   console.log(`   - ${customerTypesData.length} müşteri tipi`);
+  console.log(`   - ${cargoFirmsData.length} kargo firması`);
   console.log(`\n   Giriş bilgileri:`);
   console.log(`   - Company 1: admin@acar-crm.local / Admin123!`);
   console.log(`   - Company 2: manager@acartech.local / Admin123!`);

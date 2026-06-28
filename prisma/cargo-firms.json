@@ -1,0 +1,17 @@
+[
+  { "id": 300, "name": "Aras Kargo", "email": "info@araskargo.com.tr", "phoneNumber": "444 25 52", "address": "İstanbul", "isActive": true },
+  { "id": 301, "name": "Yurtiçi Kargo", "email": "info@yurticikargo.com", "phoneNumber": "444 99 99", "address": "İstanbul", "isActive": true },
+  { "id": 302, "name": "MNG Kargo", "email": "info@mngkargo.com.tr", "phoneNumber": "444 06 06", "address": "İstanbul", "isActive": true },
+  { "id": 303, "name": "Sürat Kargo", "email": "info@suratkargo.com.tr", "phoneNumber": "444 77 77", "address": "İstanbul", "isActive": true },
+  { "id": 304, "name": "PTT Kargo", "email": "info@ptt.gov.tr", "phoneNumber": "444 1 788", "address": "Ankara", "isActive": true },
+  { "id": 305, "name": "FedEx", "email": "info@fedex.com", "phoneNumber": "444 00 00", "address": "İstanbul", "isActive": true },
+  { "id": 306, "name": "DHL", "email": "info@dhl.com", "phoneNumber": "444 00 00", "address": "İstanbul", "isActive": true },
+  { "id": 307, "name": "UPS", "email": "info@ups.com", "phoneNumber": "444 00 00", "address": "İstanbul", "isActive": true },
+  { "id": 308, "name": "TNT", "email": "info@tnt.com", "phoneNumber": "444 00 00", "address": "İstanbul", "isActive": true },
+  { "id": 309, "name": "Borusan Lojistik", "email": "info@borusanlojistik.com", "phoneNumber": "444 00 00", "address": "İstanbul", "isActive": true },
+  { "id": 310, "name": "Ekol Lojistik", "email": "info@ekol.com.tr", "phoneNumber": "444 00 00", "address": "İstanbul", "isActive": true },
+  { "id": 311, "name": "Horoz Lojistik", "email": "info@horozlojistik.com", "phoneNumber": "444 00 00", "address": "İstanbul", "isActive": true },
+  { "id": 312, "name": "Omsan Lojistik", "email": "info@omsan.com.tr", "phoneNumber": "444 00 00", "address": "İstanbul", "isActive": true },
+  { "id": 313, "name": "Pınar Lojistik", "email": "info@pinarlojistik.com", "phoneNumber": "444 00 00", "address": "İzmir", "isActive": true },
+  { "id": 314, "name": "Güven Lojistik", "email": "info@guvenlojistik.com", "phoneNumber": "444 00 00", "address": "İstanbul", "isActive": true }
+]

@@ -1,0 +1,17 @@
+[
+  { "id": 200, "name": "Bireysel", "isActive": true },
+  { "id": 201, "name": "Kurumsal", "isActive": true },
+  { "id": 202, "name": "VIP", "isActive": true },
+  { "id": 203, "name": "Toptancı", "isActive": true },
+  { "id": 204, "name": "Perakendeci", "isActive": true },
+  { "id": 205, "name": "Bayi", "isActive": true },
+  { "id": 206, "name": "Distribütör", "isActive": true },
+  { "id": 207, "name": "İhracatçı", "isActive": true },
+  { "id": 208, "name": "İthalatçı", "isActive": true },
+  { "id": 209, "name": "Üretici", "isActive": true },
+  { "id": 210, "name": "Hizmet Sağlayıcı", "isActive": true },
+  { "id": 211, "name": "Devlet Kurumu", "isActive": true },
+  { "id": 212, "name": "STK", "isActive": true },
+  { "id": 213, "name": "Eğitim Kurumu", "isActive": true },
+  { "id": 214, "name": "Sağlık Kurumu", "isActive": true }
+]

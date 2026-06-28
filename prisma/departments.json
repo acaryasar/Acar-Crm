@@ -1,0 +1,22 @@
+[
+  { "id": 100, "name": "Yönetim", "isActive": true },
+  { "id": 101, "name": "İnsan Kaynakları", "isActive": true },
+  { "id": 102, "name": "Finans", "isActive": true },
+  { "id": 103, "name": "Muhasebe", "isActive": true },
+  { "id": 104, "name": "Satış", "isActive": true },
+  { "id": 105, "name": "Pazarlama", "isActive": true },
+  { "id": 106, "name": "Teknik Destek", "isActive": true },
+  { "id": 107, "name": "Üretim", "isActive": true },
+  { "id": 108, "name": "Lojistik", "isActive": true },
+  { "id": 109, "name": "Ar-Ge", "isActive": true },
+  { "id": 110, "name": "Kalite Kontrol", "isActive": true },
+  { "id": 111, "name": "Satın Alma", "isActive": true },
+  { "id": 112, "name": "Hukuk", "isActive": true },
+  { "id": 113, "name": "Bilgi İşlem", "isActive": true },
+  { "id": 114, "name": "Müşteri Hizmetleri", "isActive": true },
+  { "id": 115, "name": "Proje Yönetimi", "isActive": true },
+  { "id": 116, "name": "İdari İşler", "isActive": true },
+  { "id": 117, "name": "Güvenlik", "isActive": true },
+  { "id": 118, "name": "Temizlik Hizmetleri", "isActive": true },
+  { "id": 119, "name": "Kurumsal İletişim", "isActive": true }
+]

@@ -605,9 +605,40 @@ async function main() {
     });
   }
 
-  // Vergi Daireleri - JSON dosyasından oku
-  const taxOfficesFilePath = join(__dirname, 'tax-offices.json');
-  const taxOfficesData = JSON.parse(readFileSync(taxOfficesFilePath, 'utf-8'));
+  // Departmanlar - JSON dosyasından oku
+  const departmentsFilePath = join(__dirname, 'departments.json');
+  const departmentsData = JSON.parse(readFileSync(departmentsFilePath, 'utf-8'));
+
+  // Departmanları ekle
+  for (const dept of departmentsData) {
+    await prisma.department.upsert({
+      where: { id: dept.id },
+      create: {
+        id: dept.id,
+        departmentName: dept.name,
+        departmentUpper: dept.name.toUpperCase(),
+        isDeleted: !dept.isActive,
+      },
+      update: {},
+    });
+  }
+
+  // Müşteri Tipleri - JSON dosyasından oku
+  const customerTypesFilePath = join(__dirname, 'customer-types.json');
+  const customerTypesData = JSON.parse(readFileSync(customerTypesFilePath, 'utf-8'));
+
+  // Müşteri tiplerini ekle
+  for (const customerType of customerTypesData) {
+    await prisma.customerType.upsert({
+      where: { id: customerType.id },
+      create: {
+        id: customerType.id,
+        typeName: customerType.name,
+        isDeleted: !customerType.isActive,
+      },
+      update: {},
+    });
+  }
 
   // Email Inbox - Gelen kutusu
   const emailInboxData = [
@@ -660,21 +691,6 @@ async function main() {
     });
   }
 
-  // Vergi Dairelerini ekle
-  for (const taxOffice of taxOfficesData) {
-    await prisma.taxOffice.upsert({
-      where: { muhasebeBirimiKodu: taxOffice.muhasebeBirimiKodu },
-      create: {
-        plateCode: taxOffice.plateCode,
-        name: taxOffice.name,
-        districtName: taxOffice.districtName,
-        muhasebeBirimiKodu: taxOffice.muhasebeBirimiKodu,
-        taxOfficeName: taxOffice.taxOfficeName,
-      },
-      update: {},
-    });
-  }
-
   console.log("✅ Seed tamamlandı:");
   console.log(`   - 3 şirket`);
   console.log(`   - ${allUsers.length} kullanıcı`);
@@ -684,7 +700,8 @@ async function main() {
   console.log(`   - ${activityLogsData.length} aktivite logu`);
   console.log(`   - ${emailInboxData.length} email`);
   console.log(`   - ${notifIndex} bildirim`);
-  console.log(`   - ${taxOfficesData.length} vergi dairesi (örnek: Adana)`);
+  console.log(`   - ${departmentsData.length} departman`);
+  console.log(`   - ${customerTypesData.length} müşteri tipi`);
   console.log(`\n   Giriş bilgileri:`);
   console.log(`   - Company 1: admin@acar-crm.local / Admin123!`);
   console.log(`   - Company 2: manager@acartech.local / Admin123!`);

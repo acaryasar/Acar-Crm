@@ -521,23 +521,23 @@ model SalesType {
 
 
 model CustomerType {
-  id        String    @id @default(cuid())
+  id        Int     @id
   typeName  String
-  isDeleted Boolean   @default(false)
+  isDeleted Boolean @default(false)
   deletedAt DateTime?
   deletedBy String?
-  createdAt DateTime  @default(now())
+  createdAt DateTime @default(now())
   createdBy String?
-  updatedAt DateTime  @updatedAt
+  updatedAt DateTime @updatedAt
   updatedBy String?
 
   @@index([deletedAt])
 }
 
 model Department {
-  id             String  @id @default(cuid())
+  id             Int     @id
   departmentName String
-  departmentUpper String
+  departmentUpper String @unique
   isDeleted      Boolean @default(false)
 
   employees Employee[]

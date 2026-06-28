@@ -27,6 +27,127 @@ async function main() {
     update: {},
   });
 
+  // Banks
+  const bank1 = await prisma.bank.upsert({
+    where: { id: "seed-bank-01" },
+    create: {
+      id: "seed-bank-01",
+      name: "Ziraat Bankası",
+      address: "Ankara",
+      email: "info@ziraatbank.com.tr",
+      phoneNumber: "444 00 00",
+    },
+    update: {},
+  });
+
+  const bank2 = await prisma.bank.upsert({
+    where: { id: "seed-bank-02" },
+    create: {
+      id: "seed-bank-02",
+      name: "Halkbank",
+      address: "Ankara",
+      email: "info@halkbank.com.tr",
+      phoneNumber: "444 00 00",
+    },
+    update: {},
+  });
+
+  const bank3 = await prisma.bank.upsert({
+    where: { id: "seed-bank-03" },
+    create: {
+      id: "seed-bank-03",
+      name: "Vakıfbank",
+      address: "İstanbul",
+      email: "info@vakifbank.com.tr",
+      phoneNumber: "444 00 00",
+    },
+    update: {},
+  });
+
+  const bank4 = await prisma.bank.upsert({
+    where: { id: "seed-bank-04" },
+    create: {
+      id: "seed-bank-04",
+      name: "İş Bankası",
+      address: "İstanbul",
+      email: "info@isbank.com.tr",
+      phoneNumber: "444 00 00",
+    },
+    update: {},
+  });
+
+  const bank5 = await prisma.bank.upsert({
+    where: { id: "seed-bank-05" },
+    create: {
+      id: "seed-bank-05",
+      name: "Garanti BBVA",
+      address: "İstanbul",
+      email: "info@garanti.com.tr",
+      phoneNumber: "444 00 00",
+    },
+    update: {},
+  });
+
+  const bank6 = await prisma.bank.upsert({
+    where: { id: "seed-bank-06" },
+    create: {
+      id: "seed-bank-06",
+      name: "Akbank",
+      address: "İstanbul",
+      email: "info@akbank.com",
+      phoneNumber: "444 00 00",
+    },
+    update: {},
+  });
+
+  const bank7 = await prisma.bank.upsert({
+    where: { id: "seed-bank-07" },
+    create: {
+      id: "seed-bank-07",
+      name: "Yapı Kredi",
+      address: "İstanbul",
+      email: "info@yapikredi.com.tr",
+      phoneNumber: "444 00 00",
+    },
+    update: {},
+  });
+
+  const bank8 = await prisma.bank.upsert({
+    where: { id: "seed-bank-08" },
+    create: {
+      id: "seed-bank-08",
+      name: "QNB Finansbank",
+      address: "İstanbul",
+      email: "info@finansbank.com.tr",
+      phoneNumber: "444 00 00",
+    },
+    update: {},
+  });
+
+  const bank9 = await prisma.bank.upsert({
+    where: { id: "seed-bank-09" },
+    create: {
+      id: "seed-bank-09",
+      name: "Türkiye İş Bankası",
+      address: "İstanbul",
+      email: "info@isbank.com.tr",
+      phoneNumber: "444 00 00",
+    },
+    update: {},
+  });
+
+  const bank10 = await prisma.bank.upsert({
+    where: { id: "seed-bank-10" },
+    create: {
+      id: "seed-bank-10",
+      name: "Denizbank",
+      address: "İstanbul",
+      email: "info@denizbank.com",
+      phoneNumber: "444 00 00",
+    },
+    update: {},
+  });
+
   // Users - Company 1
   const admin = await prisma.user.upsert({
     where: { email: "admin@acar-crm.local" },
@@ -605,61 +726,6 @@ async function main() {
     });
   }
 
-  // Departmanlar - JSON dosyasından oku
-  const departmentsFilePath = join(__dirname, 'departments.json');
-  const departmentsData = JSON.parse(readFileSync(departmentsFilePath, 'utf-8'));
-
-  // Departmanları ekle
-  for (const dept of departmentsData) {
-    await prisma.department.upsert({
-      where: { id: dept.id },
-      create: {
-        id: dept.id,
-        departmentName: dept.name,
-        departmentUpper: dept.name.toUpperCase(),
-        isDeleted: !dept.isActive,
-      },
-      update: {},
-    });
-  }
-
-  // Müşteri Tipleri - JSON dosyasından oku
-  const customerTypesFilePath = join(__dirname, 'customer-types.json');
-  const customerTypesData = JSON.parse(readFileSync(customerTypesFilePath, 'utf-8'));
-
-  // Müşteri tiplerini ekle
-  for (const customerType of customerTypesData) {
-    await prisma.customerType.upsert({
-      where: { id: customerType.id },
-      create: {
-        id: customerType.id,
-        typeName: customerType.name,
-        isDeleted: !customerType.isActive,
-      },
-      update: {},
-    });
-  }
-
-  // Kargo Firmaları - JSON dosyasından oku
-  const cargoFirmsFilePath = join(__dirname, 'cargo-firms.json');
-  const cargoFirmsData = JSON.parse(readFileSync(cargoFirmsFilePath, 'utf-8'));
-
-  // Kargo firmalarını ekle
-  for (const cargoFirm of cargoFirmsData) {
-    await prisma.cargoFirm.upsert({
-      where: { id: cargoFirm.id },
-      create: {
-        id: cargoFirm.id,
-        name: cargoFirm.name,
-        email: cargoFirm.email,
-        phoneNumber: cargoFirm.phoneNumber,
-        address: cargoFirm.address,
-        isDeleted: !cargoFirm.isActive,
-      },
-      update: {},
-    });
-  }
-
   // Email Inbox - Gelen kutusu
   const emailInboxData = [
     {
@@ -713,6 +779,7 @@ async function main() {
 
   console.log("✅ Seed tamamlandı:");
   console.log(`   - 3 şirket`);
+  console.log(`   - 10 banka`);
   console.log(`   - ${allUsers.length} kullanıcı`);
   console.log(`   - ${allCustomers.length} müşteri`);
   console.log(`   - ${tickets1Data.length + tickets2Data.length + tickets3Data.length} ticket`);
@@ -720,9 +787,6 @@ async function main() {
   console.log(`   - ${activityLogsData.length} aktivite logu`);
   console.log(`   - ${emailInboxData.length} email`);
   console.log(`   - ${notifIndex} bildirim`);
-  console.log(`   - ${departmentsData.length} departman`);
-  console.log(`   - ${customerTypesData.length} müşteri tipi`);
-  console.log(`   - ${cargoFirmsData.length} kargo firması`);
   console.log(`\n   Giriş bilgileri:`);
   console.log(`   - Company 1: admin@acar-crm.local / Admin123!`);
   console.log(`   - Company 2: manager@acartech.local / Admin123!`);

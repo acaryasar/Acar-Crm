@@ -508,40 +508,6 @@ enum ChatStatus {
 
 // Parameter Tables
 
-model SalesType {
-  id        String   @id @default(cuid())
-  guidId    String   @unique
-  name      String?
-  isDeleted Boolean  @default(true)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@index([guidId])
-}
-
-
-model CustomerType {
-  id        Int     @id
-  typeName  String
-  isDeleted Boolean @default(false)
-  deletedAt DateTime?
-  deletedBy String?
-  createdAt DateTime @default(now())
-  createdBy String?
-  updatedAt DateTime @updatedAt
-  updatedBy String?
-
-  @@index([deletedAt])
-}
-
-model Department {
-  id             Int     @id
-  departmentName String
-  departmentUpper String @unique
-  isDeleted      Boolean @default(false)
-
-  employees Employee[]
-}
 
 model Bank {
   id        String    @id @default(cuid())
@@ -581,23 +547,6 @@ model BankAccount {
   @@index([bankId])
 }
 
-model CargoFirm {
-  id        Int     @id
-  name      String
-  email     String
-  phoneNumber String
-  address   String
-  isDeleted Boolean @default(false)
-  deletedAt DateTime?
-  deletedBy String?
-  createdAt DateTime @default(now())
-  createdBy String?
-  updatedAt DateTime @updatedAt
-  updatedBy String?
-
-  @@index([deletedAt])
-}
-
 model CustomerAuthority {
   id        String    @id @default(cuid())
   name      String
@@ -622,8 +571,6 @@ model Employee {
   email       String
   phoneNumber String
   address     String?
-  departmentId String
-  department  Department @relation(fields: [departmentId], references: [id])
   isDeleted   Boolean   @default(false)
   deletedAt   DateTime?
   deletedBy   String?
@@ -633,7 +580,6 @@ model Employee {
   updatedBy   String?
 
   @@index([deletedAt])
-  @@index([departmentId])
 }
 
 model TaxOffice {

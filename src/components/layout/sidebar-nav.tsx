@@ -60,17 +60,8 @@ const items: NavItem[] = [
     label: "parameters",
     icon: Settings,
     roles: ["ADMIN", "SUPERVISOR", "MANAGER"],
-    children: [
-      { label: "salesTypes", href: "/dashboard/parameters/sales-types", icon: FileText },
-      { label: "currencies", href: "/dashboard/parameters/currencies", icon: Receipt },
-      { label: "customerTypes", href: "/dashboard/parameters/customer-types", icon: UserRound },
-      { label: "departments", href: "/dashboard/parameters/departments", icon: Building2 },
-      { label: "banks", href: "/dashboard/parameters/banks", icon: Building2 },
-      { label: "bankAccounts", href: "/dashboard/parameters/bank-accounts", icon: Receipt },
-      { label: "cargoFirms", href: "/dashboard/parameters/cargo-firms", icon: Truck },
-      { label: "customerAuthorities", href: "/dashboard/parameters/customer-authorities", icon: Users },
-      { label: "employees", href: "/dashboard/parameters/employees", icon: Users },
-    ]
+    href: "/dashboard/parameters",
+    exact: true,
   },
   { label: "activityLogs", href: "/dashboard/activity-logs", icon: ListFilter, roles: ["ADMIN", "SUPERVISOR"] },
 ];

@@ -2,20 +2,39 @@ services:
   postgres:
     image: postgres:16
 
-    container_name: handwerk-postgres
+    container_name: acar-crm-postgres
 
     restart: unless-stopped
 
     ports:
-      - "5432:5432"
+      - "5433:5432"
 
     environment:
-      POSTGRES_USER: handwerk
-      POSTGRES_PASSWORD: handwerk123
-      POSTGRES_DB: handwerk_ai
+      POSTGRES_USER: acarcrm
+      POSTGRES_PASSWORD: acar-crm123
+      POSTGRES_DB: acar_crm_ai
 
     volumes:
       - postgres_data:/var/lib/postgresql/data
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    container_name: acar-crm-app
+
+    restart: unless-stopped
+
+    ports:
+      - "3001:3000"
+
+    environment:
+      DATABASE_URL: postgresql://acarcrm:acar-crm123@postgres:5432/acar_crm_ai
+      NODE_ENV: production
+
+    depends_on:
+      - postgres
 
 volumes:
   postgres_data:

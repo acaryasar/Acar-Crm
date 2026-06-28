@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day View - Card Based</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8fafc;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            padding: 20px 24px;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header h1 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #1e293b;
+        }
+        
+        .header .date {
+            color: #64748b;
+            font-size: 14px;
+        }
+        
+        .content {
+            padding: 24px;
+        }
+        
+        .employee-section {
+            margin-bottom: 24px;
+        }
+        
+        .employee-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        
+        .employee-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 18px;
+        }
+        
+        .employee-info h3 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1e293b;
+        }
+        
+        .employee-info p {
+            font-size: 13px;
+            color: #64748b;
+        }
+        
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 16px;
+        }
+        
+        .appointment-card {
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .appointment-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            border-color: #3b82f6;
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+        
+        .card-time {
+            background: #f1f5f9;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #475569;
+        }
+        
+        .card-status {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+        
+        .status-planned { background: #f59e0b; }
+        .status-in-progress { background: #3b82f6; }
+        .status-completed { background: #10b981; }
+        
+        .card-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 8px;
+        }
+        
+        .card-customer {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        
+        .customer-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: #64748b;
+        }
+        
+        .customer-name {
+            font-size: 13px;
+            color: #475569;
+        }
+        
+        .card-tickets {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .ticket-tag {
+            background: #f1f5f9;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            color: #64748b;
+        }
+        
+        .no-appointments {
+            text-align: center;
+            padding: 32px;
+            color: #94a3b8;
+            font-size: 14px;
+            background: #f8fafc;
+            border-radius: 12px;
+            border: 2px dashed #e2e8f0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div>
+                <h1>27 Haziran 2026 - Cuma</h1>
+                <div class="date">Gün Görünümü - Kart Tabanlı</div>
+            </div>
+            <div style="display: flex; gap: 8px;">
+                <button style="padding: 8px 16px; border: 1px solid #e2e8f0; background: white; border-radius: 8px; cursor: pointer;">Önceki</button>
+                <button style="padding: 8px 16px; border: 1px solid #e2e8f0; background: white; border-radius: 8px; cursor: pointer;">Bugün</button>
+                <button style="padding: 8px 16px; border: 1px solid #e2e8f0; background: white; border-radius: 8px; cursor: pointer;">Sonraki</button>
+            </div>
+        </div>
+        
+        <div class="content">
+            <!-- Employee 1 -->
+            <div class="employee-section">
+                <div class="employee-header">
+                    <div class="employee-avatar">AY</div>
+                    <div class="employee-info">
+                        <h3>Ahmet Yılmaz</h3>
+                        <p>ahmet@handwerk.com • 3 randevu</p>
+                    </div>
+                </div>
+                
+                <div class="cards-grid">
+                    <div class="appointment-card">
+                        <div class="card-header">
+                            <div class="card-time">09:00 - 10:30</div>
+                            <div class="card-status status-planned"></div>
+                        </div>
+                        <div class="card-title">Müşteri Onayı</div>
+                        <div class="card-customer">
+                            <div class="customer-icon">MK</div>
+                            <div class="customer-name">Mehmet Kaya</div>
+                        </div>
+                        <div class="card-tickets">
+                            <span class="ticket-tag">#TK-1234</span>
+                            <span class="ticket-tag">#TK-1235</span>
+                        </div>
+                    </div>
+                    
+                    <div class="appointment-card">
+                        <div class="card-header">
+                            <div class="card-time">14:00 - 15:00</div>
+                            <div class="card-status status-in-progress"></div>
+                        </div>
+                        <div class="card-title">Teknik Kontrol</div>
+                        <div class="card-customer">
+                            <div class="customer-icon">AŞ</div>
+                            <div class="customer-name">Ayşe Şahin</div>
+                        </div>
+                        <div class="card-tickets">
+                            <span class="ticket-tag">#TK-1240</span>
+                        </div>
+                    </div>
+                    
+                    <div class="appointment-card">
+                        <div class="card-header">
+                            <div class="card-time">16:30 - 17:30</div>
+                            <div class="card-status status-planned"></div>
+                        </div>
+                        <div class="card-title">Bakım Servisi</div>
+                        <div class="card-customer">
+                            <div class="customer-icon">FD</div>
+                            <div class="customer-name">Fatma Demir</div>
+                        </div>
+                        <div class="card-tickets">
+                            <span class="ticket-tag">#TK-1245</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Employee 2 -->
+            <div class="employee-section">
+                <div class="employee-header">
+                    <div class="employee-avatar" style="background: linear-gradient(135deg, #10b981, #059669);">ZK</div>
+                    <div class="employee-info">
+                        <h3>Zeynep Kaya</h3>
+                        <p>zeynep@handwerk.com • 2 randevu</p>
+                    </div>
+                </div>
+                
+                <div class="cards-grid">
+                    <div class="appointment-card">
+                        <div class="card-header">
+                            <div class="card-time">10:00 - 11:30</div>
+                            <div class="card-status status-completed"></div>
+                        </div>
+                        <div class="card-title">Montaj İşlemi</div>
+                        <div class="card-customer">
+                            <div class="customer-icon">AY</div>
+                            <div class="customer-name">Ali Yıldız</div>
+                        </div>
+                        <div class="card-tickets">
+                            <span class="ticket-tag">#TK-1250</span>
+                        </div>
+                    </div>
+                    
+                    <div class="appointment-card">
+                        <div class="card-header">
+                            <div class="card-time">15:00 - 16:00</div>
+                            <div class="card-status status-planned"></div>
+                        </div>
+                        <div class="card-title">Sistem Kontrolü</div>
+                        <div class="card-customer">
+                            <div class="customer-icon">HÖ</div>
+                            <div class="customer-name">Hasan Özkan</div>
+                        </div>
+                        <div class="card-tickets">
+                            <span class="ticket-tag">#TK-1255</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Employee 3 -->
+            <div class="employee-section">
+                <div class="employee-header">
+                    <div class="employee-avatar" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">MÇ</div>
+                    <div class="employee-info">
+                        <h3>Murat Çelik</h3>
+                        <p>murat@handwerk.com • 0 randevu</p>
+                    </div>
+                </div>
+                
+                <div class="no-appointments">
+                    Bugün için randevu bulunmuyor
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

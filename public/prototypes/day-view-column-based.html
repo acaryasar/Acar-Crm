@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day View - Column Based</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8fafc;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            padding: 20px 24px;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header h1 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #1e293b;
+        }
+        
+        .header .date {
+            color: #64748b;
+            font-size: 14px;
+        }
+        
+        .columns-container {
+            display: flex;
+            height: 600px;
+            overflow-x: auto;
+        }
+        
+        .employee-column {
+            width: 320px;
+            min-width: 320px;
+            border-right: 1px solid #e2e8f0;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .employee-column:last-child {
+            border-right: none;
+        }
+        
+        .column-header {
+            padding: 16px;
+            border-bottom: 1px solid #e2e8f0;
+            background: #f8fafc;
+        }
+        
+        .column-header .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+        
+        .column-header h3 {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1e293b;
+        }
+        
+        .column-header p {
+            font-size: 12px;
+            color: #64748b;
+        }
+        
+        .timeline-area {
+            flex: 1;
+            position: relative;
+            padding: 0 12px;
+            overflow-y: auto;
+        }
+        
+        .time-slot {
+            height: 60px;
+            border-bottom: 1px solid #f1f5f9;
+            position: relative;
+        }
+        
+        .time-label {
+            position: absolute;
+            left: -40px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 10px;
+            color: #94a3b8;
+            width: 35px;
+            text-align: right;
+        }
+        
+        .event {
+            position: absolute;
+            left: 8px;
+            right: 8px;
+            border-radius: 8px;
+            padding: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            z-index: 5;
+        }
+        
+        .event:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        .event .title {
+            font-weight: 600;
+            color: white;
+            font-size: 12px;
+            margin-bottom: 4px;
+        }
+        
+        .event .customer {
+            color: rgba(255,255,255,0.9);
+            font-size: 10px;
+        }
+        
+        .event .time {
+            color: rgba(255,255,255,0.8);
+            font-size: 10px;
+            margin-top: 4px;
+        }
+        
+        .event-blue { background: linear-gradient(135deg, #3b82f6, #2563eb); }
+        .event-green { background: linear-gradient(135deg, #10b981, #059669); }
+        .event-purple { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
+        .event-orange { background: linear-gradient(135deg, #f59e0b, #d97706); }
+        .event-pink { background: linear-gradient(135deg, #ec4899, #db2777); }
+        
+        .current-time-line {
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #ef4444;
+            z-index: 10;
+        }
+        
+        .current-time-line::before {
+            content: '';
+            position: absolute;
+            left: -4px;
+            top: -3px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #ef4444;
+        }
+        
+        .no-events {
+            text-align: center;
+            padding: 40px 20px;
+            color: #94a3b8;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div>
+                <h1>27 Haziran 2026 - Cuma</h1>
+                <div class="date">Gün Görünümü - Sütun Tabanlı</div>
+            </div>
+            <div style="display: flex; gap: 8px;">
+                <button style="padding: 8px 16px; border: 1px solid #e2e8f0; background: white; border-radius: 8px; cursor: pointer;">Önceki</button>
+                <button style="padding: 8px 16px; border: 1px solid #e2e8f0; background: white; border-radius: 8px; cursor: pointer;">Bugün</button>
+                <button style="padding: 8px 16px; border: 1px solid #e2e8f0; background: white; border-radius: 8px; cursor: pointer;">Sonraki</button>
+            </div>
+        </div>
+        
+        <div class="columns-container">
+            <!-- Employee 1 Column -->
+            <div class="employee-column">
+                <div class="column-header">
+                    <div class="avatar">AY</div>
+                    <h3>Ahmet Yılmaz</h3>
+                    <p>3 randevu</p>
+                </div>
+                <div class="timeline-area">
+                    <div class="time-slot"><span class="time-label">08:00</span></div>
+                    <div class="time-slot"><span class="time-label">09:00</span></div>
+                    <div class="time-slot">
+                        <span class="time-label">10:00</span>
+                        <!-- Event: 09:00 - 10:30 -->
+                        <div class="event event-blue" style="top: 0px; height: 90px;">
+                            <div class="title">Müşteri Onayı</div>
+                            <div class="customer">Mehmet Kaya</div>
+                            <div class="time">09:00 - 10:30</div>
+                        </div>
+                    </div>
+                    <div class="time-slot"><span class="time-label">11:00</span></div>
+                    <div class="time-slot"><span class="time-label">12:00</span></div>
+                    <div class="time-slot"><span class="time-label">13:00</span></div>
+                    <div class="time-slot">
+                        <span class="time-label">14:00</span>
+                        <!-- Event: 14:00 - 15:00 -->
+                        <div class="event event-green" style="top: 0px; height: 60px;">
+                            <div class="title">Teknik Kontrol</div>
+                            <div class="customer">Ayşe Şahin</div>
+                            <div class="time">14:00 - 15:00</div>
+                        </div>
+                    </div>
+                    <div class="time-slot"><span class="time-label">15:00</span></div>
+                    <div class="time-slot"><span class="time-label">16:00</span></div>
+                    <div class="time-slot">
+                        <span class="time-label">17:00</span>
+                        <!-- Event: 16:30 - 17:30 -->
+                        <div class="event event-orange" style="top: 30px; height: 60px;">
+                            <div class="title">Bakım Servisi</div>
+                            <div class="customer">Fatma Demir</div>
+                            <div class="time">16:30 - 17:30</div>
+                        </div>
+                    </div>
+                    <div class="time-slot"><span class="time-label">18:00</span></div>
+                    
+                    <!-- Current time line at 14:30 -->
+                    <div class="current-time-line" style="top: 420px;"></div>
+                </div>
+            </div>
+            
+            <!-- Employee 2 Column -->
+            <div class="employee-column">
+                <div class="column-header">
+                    <div class="avatar" style="background: linear-gradient(135deg, #10b981, #059669);">ZK</div>
+                    <h3>Zeynep Kaya</h3>
+                    <p>2 randevu</p>
+                </div>
+                <div class="timeline-area">
+                    <div class="time-slot"><span class="time-label">08:00</span></div>
+                    <div class="time-slot"><span class="time-label">09:00</span></div>
+                    <div class="time-slot">
+                        <span class="time-label">10:00</span>
+                        <!-- Event: 10:00 - 11:30 -->
+                        <div class="event event-purple" style="top: 0px; height: 90px;">
+                            <div class="title">Montaj İşlemi</div>
+                            <div class="customer">Ali Yıldız</div>
+                            <div class="time">10:00 - 11:30</div>
+                        </div>
+                    </div>
+                    <div class="time-slot"><span class="time-label">11:00</span></div>
+                    <div class="time-slot"><span class="time-label">12:00</span></div>
+                    <div class="time-slot"><span class="time-label">13:00</span></div>
+                    <div class="time-slot"><span class="time-label">14:00</span></div>
+                    <div class="time-slot">
+                        <span class="time-label">15:00</span>
+                        <!-- Event: 15:00 - 16:00 -->
+                        <div class="event event-pink" style="top: 0px; height: 60px;">
+                            <div class="title">Sistem Kontrolü</div>
+                            <div class="customer">Hasan Özkan</div>
+                            <div class="time">15:00 - 16:00</div>
+                        </div>
+                    </div>
+                    <div class="time-slot"><span class="time-label">16:00</span></div>
+                    <div class="time-slot"><span class="time-label">17:00</span></div>
+                    <div class="time-slot"><span class="time-label">18:00</span></div>
+                    
+                    <!-- Current time line at 14:30 -->
+                    <div class="current-time-line" style="top: 420px;"></div>
+                </div>
+            </div>
+            
+            <!-- Employee 3 Column -->
+            <div class="employee-column">
+                <div class="column-header">
+                    <div class="avatar" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">MÇ</div>
+                    <h3>Murat Çelik</h3>
+                    <p>0 randevu</p>
+                </div>
+                <div class="timeline-area">
+                    <div class="no-events">
+                        Bugün için randevu bulunmuyor
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

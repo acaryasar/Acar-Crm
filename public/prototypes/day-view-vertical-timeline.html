@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day View - Vertical Timeline</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8fafc;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            padding: 20px 24px;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header h1 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #1e293b;
+        }
+        
+        .header .date {
+            color: #64748b;
+            font-size: 14px;
+        }
+        
+        .timeline {
+            display: flex;
+            height: 600px;
+            overflow-y: auto;
+        }
+        
+        .time-column {
+            width: 80px;
+            border-right: 1px solid #e2e8f0;
+            background: #f8fafc;
+            flex-shrink: 0;
+        }
+        
+        .time-slot {
+            height: 60px;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding-top: 8px;
+            font-size: 12px;
+            color: #64748b;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        
+        .events-column {
+            flex: 1;
+            position: relative;
+        }
+        
+        .event {
+            position: absolute;
+            left: 12px;
+            right: 12px;
+            border-radius: 8px;
+            padding: 8px 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .event:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        .event .title {
+            font-weight: 600;
+            color: white;
+            font-size: 13px;
+            margin-bottom: 4px;
+        }
+        
+        .event .customer {
+            color: rgba(255,255,255,0.9);
+            font-size: 11px;
+        }
+        
+        .event .time {
+            color: rgba(255,255,255,0.8);
+            font-size: 11px;
+            margin-top: 4px;
+        }
+        
+        .event-blue { background: linear-gradient(135deg, #3b82f6, #2563eb); }
+        .event-green { background: linear-gradient(135deg, #10b981, #059669); }
+        .event-purple { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
+        .event-orange { background: linear-gradient(135deg, #f59e0b, #d97706); }
+        .event-pink { background: linear-gradient(135deg, #ec4899, #db2777); }
+        
+        .current-time-line {
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #ef4444;
+            z-index: 10;
+        }
+        
+        .current-time-line::before {
+            content: '';
+            position: absolute;
+            left: -6px;
+            top: -4px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #ef4444;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div>
+                <h1>27 Haziran 2026 - Cuma</h1>
+                <div class="date">Gün Görünümü - Dikey Zaman Çizelgesi</div>
+            </div>
+            <div style="display: flex; gap: 8px;">
+                <button style="padding: 8px 16px; border: 1px solid #e2e8f0; background: white; border-radius: 8px; cursor: pointer;">Önceki</button>
+                <button style="padding: 8px 16px; border: 1px solid #e2e8f0; background: white; border-radius: 8px; cursor: pointer;">Bugün</button>
+                <button style="padding: 8px 16px; border: 1px solid #e2e8f0; background: white; border-radius: 8px; cursor: pointer;">Sonraki</button>
+            </div>
+        </div>
+        
+        <div class="timeline">
+            <div class="time-column">
+                <div class="time-slot">08:00</div>
+                <div class="time-slot">09:00</div>
+                <div class="time-slot">10:00</div>
+                <div class="time-slot">11:00</div>
+                <div class="time-slot">12:00</div>
+                <div class="time-slot">13:00</div>
+                <div class="time-slot">14:00</div>
+                <div class="time-slot">15:00</div>
+                <div class="time-slot">16:00</div>
+                <div class="time-slot">17:00</div>
+                <div class="time-slot">18:00</div>
+            </div>
+            
+            <div class="events-column">
+                <!-- Event 1: 09:00 - 10:30 -->
+                <div class="event event-blue" style="top: 60px; height: 90px;">
+                    <div class="title">Müşteri Onayı</div>
+                    <div class="customer">Ahmet Yılmaz</div>
+                    <div class="time">09:00 - 10:30</div>
+                </div>
+                
+                <!-- Event 2: 11:00 - 12:00 -->
+                <div class="event event-green" style="top: 180px; height: 60px;">
+                    <div class="title">Teknik Kontrol</div>
+                    <div class="customer">Ayşe Demir</div>
+                    <div class="time">11:00 - 12:00</div>
+                </div>
+                
+                <!-- Event 3: 14:00 - 16:00 -->
+                <div class="event event-purple" style="top: 360px; height: 120px;">
+                    <div class="title">Montaj Servisi</div>
+                    <div class="customer">Mehmet Kaya</div>
+                    <div class="time">14:00 - 16:00</div>
+                </div>
+                
+                <!-- Event 4: 16:30 - 17:30 -->
+                <div class="event event-orange" style="top: 510px; height: 60px;">
+                    <div class="title">Bakım Kontrolü</div>
+                    <div class="customer">Fatma Şahin</div>
+                    <div class="time">16:30 - 17:30</div>
+                </div>
+                
+                <!-- Current time line at 14:30 -->
+                <div class="current-time-line" style="top: 420px;"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

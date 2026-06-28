@@ -1,0 +1,507 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl-openssl-3.0.x", "debian-openssl-3.0.x"]
+}
+
+enum UserRole {
+  ADMIN
+  SUPERVISOR
+  MANAGER
+  EMPLOYEE
+}
+
+model Company {
+  id        String   @id @default(cuid())
+  name      String
+  
+  // Fatura bilgileri
+  taxId     String?  // Vergi numarası
+  taxOffice String?  // Vergi dairesi
+  
+  // İletişim bilgileri
+  email     String?
+  phone     String?
+  website   String?
+  
+  // Adres bilgileri
+  street    String?
+  city      String?
+  postalCode String?
+  country   String?
+  
+  // Banka bilgileri
+  bankName  String?
+  iban      String?
+  
+  // Logo
+  logoUrl   String?
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  users         User[]
+  customers     Customer[]
+  tickets       Ticket[]
+  appointments  Appointment[]
+  emails        EmailInbox[]
+  activityLogs  ActivityLog[]
+  notifications Notification[]
+
+  // AI Assistant
+  whatsappMessages WhatsAppMessage[]
+  phoneCalls        PhoneCall[]
+  webChatSessions   WebChatSession[]
+  aiConversationLogs AIConversationLog[]
+
+  // AI asistan konfigürasyonu
+  aiConfig Json?
+
+  is_active  Boolean   @default(true)
+  deletedAt DateTime?
+  @@index([deletedAt])
+}
+
+/**
+ * User
+ */
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  firstName String
+  lastName  String
+  role      UserRole @default(EMPLOYEE)
+
+  companyId       String
+  company         Company         @relation(fields: [companyId], references: [id])
+  assignedTickets Ticket[]        @relation("AssignedTickets")
+  appointments    Appointment[]
+  activityLogs    ActivityLog[]
+  notifications   Notification[]
+
+  locale Locale @default(TR)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  is_active  Boolean   @default(true)
+  deletedAt DateTime? 
+  @@index([deletedAt])
+  @@index([companyId])
+}
+
+model Customer {
+  id String @id @default(cuid())
+
+  companyId String
+  company   Company @relation(fields: [companyId], references: [id])
+
+  firstName String
+  lastName  String
+
+  email String?
+  phone String?
+
+  street     String?
+  city       String?
+  postalCode String?
+
+  notes String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  tickets      Ticket[]
+  appointments Appointment[]
+
+  is_active  Boolean   @default(true)
+  deletedAt DateTime? 
+
+  @@index([deletedAt])
+  @@index([companyId])
+  @@index([lastName])
+  @@index([email])
+}
+
+model Ticket {
+  id String @id @default(cuid())
+
+  companyId String
+  company   Company @relation(fields: [companyId], references: [id])
+
+  customerId String
+  customer   Customer @relation(fields: [customerId], references: [id])
+
+  assignedUserId String?
+  assignedUser   User?   @relation("AssignedTickets", fields: [assignedUserId], references: [id])
+
+  title       String
+  description String?
+
+  category TicketCategory
+  priority TicketPriority
+  status   TicketStatus   @default(NEW)
+  source   TicketSource
+
+  emails EmailInbox[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // AI
+  aiSummary        String?   @db.Text
+  aiConfidence     Float?
+  aiCategory       String?
+  aiSuggestedTitle String?
+  aiExtractedData  Json?
+  aiProcessedAt    DateTime?
+
+  // AI Conversation Log
+  aiConversationLog AIConversationLog?
+
+  // Channel specific references
+  whatsappMessages WhatsAppMessage[]
+  phoneCalls        PhoneCall[]
+  webChatSessions   WebChatSession[]
+
+  is_active  Boolean   @default(true)
+  deletedAt DateTime?
+  @@index([deletedAt])
+
+  @@index([companyId])
+  @@index([customerId])
+  @@index([assignedUserId])
+  @@index([status])
+  @@index([priority])
+}
+
+enum TicketStatus {
+  NEW
+  ASSIGNED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+  APPOINTMENT_CONFIRMED
+  APPOINTMENT_CANCELLED
+}
+
+enum TicketPriority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+enum TicketCategory {
+  HEATING
+  PLUMBING
+  ELECTRICITY
+  PAINTING
+  OTHER
+}
+
+enum TicketSource {
+  WEB_CHAT
+  PHONE
+  WHATSAPP
+  EMAIL
+}
+
+model Appointment {
+  id String @id @default(cuid())
+
+  companyId String
+  company   Company @relation(fields: [companyId], references: [id])
+
+  customerId String
+  customer   Customer @relation(fields: [customerId], references: [id])
+
+  employeeId String?
+  employee   User?   @relation(fields: [employeeId], references: [id])
+
+  title       String
+  description String?
+
+  status AppointmentStatus @default(PLANNED)
+
+  startAt DateTime
+  endAt   DateTime
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  is_active  Boolean   @default(true)
+  deletedAt DateTime? 
+  @@index([deletedAt])
+
+  @@index([companyId])
+  @@index([customerId])
+  @@index([employeeId])
+  @@index([startAt])
+}
+
+enum AppointmentStatus {
+  PLANNED
+  COMPLETED
+  CANCELLED
+}
+
+model ActivityLog {
+  id String @id @default(cuid())
+
+  companyId String
+  company   Company @relation(fields: [companyId], references: [id])
+
+  userId String?
+  user   User?   @relation(fields: [userId], references: [id])
+
+  action String
+
+  entityType String
+  entityId   String?
+
+  metadata Json?
+
+  ipAddress String?
+
+  createdAt DateTime @default(now())
+
+  @@index([companyId])
+  @@index([userId])
+  @@index([entityType])
+  @@index([createdAt])
+}
+
+model EmailInbox {
+  id String @id @default(cuid())
+
+  companyId String
+  company   Company @relation(fields: [companyId], references: [id])
+
+  messageId String @unique
+
+  fromEmail String
+  fromName  String?
+
+  subject String
+
+  body String @db.Text
+
+  processed Boolean @default(false)
+
+  processingError String?
+
+  ticketId String?
+  ticket   Ticket? @relation(fields: [ticketId], references: [id])
+
+  createdAt DateTime @default(now())
+
+  @@index([companyId])
+  @@index([processed])
+  @@index([createdAt])
+}
+
+model Notification {
+  id String @id @default(cuid())
+
+  companyId String
+  company   Company @relation(fields: [companyId], references: [id])
+
+  userId String?
+  user   User?   @relation(fields: [userId], references: [id])
+
+  title   String
+  message String?
+
+  type NotificationType
+
+  isRead Boolean @default(false)
+
+  entityType String?
+  entityId   String?
+
+  createdAt DateTime @default(now())
+
+  @@index([companyId])
+  @@index([userId])
+  @@index([isRead])
+  @@index([createdAt])
+}
+
+enum NotificationType {
+  INFO
+  SUCCESS
+  WARNING
+  ERROR
+}
+
+enum Locale {
+  EN
+  DE
+  FR
+  RU
+  TR
+}
+
+// AI Conversation Log - Ticket ile ilişkilendirilmiş konuşmalar
+model AIConversationLog {
+  id String @id @default(cuid())
+
+  companyId String
+  company   Company @relation(fields: [companyId], references: [id])
+
+  ticketId String? @unique
+  ticket   Ticket? @relation(fields: [ticketId], references: [id])
+
+  channelType TicketSource
+
+  // Konuşma detayları
+  conversationType ConversationType
+  startTime DateTime
+  endTime DateTime?
+
+  // Medya referansları
+  audioRecordingUrl String?   // Telefon için ses kaydı
+  chatLog Json?              // Konuşma geçmişi
+  originalEmailId String?    // Email için referans
+
+  // AI işleme sonuçları
+  aiIntent String?
+  aiConfidence Float?
+  aiExtractedEntities Json?
+
+  // Channel specific relations
+  whatsappMessages WhatsAppMessage[]
+  phoneCalls        PhoneCall[]
+  webChatSessions   WebChatSession[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([companyId])
+  @@index([ticketId])
+  @@index([channelType])
+  @@index([createdAt])
+}
+
+enum ConversationType {
+  INITIAL_INQUIRY
+  INFORMATION_GATHERING
+  APPOINTMENT_SCHEDULING
+  ISSUE_RESOLUTION
+  FOLLOW_UP
+}
+
+// WhatsApp Message
+model WhatsAppMessage {
+  id String @id @default(cuid())
+
+  companyId String
+  company   Company @relation(fields: [companyId], references: [id])
+
+  conversationLogId String?
+  conversationLog   AIConversationLog? @relation(fields: [conversationLogId], references: [id])
+
+  ticketId String?
+  ticket   Ticket? @relation(fields: [ticketId], references: [id])
+
+  phoneNumber String
+  messageFrom String  // 'customer' or 'assistant'
+  content String @db.Text
+
+  mediaUrl String?
+  mediaType String?
+
+  whatsappMessageId String @unique
+
+  createdAt DateTime @default(now())
+
+  @@index([companyId])
+  @@index([ticketId])
+  @@index([phoneNumber])
+  @@index([createdAt])
+}
+
+// Phone Call
+model PhoneCall {
+  id String @id @default(cuid())
+
+  companyId String
+  company   Company @relation(fields: [companyId], references: [id])
+
+  conversationLogId String?
+  conversationLog   AIConversationLog? @relation(fields: [conversationLogId], references: [id])
+
+  ticketId String?
+  ticket   Ticket? @relation(fields: [ticketId], references: [id])
+
+  phoneNumber String
+  direction CallDirection
+  duration Int?
+
+  recordingUrl String?
+  transcription String? @db.Text
+
+  callStatus CallStatus
+
+  createdAt DateTime @default(now())
+
+  @@index([companyId])
+  @@index([ticketId])
+  @@index([phoneNumber])
+  @@index([createdAt])
+}
+
+enum CallDirection {
+  INBOUND
+  OUTBOUND
+}
+
+enum CallStatus {
+  COMPLETED
+  MISSED
+  CANCELLED
+}
+
+// Web Chat Session
+model WebChatSession {
+  id String @id @default(cuid())
+
+  companyId String
+  company   Company @relation(fields: [companyId], references: [id])
+
+  conversationLogId String?
+  conversationLog   AIConversationLog? @relation(fields: [conversationLogId], references: [id])
+
+  ticketId String?
+  ticket   Ticket? @relation(fields: [ticketId], references: [id])
+
+  sessionId String @unique
+  customerEmail String?
+  customerName String?
+
+  ipAddress String?
+  userAgent String?
+
+  status ChatStatus
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([companyId])
+  @@index([ticketId])
+  @@index([sessionId])
+  @@index([createdAt])
+}
+
+enum ChatStatus {
+  ACTIVE
+  CLOSED
+  TRANSFERRED
+}

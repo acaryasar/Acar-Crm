@@ -1,0 +1,21 @@
+services:
+  postgres:
+    image: postgres:16
+
+    container_name: handwerk-postgres
+
+    restart: unless-stopped
+
+    ports:
+      - "5432:5432"
+
+    environment:
+      POSTGRES_USER: handwerk
+      POSTGRES_PASSWORD: handwerk123
+      POSTGRES_DB: handwerk_ai
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

@@ -21,6 +21,8 @@ import {
   ChevronDown,
   ChevronRight,
   Bot,
+  Settings,
+  Truck,
 } from "lucide-react";
 
 interface NavItem {
@@ -54,13 +56,29 @@ const items: NavItem[] = [
   },
   { label: "quotes",       href: "/dashboard/quotes",       icon: FileText, roles: ["ADMIN", "SUPERVISOR"] },
   { label: "invoices",     href: "/dashboard/invoices",     icon: Receipt, roles: ["ADMIN", "SUPERVISOR"] },
+  {
+    label: "parameters",
+    icon: Settings,
+    roles: ["ADMIN", "SUPERVISOR", "MANAGER"],
+    children: [
+      { label: "salesTypes", href: "/dashboard/parameters/sales-types", icon: FileText },
+      { label: "currencies", href: "/dashboard/parameters/currencies", icon: Receipt },
+      { label: "customerTypes", href: "/dashboard/parameters/customer-types", icon: UserRound },
+      { label: "departments", href: "/dashboard/parameters/departments", icon: Building2 },
+      { label: "banks", href: "/dashboard/parameters/banks", icon: Building2 },
+      { label: "bankAccounts", href: "/dashboard/parameters/bank-accounts", icon: Receipt },
+      { label: "cargoFirms", href: "/dashboard/parameters/cargo-firms", icon: Truck },
+      { label: "customerAuthorities", href: "/dashboard/parameters/customer-authorities", icon: Users },
+      { label: "employees", href: "/dashboard/parameters/employees", icon: Users },
+    ]
+  },
   { label: "activityLogs", href: "/dashboard/activity-logs", icon: ListFilter, roles: ["ADMIN", "SUPERVISOR"] },
 ];
 
 export function SidebarNav({ role }: { role?: string }) {
   const pathname = usePathname();
   const t = useTranslations("sidebar");
-  const [openMenus, setOpenMenus] = useState<Record<string, boolean>>({ ai: true });
+  const [openMenus, setOpenMenus] = useState<Record<string, boolean>>({ ai: true, parameters: true });
 
   const userRole = role;
 

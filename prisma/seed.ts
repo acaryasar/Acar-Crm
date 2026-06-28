@@ -1,5 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
+import { readFileSync } from "fs";
+import { join } from "path";
 
 const prisma = new PrismaClient();
 
@@ -9,298 +11,298 @@ async function main() {
   // Companies
   const company1 = await prisma.company.upsert({
     where: { id: "seed-company-01" },
-    create: { id: "seed-company-01", name: "Handwerk Demo GmbH" },
+    create: { id: "seed-company-01", name: "Acar CRM Demo" },
     update: {},
   });
 
   const company2 = await prisma.company.upsert({
     where: { id: "seed-company-02" },
-    create: { id: "seed-company-02", name: "TechSolutions GmbH" },
+    create: { id: "seed-company-02", name: "Acar Tech Ltd." },
     update: {},
   });
 
   const company3 = await prisma.company.upsert({
     where: { id: "seed-company-03" },
-    create: { id: "seed-company-03", name: "Global Services AG" },
+    create: { id: "seed-company-03", name: "Acar Global Inc." },
     update: {},
   });
 
   // Users - Company 1
   const admin = await prisma.user.upsert({
-    where: { email: "admin@handwerk.local" },
+    where: { email: "admin@acar-crm.local" },
     create: {
-      email: "admin@handwerk.local",
+      email: "admin@acar-crm.local",
       password,
-      firstName: "Klaus",
-      lastName: "Bauer",
+      firstName: "Ahmet",
+      lastName: "Yılmaz",
       role: "ADMIN",
       companyId: company1.id,
-      locale: "DE",
+      locale: "TR",
     },
     update: { password },
   });
 
   const admin2 = await prisma.user.upsert({
-    where: { email: "admin2@handwerk.local" },
+    where: { email: "admin2@acar-crm.local" },
     create: {
-      email: "admin2@handwerk.local",
+      email: "admin2@acar-crm.local",
       password,
-      firstName: "Max",
-      lastName: "Schneider",
+      firstName: "Mehmet",
+      lastName: "Demir",
       role: "ADMIN",
       companyId: company1.id,
-      locale: "DE",
+      locale: "TR",
     },
     update: {},
   });
 
   const manager = await prisma.user.upsert({
-    where: { email: "manager@handwerk.local" },
+    where: { email: "manager@acar-crm.local" },
     create: {
-      email: "manager@handwerk.local",
+      email: "manager@acar-crm.local",
       password,
-      firstName: "Anna",
-      lastName: "Müller",
+      firstName: "Ayşe",
+      lastName: "Kaya",
       role: "MANAGER",
       companyId: company1.id,
-      locale: "DE",
+      locale: "TR",
     },
     update: {},
   });
 
   const manager2 = await prisma.user.upsert({
-    where: { email: "manager2@handwerk.local" },
+    where: { email: "manager2@acar-crm.local" },
     create: {
-      email: "manager2@handwerk.local",
+      email: "manager2@acar-crm.local",
       password,
-      firstName: "Lisa",
-      lastName: "Becker",
+      firstName: "Fatma",
+      lastName: "Çelik",
       role: "MANAGER",
       companyId: company1.id,
-      locale: "DE",
+      locale: "TR",
     },
     update: {},
   });
 
   const manager3 = await prisma.user.upsert({
-    where: { email: "manager3@handwerk.local" },
+    where: { email: "manager3@acar-crm.local" },
     create: {
-      email: "manager3@handwerk.local",
+      email: "manager3@acar-crm.local",
       password,
-      firstName: "Robert",
-      lastName: "Schulz",
+      firstName: "Ali",
+      lastName: "Şahin",
       role: "MANAGER",
       companyId: company1.id,
-      locale: "DE",
+      locale: "TR",
     },
     update: {},
   });
 
   const emp1 = await prisma.user.upsert({
-    where: { email: "thomas@handwerk.local" },
+    where: { email: "thomas@acar-crm.local" },
     create: {
-      email: "thomas@handwerk.local",
+      email: "thomas@acar-crm.local",
       password,
-      firstName: "Thomas",
-      lastName: "Wagner",
+      firstName: "Can",
+      lastName: "Öztürk",
       role: "EMPLOYEE",
       companyId: company1.id,
-      locale: "DE",
+      locale: "TR",
     },
     update: {},
   });
 
   const emp2 = await prisma.user.upsert({
-    where: { email: "stefan@handwerk.local" },
+    where: { email: "stefan@acar-crm.local" },
     create: {
-      email: "stefan@handwerk.local",
+      email: "stefan@acar-crm.local",
       password,
-      firstName: "Stefan",
-      lastName: "Hoffmann",
+      firstName: "Emre",
+      lastName: "Yıldız",
       role: "EMPLOYEE",
       companyId: company1.id,
-      locale: "DE",
+      locale: "TR",
     },
     update: {},
   });
 
   const emp3 = await prisma.user.upsert({
-    where: { email: "emp3@handwerk.local" },
+    where: { email: "emp3@acar-crm.local" },
     create: {
-      email: "emp3@handwerk.local",
+      email: "emp3@acar-crm.local",
       password,
-      firstName: "Andreas",
-      lastName: "Fischer",
+      firstName: "Burak",
+      lastName: "Aydın",
       role: "EMPLOYEE",
       companyId: company1.id,
-      locale: "DE",
+      locale: "TR",
     },
     update: {},
   });
 
   const emp4 = await prisma.user.upsert({
-    where: { email: "emp4@handwerk.local" },
+    where: { email: "emp4@acar-crm.local" },
     create: {
-      email: "emp4@handwerk.local",
+      email: "emp4@acar-crm.local",
       password,
-      firstName: "Julia",
-      lastName: "Weber",
+      firstName: "Elif",
+      lastName: "Koç",
       role: "EMPLOYEE",
       companyId: company1.id,
-      locale: "DE",
+      locale: "TR",
     },
     update: {},
   });
 
   const emp5 = await prisma.user.upsert({
-    where: { email: "emp5@handwerk.local" },
+    where: { email: "emp5@acar-crm.local" },
     create: {
-      email: "emp5@handwerk.local",
+      email: "emp5@acar-crm.local",
       password,
-      firstName: "Michael",
-      lastName: "Meyer",
+      firstName: "Oğuz",
+      lastName: "Polat",
       role: "EMPLOYEE",
       companyId: company1.id,
-      locale: "DE",
+      locale: "TR",
     },
     update: {},
   });
 
   const supervisor = await prisma.user.upsert({
-    where: { email: "supervisor@handwerk.local" },
+    where: { email: "supervisor@acar-crm.local" },
     create: {
-      email: "supervisor@handwerk.local",
+      email: "supervisor@acar-crm.local",
       password,
-      firstName: "Karl",
-      lastName: "Weber",
+      firstName: "Serkan",
+      lastName: "Arslan",
       role: "SUPERVISOR",
       companyId: company1.id,
-      locale: "DE",
+      locale: "TR",
     },
     update: {},
   });
 
-  // Company 2 - TechSolutions GmbH Users
+  // Company 2 - Acar Tech Ltd. Users
   const company2Manager = await prisma.user.upsert({
-    where: { email: "manager@techsolutions.local" },
+    where: { email: "manager@acartech.local" },
     create: {
-      email: "manager@techsolutions.local",
+      email: "manager@acartech.local",
       password,
-      firstName: "Thomas",
-      lastName: "Müller",
+      firstName: "Mustafa",
+      lastName: "Yılmaz",
       role: "MANAGER",
       companyId: company2.id,
-      locale: "DE",
+      locale: "TR",
     },
     update: {},
   });
 
   const company2Emp1 = await prisma.user.upsert({
-    where: { email: "emp1@techsolutions.local" },
+    where: { email: "emp1@acartech.local" },
     create: {
-      email: "emp1@techsolutions.local",
+      email: "emp1@acartech.local",
       password,
-      firstName: "Sarah",
-      lastName: "Schmidt",
+      firstName: "Zeynep",
+      lastName: "Demir",
       role: "EMPLOYEE",
       companyId: company2.id,
-      locale: "DE",
+      locale: "TR",
     },
     update: {},
   });
 
   const company2Emp2 = await prisma.user.upsert({
-    where: { email: "emp2@techsolutions.local" },
+    where: { email: "emp2@acartech.local" },
     create: {
-      email: "emp2@techsolutions.local",
+      email: "emp2@acartech.local",
       password,
-      firstName: "Michael",
-      lastName: "Fischer",
+      firstName: "Kemal",
+      lastName: "Kaya",
       role: "EMPLOYEE",
       companyId: company2.id,
-      locale: "DE",
+      locale: "TR",
     },
     update: {},
   });
 
   const company2Supervisor = await prisma.user.upsert({
-    where: { email: "supervisor@techsolutions.local" },
+    where: { email: "supervisor@acartech.local" },
     create: {
-      email: "supervisor@techsolutions.local",
+      email: "supervisor@acartech.local",
       password,
-      firstName: "Andreas",
-      lastName: "Weber",
+      firstName: "Deniz",
+      lastName: "Şahin",
       role: "SUPERVISOR",
       companyId: company2.id,
-      locale: "DE",
+      locale: "TR",
     },
     update: {},
   });
 
-  // Company 3 - Global Services AG Users
+  // Company 3 - Acar Global Inc. Users
   const company3Manager = await prisma.user.upsert({
-    where: { email: "manager@globalservices.local" },
+    where: { email: "manager@acarglobal.local" },
     create: {
-      email: "manager@globalservices.local",
+      email: "manager@acarglobal.local",
       password,
-      firstName: "Julia",
-      lastName: "Hoffmann",
+      firstName: "Selin",
+      lastName: "Arslan",
       role: "MANAGER",
       companyId: company3.id,
-      locale: "DE",
+      locale: "TR",
     },
     update: {},
   });
 
   const company3Emp1 = await prisma.user.upsert({
-    where: { email: "emp1@globalservices.local" },
+    where: { email: "emp1@acarglobal.local" },
     create: {
-      email: "emp1@globalservices.local",
+      email: "emp1@acarglobal.local",
       password,
-      firstName: "Christian",
-      lastName: "Klein",
+      firstName: "Mert",
+      lastName: "Koç",
       role: "EMPLOYEE",
       companyId: company3.id,
-      locale: "DE",
+      locale: "TR",
     },
     update: {},
   });
 
   const company3Emp2 = await prisma.user.upsert({
-    where: { email: "emp2@globalservices.local" },
+    where: { email: "emp2@acarglobal.local" },
     create: {
-      email: "emp2@globalservices.local",
+      email: "emp2@acarglobal.local",
       password,
-      firstName: "Laura",
-      lastName: "Braun",
+      firstName: "Seda",
+      lastName: "Polat",
       role: "EMPLOYEE",
       companyId: company3.id,
-      locale: "DE",
+      locale: "TR",
     },
     update: {},
   });
 
   const company3Supervisor = await prisma.user.upsert({
-    where: { email: "supervisor@globalservices.local" },
+    where: { email: "supervisor@acarglobal.local" },
     create: {
-      email: "supervisor@globalservices.local",
+      email: "supervisor@acarglobal.local",
       password,
-      firstName: "Peter",
-      lastName: "Schulz",
+      firstName: "Tolga",
+      lastName: "Yıldız",
       role: "SUPERVISOR",
       companyId: company3.id,
-      locale: "DE",
+      locale: "TR",
     },
     update: {},
   });
 
   // Customers - Company 1
   const customers1Data = [
-    { firstName: "Hans", lastName: "Schmidt", email: "hans.schmidt@gmail.com", phone: "+49 170 1234567", street: "Hauptstraße 12", city: "Berlin", postalCode: "10115" },
-    { firstName: "Maria", lastName: "Weber", email: "maria.weber@web.de", phone: "+49 160 9876543", street: "Berliner Allee 45", city: "Hamburg", postalCode: "20095" },
-    { firstName: "Peter", lastName: "Fischer", email: "p.fischer@outlook.de", phone: "+49 151 5554433", street: "Gartenweg 7", city: "München", postalCode: "80331" },
-    { firstName: "Sabine", lastName: "Krause", email: "sabine.krause@t-online.de", phone: "+49 172 6667788", street: "Lindenstraße 22", city: "Köln", postalCode: "50667" },
-    { firstName: "Michael", lastName: "Neumann", email: "m.neumann@gmx.de", phone: "+49 163 1112233", street: "Rosenweg 3", city: "Frankfurt", postalCode: "60311" },
+    { firstName: "Mehmet", lastName: "Yılmaz", email: "mehmet.yilmaz@gmail.com", phone: "+90 532 1234567", street: "Atatürk Caddesi 12", city: "İstanbul", postalCode: "34000" },
+    { firstName: "Ayşe", lastName: "Demir", email: "ayse.demir@hotmail.com", phone: "+90 533 9876543", street: "Bağdat Caddesi 45", city: "İstanbul", postalCode: "34700" },
+    { firstName: "Ali", lastName: "Kaya", email: "ali.kaya@outlook.com", phone: "+90 534 5554433", street: "Barış Manço Sokak 7", city: "Ankara", postalCode: "06000" },
+    { firstName: "Fatma", lastName: "Çelik", email: "fatma.celik@gmail.com", phone: "+90 535 6667788", street: "Cumhuriyet Caddesi 22", city: "İzmir", postalCode: "35000" },
+    { firstName: "Mustafa", lastName: "Şahin", email: "mustafa.sahin@yahoo.com", phone: "+90 542 1112233", street: "Gül Sokak 3", city: "Bursa", postalCode: "16000" },
   ];
 
   const customers1 = [];
@@ -315,10 +317,10 @@ async function main() {
 
   // Customers - Company 2
   const customers2Data = [
-    { firstName: "Thomas", lastName: "Meyer", email: "t.meyer@techsolutions.de", phone: "+49 171 2345678", street: "Technologiepark 5", city: "München", postalCode: "80333" },
-    { firstName: "Anna", lastName: "Schulz", email: "a.schulz@techsolutions.de", phone: "+49 162 3456789", street: "Innovationsweg 12", city: "Berlin", postalCode: "10178" },
-    { firstName: "Christian", lastName: "Becker", email: "c.becker@techsolutions.de", phone: "+49 173 4567890", street: "Softwarestraße 8", city: "Hamburg", postalCode: "20097" },
-    { firstName: "Laura", lastName: "Wagner", email: "l.wagner@techsolutions.de", phone: "+49 174 5678901", street: "Digitalplatz 3", city: "Frankfurt", postalCode: "60313" },
+    { firstName: "Kemal", lastName: "Öztürk", email: "kemal.ozturk@acartech.com", phone: "+90 555 2345678", street: "Teknoloji Parkı 5", city: "İstanbul", postalCode: "34400" },
+    { firstName: "Selin", lastName: "Arslan", email: "selin.arslan@acartech.com", phone: "+90 556 3456789", street: "İnovasyon Caddesi 12", city: "Ankara", postalCode: "06100" },
+    { firstName: "Burak", lastName: "Koç", email: "burak.koc@acartech.com", phone: "+90 557 4567890", street: "Yazılım Sokak 8", city: "İzmir", postalCode: "35100" },
+    { firstName: "Elif", lastName: "Yıldız", email: "elif.yildiz@acartech.com", phone: "+90 558 5678901", street: "Dijital Meydan 3", city: "Bursa", postalCode: "16100" },
   ];
 
   const customers2 = [];
@@ -333,10 +335,10 @@ async function main() {
 
   // Customers - Company 3
   const customers3Data = [
-    { firstName: "Peter", lastName: "Hoffmann", email: "p.hoffmann@globalservices.de", phone: "+49 175 6789012", street: "Globalstraße 15", city: "Stuttgart", postalCode: "70174" },
-    { firstName: "Julia", lastName: "Klein", email: "j.klein@globalservices.de", phone: "+49 176 7890123", street: "Serviceplatz 7", city: "Köln", postalCode: "50670" },
-    { firstName: "Andreas", lastName: "Braun", email: "a.braun@globalservices.de", phone: "+49 177 8901234", street: "Internationalweg 22", city: "Düsseldorf", postalCode: "40215" },
-    { firstName: "Sarah", lastName: "Richter", email: "s.richter@globalservices.de", phone: "+49 178 9012345", street: "Weltmarkt 9", city: "Leipzig", postalCode: "04107" },
+    { firstName: "Tolga", lastName: "Polat", email: "tolga.polat@acarglobal.com", phone: "+90 559 6789012", street: "Global Caddesi 15", city: "Antalya", postalCode: "07000" },
+    { firstName: "Seda", lastName: "Kaya", email: "seda.kaya@acarglobal.com", phone: "+90 560 7890123", street: "Hizmet Meydanı 7", city: "İzmir", postalCode: "35200" },
+    { firstName: "Mert", lastName: "Çelik", email: "mert.celik@acarglobal.com", phone: "+90 561 8901234", street: "Uluslararası Sokak 22", city: "Ankara", postalCode: "06200" },
+    { firstName: "Zeynep", lastName: "Demir", email: "zeynep.demir@acarglobal.com", phone: "+90 562 9012345", street: "Dünya Pazarı 9", city: "İstanbul", postalCode: "34100" },
   ];
 
   const customers3 = [];
@@ -353,11 +355,11 @@ async function main() {
 
   // Tickets - Company 1
   const tickets1Data = [
-    { title: "Heizung fällt aus", description: "Die Heizungsanlage funktioniert nicht mehr. Bitte dringend prüfen.", category: "HEATING" as const, priority: "URGENT" as const, status: "NEW" as const, source: "PHONE" as const, customer: customers1[0] },
-    { title: "Wasserrohr gebrochen", description: "Im Keller läuft Wasser aus einem gebrochenen Rohr.", category: "PLUMBING" as const, priority: "HIGH" as const, status: "ASSIGNED" as const, source: "EMAIL" as const, customer: customers1[1] },
-    { title: "Steckdose defekt", description: "Mehrere Steckdosen im Wohnzimmer haben keinen Strom mehr.", category: "ELECTRICITY" as const, priority: "MEDIUM" as const, status: "IN_PROGRESS" as const, source: "WEB_CHAT" as const, customer: customers1[2] },
-    { title: "Wände streichen", description: "Alle Zimmer im Erdgeschoss sollen neu gestrichen werden.", category: "PAINTING" as const, priority: "LOW" as const, status: "COMPLETED" as const, source: "PHONE" as const, customer: customers1[3] },
-    { title: "Thermostat austauschen", description: "Der Raumthermostat zeigt falsche Temperaturen an.", category: "HEATING" as const, priority: "MEDIUM" as const, status: "ASSIGNED" as const, source: "EMAIL" as const, customer: customers1[4] },
+    { title: "Klima arızası", description: "Klima sistemi çalışmıyor. Acil kontrol gerekiyor.", category: "HEATING" as const, priority: "URGENT" as const, status: "NEW" as const, source: "PHONE" as const, customer: customers1[0] },
+    { title: "Su borusu patladı", description: "Bodrum kattan su sızıntısı var, boru patlamış.", category: "PLUMBING" as const, priority: "HIGH" as const, status: "ASSIGNED" as const, source: "EMAIL" as const, customer: customers1[1] },
+    { title: "Elektrik prizi arızası", description: "Oturma odasındaki elektrik prizleri çalışmıyor.", category: "ELECTRICITY" as const, priority: "MEDIUM" as const, status: "IN_PROGRESS" as const, source: "WEB_CHAT" as const, customer: customers1[2] },
+    { title: "Duvar boyama", description: "Zemin kattaki tüm odaların duvarları yeniden boyanacak.", category: "PAINTING" as const, priority: "LOW" as const, status: "COMPLETED" as const, source: "PHONE" as const, customer: customers1[3] },
+    { title: "Termostat değişimi", description: "Oda termostatı yanlış sıcaklık gösteriyor.", category: "HEATING" as const, priority: "MEDIUM" as const, status: "ASSIGNED" as const, source: "EMAIL" as const, customer: customers1[4] },
   ];
 
   const now = new Date();
@@ -384,10 +386,10 @@ async function main() {
 
   // Tickets - Company 2
   const tickets2Data = [
-    { title: "Server ausfall", description: "Der Hauptserver ist abgestürzt und startet nicht mehr.", category: "ELECTRICITY" as const, priority: "URGENT" as const, status: "NEW" as const, source: "EMAIL" as const, customer: customers2[0] },
-    { title: "Netzwerkprobleme", description: "Das WLAN im Büro funktioniert nicht richtig.", category: "ELECTRICITY" as const, priority: "HIGH" as const, status: "IN_PROGRESS" as const, source: "WEB_CHAT" as const, customer: customers2[1] },
-    { title: "Software Update", description: "Alle Arbeitsplätze benötigen ein Software-Update.", category: "OTHER" as const, priority: "MEDIUM" as const, status: "ASSIGNED" as const, source: "EMAIL" as const, customer: customers2[2] },
-    { title: "Drucker defekt", description: "Der Netzwerkdrucker druckt nicht mehr.", category: "ELECTRICITY" as const, priority: "LOW" as const, status: "NEW" as const, source: "PHONE" as const, customer: customers2[3] },
+    { title: "Sunucu çöktü", description: "Ana sunucu çöktü ve yeniden başlamıyor.", category: "ELECTRICITY" as const, priority: "URGENT" as const, status: "NEW" as const, source: "EMAIL" as const, customer: customers2[0] },
+    { title: "Ağ sorunları", description: "Ofisteki Wi-Fi düzgün çalışmıyor.", category: "ELECTRICITY" as const, priority: "HIGH" as const, status: "IN_PROGRESS" as const, source: "WEB_CHAT" as const, customer: customers2[1] },
+    { title: "Yazılım güncellemesi", description: "Tüm iş istasyonları yazılım güncellemesi gerekiyor.", category: "OTHER" as const, priority: "MEDIUM" as const, status: "ASSIGNED" as const, source: "EMAIL" as const, customer: customers2[2] },
+    { title: "Yazıcı arızası", description: "Ağ yazıcısı yazmıyor.", category: "ELECTRICITY" as const, priority: "LOW" as const, status: "NEW" as const, source: "PHONE" as const, customer: customers2[3] },
   ];
 
   for (let i = 0; i < tickets2Data.length; i++) {
@@ -413,10 +415,10 @@ async function main() {
 
   // Tickets - Company 3
   const tickets3Data = [
-    { title: "Klimaanlage defekt", description: "Die Klimaanlage im Büro kühlt nicht mehr.", category: "HEATING" as const, priority: "HIGH" as const, status: "ASSIGNED" as const, source: "PHONE" as const, customer: customers3[0] },
-    { title: "Lüftungssystem", description: "Das Lüftungssystem macht laute Geräusche.", category: "HEATING" as const, priority: "MEDIUM" as const, status: "NEW" as const, source: "EMAIL" as const, customer: customers3[1] },
-    { title: "Beleuchtung prüfen", description: "Die Hallenbeleuchtung muss gewartet werden.", category: "ELECTRICITY" as const, priority: "LOW" as const, status: "IN_PROGRESS" as const, source: "WEB_CHAT" as const, customer: customers3[2] },
-    { title: "Sicherheitscheck", description: "Jährlicher Sicherheitscheck erforderlich.", category: "OTHER" as const, priority: "MEDIUM" as const, status: "NEW" as const, source: "EMAIL" as const, customer: customers3[3] },
+    { title: "Klima arızası", description: "Ofisteki klima sistemi soğutmuyor.", category: "HEATING" as const, priority: "HIGH" as const, status: "ASSIGNED" as const, source: "PHONE" as const, customer: customers3[0] },
+    { title: "Havalandırma sistemi", description: "Havalandırma sistemi gürültülü çalışıyor.", category: "HEATING" as const, priority: "MEDIUM" as const, status: "NEW" as const, source: "EMAIL" as const, customer: customers3[1] },
+    { title: "Aydınlatma kontrolü", description: "Salon aydınlatması bakım gerekiyor.", category: "ELECTRICITY" as const, priority: "LOW" as const, status: "IN_PROGRESS" as const, source: "WEB_CHAT" as const, customer: customers3[2] },
+    { title: "Güvenlik kontrolü", description: "Yıllık güvenlik kontrolü gerekli.", category: "OTHER" as const, priority: "MEDIUM" as const, status: "NEW" as const, source: "EMAIL" as const, customer: customers3[3] },
   ];
 
   for (let i = 0; i < tickets3Data.length; i++) {
@@ -442,9 +444,9 @@ async function main() {
 
   // Appointments - Company 1
   const appointments1Data = [
-    { title: "Heizungsprüfung", description: "Jahreswartung der Heizungsanlage", status: "PLANNED" as const, daysOffset: 2, customer: customers1[0], employee: emp1 },
-    { title: "Rohrreparatur", description: "Austausch des defekten Wasserrohrs", status: "PLANNED" as const, daysOffset: 3, customer: customers1[1], employee: emp2 },
-    { title: "Elektroprüfung", description: "Sicherheitscheck Elektroanlage", status: "PLANNED" as const, daysOffset: 5, customer: customers1[2], employee: emp1 },
+    { title: "Klima kontrolü", description: "Klima sisteminin yıllık bakımı", status: "PLANNED" as const, daysOffset: 2, customer: customers1[0], employee: emp1 },
+    { title: "Boru tamiri", description: "Arızalı su borusunun değişimi", status: "PLANNED" as const, daysOffset: 3, customer: customers1[1], employee: emp2 },
+    { title: "Elektrik kontrolü", description: "Elektrik sistemi güvenlik kontrolü", status: "PLANNED" as const, daysOffset: 5, customer: customers1[2], employee: emp1 },
   ];
 
   for (let i = 0; i < appointments1Data.length; i++) {
@@ -472,8 +474,8 @@ async function main() {
 
   // Appointments - Company 2
   const appointments2Data = [
-    { title: "Server Wartung", description: "Regelmäßige Serverwartung", status: "PLANNED" as const, daysOffset: 4, customer: customers2[0], employee: company2Emp1 },
-    { title: "Netzwerk-Check", description: "Netzwerkinfrastruktur prüfen", status: "PLANNED" as const, daysOffset: 6, customer: customers2[1], employee: company2Emp2 },
+    { title: "Sunucu bakımı", description: "Düzenli sunucu bakımı", status: "PLANNED" as const, daysOffset: 4, customer: customers2[0], employee: company2Emp1 },
+    { title: "Ağ kontrolü", description: "Ağ altyapısını kontrol et", status: "PLANNED" as const, daysOffset: 6, customer: customers2[1], employee: company2Emp2 },
   ];
 
   for (let i = 0; i < appointments2Data.length; i++) {
@@ -501,8 +503,8 @@ async function main() {
 
   // Appointments - Company 3
   const appointments3Data = [
-    { title: "Klimaanlage Service", description: "Wartung der Klimaanlage", status: "PLANNED" as const, daysOffset: 8, customer: customers3[0], employee: company3Emp1 },
-    { title: "Lüftungs-Check", description: "Lüftungssystem inspizieren", status: "PLANNED" as const, daysOffset: 10, customer: customers3[1], employee: company3Emp2 },
+    { title: "Klima servisi", description: "Klima sistemi bakımı", status: "PLANNED" as const, daysOffset: 8, customer: customers3[0], employee: company3Emp1 },
+    { title: "Havalandırma kontrolü", description: "Havalandırma sistemini kontrol et", status: "PLANNED" as const, daysOffset: 10, customer: customers3[1], employee: company3Emp2 },
   ];
 
   for (let i = 0; i < appointments3Data.length; i++) {
@@ -537,16 +539,16 @@ async function main() {
 
   // Notifications for all users
   const notifData = [
-    { title: "Neues Ticket", message: "Ein neues dringendes Ticket wurde erstellt.", type: "WARNING" as const, isRead: false },
-    { title: "Termin morgen", message: "Erinnerung: Sie haben einen Termin morgen.", type: "INFO" as const, isRead: false },
-    { title: "Ticket abgeschlossen", message: "Ein Ticket wurde erfolgreich abgeschlossen.", type: "SUCCESS" as const, isRead: true },
-    { title: "Dringende Anfrage", message: "Eine neue dringende Anfrage ist eingegangen.", type: "ERROR" as const, isRead: false },
-    { title: "Neue Nachricht", message: "Jemand hat einen Kommentar zu einem Ticket hinzugefügt.", type: "INFO" as const, isRead: true },
-    { title: "Neuer Kunde", message: "Ein neuer Kunde hat sich registriert.", type: "INFO" as const, isRead: false },
-    { title: "Adresse aktualisiert", message: "Ein Kunde hat seine Adresse aktualisiert.", type: "INFO" as const, isRead: false },
-    { title: "Hoher Ticket-Anfall", message: "Diese Woche wurden viele neue Tickets erstellt.", type: "WARNING" as const, isRead: false },
-    { title: "Positives Feedback", message: "Ein Kunde hat positives Feedback gegeben.", type: "SUCCESS" as const, isRead: true },
-    { title: "Wichtiger Kunde", message: "Ein wichtiger Kunde benötigt Aufmerksamkeit.", type: "ERROR" as const, isRead: false },
+    { title: "Yeni Talep", message: "Yeni bir acil talep oluşturuldu.", type: "WARNING" as const, isRead: false },
+    { title: "Yarın Randevu", message: "Hatırlatma: Yarın bir randevunuz var.", type: "INFO" as const, isRead: false },
+    { title: "Talep Tamamlandı", message: "Bir talep başarıyla tamamlandı.", type: "SUCCESS" as const, isRead: true },
+    { title: "Acil İstek", message: "Yeni bir acil istek geldi.", type: "ERROR" as const, isRead: false },
+    { title: "Yeni Mesaj", message: "Bir talepe yorum eklendi.", type: "INFO" as const, isRead: true },
+    { title: "Yeni Müşteri", message: "Yeni bir müşteri kayıt oldu.", type: "INFO" as const, isRead: false },
+    { title: "Adres Güncellendi", message: "Bir müşteri adresini güncelledi.", type: "INFO" as const, isRead: false },
+    { title: "Yüksek Talep", message: "Bu hafta çok sayıda yeni talep oluşturuldu.", type: "WARNING" as const, isRead: false },
+    { title: "Olumlu Geri Bildirim", message: "Bir müşteriden olumlu geri bildirim alındı.", type: "SUCCESS" as const, isRead: true },
+    { title: "Önemli Müşteri", message: "Önemli bir müşteri ilgi bekliyor.", type: "ERROR" as const, isRead: false },
   ];
 
   // Create notifications for each user
@@ -574,43 +576,6 @@ async function main() {
   }
 
 
-  // Conversations and Messages - AI konuşmaları
-  const conversations = [];
-  for (let i = 0; i < 3; i++) {
-    const conversation = await prisma.conversation.upsert({
-      where: { id: `seed-conv-${i}` },
-      create: {
-        id: `seed-conv-${i}`,
-        companyId: [company1.id, company2.id, company3.id][i],
-        createdAt: new Date(now.getTime() - i * 24 * 60 * 60 * 1000),
-      },
-      update: {},
-    });
-    conversations.push(conversation);
-  }
-
-  const messagesData = [
-    { conversationId: conversations[0].id, role: "user", content: "Ich habe ein Problem mit meiner Heizung." },
-    { conversationId: conversations[0].id, role: "assistant", content: "Ich kann Ihnen helfen. Können Sie mir mehr Details geben?" },
-    { conversationId: conversations[1].id, role: "user", content: "Der Server läuft nicht mehr." },
-    { conversationId: conversations[1].id, role: "assistant", content: "Haben Sie versucht, den Server neu zu starten?" },
-    { conversationId: conversations[2].id, role: "user", content: "Die Klimaanlage macht Geräusche." },
-    { conversationId: conversations[2].id, role: "assistant", content: "Das könnte ein Wartungsproblem sein. Ich empfehle einen Techniker." },
-  ];
-
-  for (const message of messagesData) {
-    await prisma.message.upsert({
-      where: { id: `seed-msg-${message.conversationId}-${message.role}` },
-      create: {
-        id: `seed-msg-${message.conversationId}-${message.role}`,
-        conversationId: message.conversationId,
-        role: message.role,
-        content: message.content,
-        createdAt: new Date(now.getTime() - Math.random() * 24 * 60 * 60 * 1000),
-      },
-      update: {},
-    });
-  }
 
   // Activity Logs - Genel aktivite logları
   const activityLogsData = [
@@ -640,35 +605,39 @@ async function main() {
     });
   }
 
+  // Vergi Daireleri - JSON dosyasından oku
+  const taxOfficesFilePath = join(__dirname, 'tax-offices.json');
+  const taxOfficesData = JSON.parse(readFileSync(taxOfficesFilePath, 'utf-8'));
+
   // Email Inbox - Gelen kutusu
   const emailInboxData = [
     {
       companyId: company1.id,
       messageId: "msg-001@example.com",
-      fromEmail: customers1[0].email ?? "hans@example.com",
+      fromEmail: customers1[0].email ?? "mehmet@example.com",
       fromName: `${customers1[0].firstName} ${customers1[0].lastName}`,
-      subject: "Dringendes Heizungsproblem",
-      body: "Hallo, meine Heizung funktioniert nicht mehr. Bitte helfen Sie mir so schnell wie möglich.",
+      subject: "Acil Klima Sorunu",
+      body: "Merhaba, klimam çalışmıyor. Lütfen en kısa sürede yardımcı olun.",
       processed: true,
       ticketId: `seed-t1-00`,
     },
     {
       companyId: company2.id,
       messageId: "msg-002@example.com",
-      fromEmail: customers2[0].email ?? "thomas@example.com",
+      fromEmail: customers2[0].email ?? "kemal@example.com",
       fromName: `${customers2[0].firstName} ${customers2[0].lastName}`,
-      subject: "Server Ausfall",
-      body: "Unser Hauptserver ist abgestürzt. Wir benötigen dringend Hilfe.",
+      subject: "Sunucu Çöktü",
+      body: "Ana sunucumuz çöktü. Acil yardıma ihtiyacımız var.",
       processed: true,
       ticketId: `seed-t2-00`,
     },
     {
       companyId: company3.id,
       messageId: "msg-003@example.com",
-      fromEmail: customers3[0].email ?? "peter@example.com",
+      fromEmail: customers3[0].email ?? "tolga@example.com",
       fromName: `${customers3[0].firstName} ${customers3[0].lastName}`,
-      subject: "Klimaanlage defekt",
-      body: "Die Klimaanlage im Büro kühlt nicht mehr. Wann können Sie kommen?",
+      subject: "Klima Arızası",
+      body: "Ofisteki klima soğutmuyor. Ne zaman gelebilirsiniz?",
       processed: false,
     },
   ];
@@ -691,21 +660,35 @@ async function main() {
     });
   }
 
+  // Vergi Dairelerini ekle
+  for (const taxOffice of taxOfficesData) {
+    await prisma.taxOffice.upsert({
+      where: { muhasebeBirimiKodu: taxOffice.muhasebeBirimiKodu },
+      create: {
+        plateCode: taxOffice.plateCode,
+        name: taxOffice.name,
+        districtName: taxOffice.districtName,
+        muhasebeBirimiKodu: taxOffice.muhasebeBirimiKodu,
+        taxOfficeName: taxOffice.taxOfficeName,
+      },
+      update: {},
+    });
+  }
+
   console.log("✅ Seed tamamlandı:");
   console.log(`   - 3 şirket`);
   console.log(`   - ${allUsers.length} kullanıcı`);
   console.log(`   - ${allCustomers.length} müşteri`);
   console.log(`   - ${tickets1Data.length + tickets2Data.length + tickets3Data.length} ticket`);
   console.log(`   - ${appointments1Data.length + appointments2Data.length + appointments3Data.length} randevu`);
-  console.log(`   - ${conversations.length} konuşma`);
-  console.log(`   - ${messagesData.length} mesaj`);
   console.log(`   - ${activityLogsData.length} aktivite logu`);
   console.log(`   - ${emailInboxData.length} email`);
   console.log(`   - ${notifIndex} bildirim`);
+  console.log(`   - ${taxOfficesData.length} vergi dairesi (örnek: Adana)`);
   console.log(`\n   Giriş bilgileri:`);
-  console.log(`   - Company 1: admin@handwerk.local / Admin123!`);
-  console.log(`   - Company 2: manager@techsolutions.local / Admin123!`);
-  console.log(`   - Company 3: manager@globalservices.local / Admin123!`);
+  console.log(`   - Company 1: admin@acar-crm.local / Admin123!`);
+  console.log(`   - Company 2: manager@acartech.local / Admin123!`);
+  console.log(`   - Company 3: manager@acarglobal.local / Admin123!`);
 }
 
 main()

@@ -7,7 +7,7 @@ import tr from "./messages/tr.json";
 export const locales = ["en", "de", "fr", "ru", "tr"] as const;
 export type Locale = (typeof locales)[number];
 export const defaultLocale: Locale = "en";
-export const LOCALE_STORAGE_KEY = "handwerk-assist-locale";
+export const LOCALE_STORAGE_KEY = "Acar-Crm-locale";
 
 export const messages: Record<Locale, typeof en> = {
   en,

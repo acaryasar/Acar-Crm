@@ -59,8 +59,10 @@
     "productsDescription": "Gestion des produits",
     "stock": "Stock",
     "stockDescription": "État et mouvements de stock",
-    "orders": "Ventes / Commandes",
-    "ordersDescription": "Gestion des ventes et commandes"
+    "orders": "Ventes",
+    "ordersDescription": "Gestion des commandes de vente",
+    "purchases": "Achats",
+    "purchasesDescription": "Gestion des commandes d'achat"
   },
 
   "tickets": {
@@ -155,6 +157,43 @@
     "deleteCustomerDescription": "Ce client sera supprimé. Cette action est irréversible.",
     "edit": "Modifier",
     "delete": "Supprimer"
+  },
+
+  "products": {
+    "title": "Produits",
+    "new": "Nouveau Produit",
+    "newProduct": "Nouveau Produit",
+    "editProduct": "Modifier le Produit",
+    "viewProduct": "Voir le Produit",
+    "createProductDesc": "Créer un nouveau produit",
+    "edit": "Modifier",
+    "save": "Enregistrer",
+    "search": "Rechercher un produit...",
+    "noProductsFound": "Aucun produit trouvé",
+    "code": "Code Produit",
+    "name": "Nom du Produit",
+    "description": "Description",
+    "category": "Catégorie",
+    "unit": "Unité",
+    "purchasePrice": "Prix d'Achat",
+    "salePrice": "Prix de Vente",
+    "taxRate": "Taux de Taxe",
+    "currentStock": "Stock Actuel",
+    "minStock": "Stock Minimum",
+    "maxStock": "Stock Maximum",
+    "barcode": "Code-barres",
+    "imageUrl": "URL de l'Image",
+    "isActive": "Statut",
+    "status": "Statut",
+    "stock": "Stock",
+    "actions": "Actions",
+    "view": "Voir",
+    "productInformation": "Informations sur le Produit",
+    "pricing": "Tarification",
+    "stockInformation": "Informations sur le Stock",
+    "active": "Actif",
+    "passive": "Inactif",
+    "deleted": "Supprimé"
   },
 
   "companies": {

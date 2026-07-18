@@ -59,8 +59,10 @@
     "productsDescription": "Управление товарами",
     "stock": "Склад",
     "stockDescription": "Состояние и движение товаров",
-    "orders": "Продажи / Заказы",
-    "ordersDescription": "Управление продажами и заказами"
+    "orders": "Продажи",
+    "ordersDescription": "Управление заказами на продажу",
+    "purchases": "Закупки",
+    "purchasesDescription": "Управление заказами на закупку"
   },
 
   "tickets": {
@@ -155,6 +157,43 @@
     "deleteCustomerDescription": "Клиент будет удалён. Это действие нельзя отменить.",
     "edit": "Редактировать",
     "delete": "Удалить"
+  },
+
+  "products": {
+    "title": "Товары",
+    "new": "Новый товар",
+    "newProduct": "Новый товар",
+    "editProduct": "Редактировать товар",
+    "viewProduct": "Просмотреть товар",
+    "createProductDesc": "Создать новый товар",
+    "edit": "Редактировать",
+    "save": "Сохранить",
+    "search": "Поиск товара...",
+    "noProductsFound": "Товары не найдены",
+    "code": "Код товара",
+    "name": "Название товара",
+    "description": "Описание",
+    "category": "Категория",
+    "unit": "Единица измерения",
+    "purchasePrice": "Цена закупки",
+    "salePrice": "Цена продажи",
+    "taxRate": "Ставка налога",
+    "currentStock": "Текущий остаток",
+    "minStock": "Минимальный остаток",
+    "maxStock": "Максимальный остаток",
+    "barcode": "Штрих-код",
+    "imageUrl": "URL изображения",
+    "isActive": "Статус",
+    "status": "Статус",
+    "stock": "Остаток",
+    "actions": "Действия",
+    "view": "Просмотр",
+    "productInformation": "Информация о товаре",
+    "pricing": "Ценообразование",
+    "stockInformation": "Информация об остатках",
+    "active": "Активный",
+    "passive": "Неактивный",
+    "deleted": "Удалён"
   },
 
   "companies": {

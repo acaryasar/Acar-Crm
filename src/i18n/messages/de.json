@@ -59,8 +59,10 @@
     "productsDescription": "Produktverwaltung",
     "stock": "Lagerbestand",
     "stockDescription": "Lagerstatus und Bewegungen",
-    "orders": "Verkäufe / Bestellungen",
-    "ordersDescription": "Verkaufs- und Bestellverwaltung"
+    "orders": "Verkäufe",
+    "ordersDescription": "Verkaufsbestellverwaltung",
+    "purchases": "Einkäufe",
+    "purchasesDescription": "Einkaufsbestellverwaltung"
   },
 
   "tickets": {
@@ -156,7 +158,44 @@
     "edit": "Bearbeiten",
     "delete": "Löschen"
   },
-  
+
+  "products": {
+    "title": "Produkte",
+    "new": "Neues Produkt",
+    "newProduct": "Neues Produkt",
+    "editProduct": "Produkt bearbeiten",
+    "viewProduct": "Produkt anzeigen",
+    "createProductDesc": "Erstellen Sie ein neues Produkt",
+    "edit": "Bearbeiten",
+    "save": "Speichern",
+    "search": "Produkt suchen...",
+    "noProductsFound": "Keine Produkte gefunden",
+    "code": "Produktcode",
+    "name": "Produktname",
+    "description": "Beschreibung",
+    "category": "Kategorie",
+    "unit": "Einheit",
+    "purchasePrice": "Einkaufspreis",
+    "salePrice": "Verkaufspreis",
+    "taxRate": "Steuersatz",
+    "currentStock": "Aktueller Lagerbestand",
+    "minStock": "Mindestlagerbestand",
+    "maxStock": "Maximallagerbestand",
+    "barcode": "Strichcode",
+    "imageUrl": "Bild-URL",
+    "isActive": "Status",
+    "status": "Status",
+    "stock": "Lagerbestand",
+    "actions": "Aktionen",
+    "view": "Anzeigen",
+    "productInformation": "Produktinformationen",
+    "pricing": "Preisgestaltung",
+    "stockInformation": "Lagerbestandsinformationen",
+    "active": "Aktiv",
+    "passive": "Inaktiv",
+    "deleted": "Gelöscht"
+  },
+
   "companies": {
     "title": "Unternehmen",
     "newCompany": "Neues Unternehmen",

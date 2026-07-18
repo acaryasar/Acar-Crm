@@ -9,6 +9,11 @@ export const CreateCustomerSchema = z.object({
   city: z.string().optional(),
   postalCode: z.string().optional(),
   notes: z.string().optional(),
+  taxOffice: z.string().optional(),
+  taxNumber: z.string().optional(),
+  responsiblePerson: z.string().optional(),
+  customerGroup: z.string().optional(),
+  sector: z.string().optional(),
 });
 
 export const UpdateCustomerSchema = z.object({
@@ -20,6 +25,11 @@ export const UpdateCustomerSchema = z.object({
   city: z.string().optional(),
   postalCode: z.string().optional(),
   notes: z.string().optional(),
+  taxOffice: z.string().optional(),
+  taxNumber: z.string().optional(),
+  responsiblePerson: z.string().optional(),
+  customerGroup: z.string().optional(),
+  sector: z.string().optional(),
 });
 
 export type CreateCustomerInput = z.infer<typeof CreateCustomerSchema>;

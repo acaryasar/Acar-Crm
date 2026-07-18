@@ -3,10 +3,11 @@ import Link from "next/link";
 import { CustomerSearch } from "@/features/customers/components/customer-search";
 import { CustomerTable } from "@/features/customers/components/customer-table";
 import { CustomerForm } from "@/features/customers/components/customer-form";
+import { CustomerStatsCards } from "@/features/customers/components/customer-stats-cards";
 import { requireRole, isAdmin, isAdminOrSupervisor } from "@/lib/auth-guard";
 import { cookies } from "next/headers";
 import { LOCALE_STORAGE_KEY, isLocale, defaultLocale, messages } from "@/i18n/config";
-import { UserRound, Plus, ArrowLeft, Edit, Eye, Save } from "lucide-react";
+import { UserRound, Plus, ArrowLeft, Edit, Eye, Save, Download, Upload } from "lucide-react";
 
 export default async function CustomersPage({
   searchParams,
@@ -136,27 +137,40 @@ export default async function CustomersPage({
 
   return (
     <div className="h-full flex flex-col">
-      <div className="flex items-center justify-between mb-6 shrink-0">
-        <div className="flex items-center gap-3">
-          <div className="h-10 w-10 rounded-xl bg-indigo-100 flex items-center justify-center">
-            <UserRound size={20} className="text-indigo-600" />
+      {/* Header */}
+      <div className="mb-6 shrink-0">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="h-10 w-10 rounded-xl bg-indigo-100 flex items-center justify-center">
+              <UserRound size={20} className="text-indigo-600" />
+            </div>
+            <div>
+              <h1 className="text-2xl font-bold text-slate-800">{t("title")}</h1>
+            </div>
           </div>
-          <div>
-            <h1 className="text-2xl font-bold text-slate-800">{t("title")}</h1>
-            <p className="text-sm text-slate-500">{customers.length} {t("title").toLowerCase()}</p>
-          </div>
-        </div>
 
-        <div className="flex items-center gap-3">
-          <CustomerSearch />
-          <Link href="/dashboard/customers?mode=create" className="inline-flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium px-4 py-2.5 rounded-xl transition-colors shadow-sm min-w-[140px]">
-            <Plus size={12} />
-            {t("new")}
-          </Link>
+          <div className="flex items-center gap-3">
+            <button className="inline-flex items-center justify-center gap-2 bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 text-sm font-medium px-4 py-2.5 rounded-xl transition-colors shadow-sm">
+              <Download size={16} />
+              {t("export")}
+            </button>
+            <button className="inline-flex items-center justify-center gap-2 bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 text-sm font-medium px-4 py-2.5 rounded-xl transition-colors shadow-sm">
+              <Upload size={16} />
+              {t("import")}
+            </button>
+            <Link href="/dashboard/customers?mode=create" className="inline-flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium px-4 py-2.5 rounded-xl transition-colors shadow-sm">
+              <Plus size={16} />
+              {t("newCustomer")}
+            </Link>
+          </div>
         </div>
       </div>
 
-      <div className="flex-1 min-h-0">
+      {/* Stats Cards */}
+      <CustomerStatsCards />
+
+      {/* Table */}
+      <div className="flex-1 min-h-0 mt-6">
         <CustomerTable customers={customers} />
       </div>
     </div>

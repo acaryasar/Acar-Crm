@@ -112,6 +112,15 @@ model Customer {
   city       String?
   postalCode String?
 
+  // Vergi bilgileri
+  taxOffice String?
+  taxNumber String?
+
+  // Müşteri detayları
+  responsiblePerson String?
+  customerGroup      String?
+  sector             String?
+
   notes String?
 
   createdAt DateTime @default(now())
@@ -128,6 +137,7 @@ model Customer {
   @@index([companyId])
   @@index([lastName])
   @@index([email])
+  @@index([customerGroup])
 }
 
 model Ticket {

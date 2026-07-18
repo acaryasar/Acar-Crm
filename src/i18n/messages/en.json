@@ -59,8 +59,10 @@
     "productsDescription": "Product management",
     "stock": "Stock",
     "stockDescription": "Stock status and movements",
-    "orders": "Sales / Orders",
-    "ordersDescription": "Sales and order management"
+    "orders": "Sales",
+    "ordersDescription": "Sales order management",
+    "purchases": "Purchases",
+    "purchasesDescription": "Purchase order management"
   },
 
   "tickets": {
@@ -156,7 +158,44 @@
     "edit": "Edit",
     "delete": "Delete"
   },
-  
+
+  "products": {
+    "title": "Products",
+    "new": "New Product",
+    "newProduct": "New Product",
+    "editProduct": "Edit Product",
+    "viewProduct": "View Product",
+    "createProductDesc": "Create a new product",
+    "edit": "Edit",
+    "save": "Save",
+    "search": "Search product...",
+    "noProductsFound": "No products found",
+    "code": "Product Code",
+    "name": "Product Name",
+    "description": "Description",
+    "category": "Category",
+    "unit": "Unit",
+    "purchasePrice": "Purchase Price",
+    "salePrice": "Sale Price",
+    "taxRate": "Tax Rate",
+    "currentStock": "Current Stock",
+    "minStock": "Minimum Stock",
+    "maxStock": "Maximum Stock",
+    "barcode": "Barcode",
+    "imageUrl": "Image URL",
+    "isActive": "Status",
+    "status": "Status",
+    "stock": "Stock",
+    "actions": "Actions",
+    "view": "View",
+    "productInformation": "Product Information",
+    "pricing": "Pricing",
+    "stockInformation": "Stock Information",
+    "active": "Active",
+    "passive": "Inactive",
+    "deleted": "Deleted"
+  },
+
   "companies": {
     "title": "Companies",
     "newCompany": "New Company",

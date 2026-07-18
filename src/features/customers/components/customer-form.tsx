@@ -1,5 +1,5 @@
 import { createCustomer, updateCustomer } from "@/features/customers/actions/create-customer";
-import { User, Mail, Phone, MapPin, FileText } from "lucide-react";
+import { User, Mail, Phone, MapPin, FileText, Building2, UserCheck, Briefcase } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 const inputClass =
@@ -22,6 +22,11 @@ interface CustomerFormProps {
     city?: string | null;
     postalCode?: string | null;
     notes?: string | null;
+    taxOffice?: string | null;
+    taxNumber?: string | null;
+    responsiblePerson?: string | null;
+    customerGroup?: string | null;
+    sector?: string | null;
   };
 }
 
@@ -98,6 +103,79 @@ export function CustomerForm({ mode = "create", customer }: CustomerFormProps) {
                   readOnly={isReadonly}
                 />
               </div>
+            </div>
+          </div>
+
+          {/* Business Information */}
+          <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 space-y-4">
+            <div className="flex items-center gap-2 mb-2">
+              <Building2 size={16} className="text-indigo-500" />
+              <h2 className="text-sm font-semibold text-slate-700 uppercase tracking-wide">Vergi Bilgileri</h2>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className={labelClass}>Vergi Dairesi</label>
+                <input 
+                  name="taxOffice" 
+                  placeholder="Vergi dairesi..." 
+                  className={isReadonly ? inputClassReadonly : inputClass} 
+                  defaultValue={customer?.taxOffice || ""}
+                  readOnly={isReadonly}
+                />
+              </div>
+              <div>
+                <label className={labelClass}>Vergi Numarası</label>
+                <input 
+                  name="taxNumber" 
+                  placeholder="Vergi numarası..." 
+                  className={isReadonly ? inputClassReadonly : inputClass} 
+                  defaultValue={customer?.taxNumber || ""}
+                  readOnly={isReadonly}
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className={labelClass}>
+                  <span className="flex items-center gap-1.5"><UserCheck size={12} />Sorumlu Kişi</span>
+                </label>
+                <input 
+                  name="responsiblePerson" 
+                  placeholder="Sorumlu kişi..." 
+                  className={isReadonly ? inputClassReadonly : inputClass} 
+                  defaultValue={customer?.responsiblePerson || ""}
+                  readOnly={isReadonly}
+                />
+              </div>
+              <div>
+                <label className={labelClass}>
+                  <span className="flex items-center gap-1.5"><Briefcase size={12} />Sektör</span>
+                </label>
+                <input 
+                  name="sector" 
+                  placeholder="Sektör..." 
+                  className={isReadonly ? inputClassReadonly : inputClass} 
+                  defaultValue={customer?.sector || ""}
+                  readOnly={isReadonly}
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className={labelClass}>Müşteri Grubu</label>
+              <select 
+                name="customerGroup" 
+                className={isReadonly ? inputClassReadonly : inputClass} 
+                defaultValue={customer?.customerGroup || ""}
+                disabled={isReadonly}
+              >
+                <option value="">Seçiniz</option>
+                <option value="Kurumsal">Kurumsal</option>
+                <option value="KOBİ">KOBİ</option>
+                <option value="Bireysel">Bireysel</option>
+              </select>
             </div>
           </div>
 

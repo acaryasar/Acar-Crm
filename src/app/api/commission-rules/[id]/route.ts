@@ -54,7 +54,13 @@ export async function PUT(
       effectiveDate,
       expiryDate,
       isActive,
+      tiers,
     } = body;
+
+    // Delete existing tiers
+    await prisma.commissionTier.deleteMany({
+      where: { commissionRuleId: id },
+    });
 
     const rule = await prisma.commissionRule.update({
       where: { id },
@@ -71,6 +77,14 @@ export async function PUT(
         expiryDate: expiryDate ? new Date(expiryDate) : null,
         isActive: isActive !== undefined ? isActive : true,
         updatedBy: session.user.id,
+        tiers: tiers && tiers.length > 0 ? {
+          create: tiers.map((tier: any) => ({
+            minValue: String(tier.minValue || "0"),
+            maxValue: tier.maxValue ? String(tier.maxValue) : null,
+            commissionRate: String(tier.commissionRate || "0"),
+            order: tier.order || 0,
+          })),
+        } : undefined,
       },
     });
 

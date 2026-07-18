@@ -56,6 +56,7 @@ export async function POST(req: NextRequest) {
       effectiveDate,
       expiryDate,
       isActive,
+      tiers,
     } = body;
 
     const rule = await prisma.commissionRule.create({
@@ -73,6 +74,14 @@ export async function POST(req: NextRequest) {
         expiryDate: expiryDate ? new Date(expiryDate) : null,
         isActive: isActive !== undefined ? isActive : true,
         createdBy: session.user.id,
+        tiers: tiers && tiers.length > 0 ? {
+          create: tiers.map((tier: any) => ({
+            minValue: String(tier.minValue || "0"),
+            maxValue: tier.maxValue ? String(tier.maxValue) : null,
+            commissionRate: String(tier.commissionRate || "0"),
+            order: tier.order || 0,
+          })),
+        } : undefined,
       },
     });
 

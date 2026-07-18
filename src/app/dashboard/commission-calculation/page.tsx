@@ -2,6 +2,7 @@ import { requireRole } from "@/lib/auth-guard";
 import { cookies } from "next/headers";
 import { LOCALE_STORAGE_KEY, isLocale, defaultLocale, messages } from "@/i18n/config";
 import { BarChart3 } from "lucide-react";
+import { CommissionCalculationForm } from "@/features/commission-calculation/components/commission-calculation-form";
 
 export default async function CommissionCalculationPage() {
   await requireRole(["ADMIN", "SUPERVISOR", "MANAGER"]);
@@ -23,11 +24,8 @@ export default async function CommissionCalculationPage() {
         </div>
       </div>
 
-      <div className="flex-1 min-h-0 bg-white rounded-2xl border border-slate-100 shadow-sm p-8">
-        <div className="text-center py-16">
-          <div className="text-slate-400 text-4xl mb-3">📊</div>
-          <p className="text-slate-500 font-medium">{t("calculationComingSoon")}</p>
-        </div>
+      <div className="flex-1 min-h-0">
+        <CommissionCalculationForm />
       </div>
     </div>
   );

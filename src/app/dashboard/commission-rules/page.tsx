@@ -33,6 +33,11 @@ export default async function CommissionRulesPage({
   if ((mode === "edit" || mode === "view") && ruleId) {
     rule = await prisma.commissionRule.findUnique({
       where: { id: ruleId },
+      include: {
+        tiers: {
+          orderBy: { order: "asc" },
+        },
+      },
     });
   }
 

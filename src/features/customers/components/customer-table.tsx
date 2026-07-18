@@ -21,6 +21,7 @@ interface Customer {
   taxOffice?: string | null;
   taxNumber?: string | null;
   responsiblePerson?: string | null;
+  responsiblePersonName?: string | null;
   customerGroup?: string | null;
   sector?: string | null;
 }
@@ -105,7 +106,7 @@ export function CustomerTable({ customers }: { customers: Customer[] }) {
                   </td>
 
                   <td className="px-4 py-4">
-                    <span className="text-sm text-slate-600">{customer.responsiblePerson || "—"}</span>
+                    <span className="text-sm text-slate-600">{customer.responsiblePersonName || customer.responsiblePerson || "—"}</span>
                   </td>
 
                   <td className="px-4 py-4">

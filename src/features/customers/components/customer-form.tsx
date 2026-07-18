@@ -1,6 +1,9 @@
+"use client";
+
 import { createCustomer, updateCustomer } from "@/features/customers/actions/create-customer";
 import { User, Mail, Phone, MapPin, FileText, Building2, UserCheck, Briefcase } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { useState, useEffect } from "react";
 
 const inputClass =
   "w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm text-slate-700 placeholder:text-slate-400 outline-none focus:border-indigo-400 focus:bg-white focus:ring-2 focus:ring-indigo-100 transition";
@@ -34,6 +37,23 @@ export function CustomerForm({ mode = "create", customer }: CustomerFormProps) {
   const t = useTranslations("customers");
   const isReadonly = mode === "view";
   const action = mode === "create" ? createCustomer : updateCustomer;
+  const [users, setUsers] = useState<any[]>([]);
+
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+
+  const fetchUsers = async () => {
+    try {
+      const response = await fetch("/api/users/list");
+      const data = await response.json();
+      if (data.data) {
+        setUsers(data.data);
+      }
+    } catch (error) {
+      console.error("Error fetching users:", error);
+    }
+  };
 
   return (
     <form id="customer-form" action={action} className="space-y-5">
@@ -141,13 +161,19 @@ export function CustomerForm({ mode = "create", customer }: CustomerFormProps) {
                 <label className={labelClass}>
                   <span className="flex items-center gap-1.5"><UserCheck size={12} />Sorumlu Kişi</span>
                 </label>
-                <input 
+                <select 
                   name="responsiblePerson" 
-                  placeholder="Sorumlu kişi..." 
                   className={isReadonly ? inputClassReadonly : inputClass} 
                   defaultValue={customer?.responsiblePerson || ""}
-                  readOnly={isReadonly}
-                />
+                  disabled={isReadonly}
+                >
+                  <option value="">Seçiniz</option>
+                  {users.map((user) => (
+                    <option key={user.id} value={user.id}>
+                      {user.firstName} {user.lastName}
+                    </option>
+                  ))}
+                </select>
               </div>
               <div>
                 <label className={labelClass}>

@@ -1084,7 +1084,25 @@ model CommissionRule {
   updatedAt       DateTime       @updatedAt
   updatedBy       String?
 
+  tiers           CommissionTier[]
+
   @@index([companyId])
   @@index([deletedAt])
   @@index([effectiveDate])
+}
+
+model CommissionTier {
+  id              String         @id @default(cuid())
+  commissionRuleId String
+  commissionRule  CommissionRule @relation(fields: [commissionRuleId], references: [id], onDelete: Cascade)
+  
+  minValue        String         @default("0")  // Decimal as String for SQLite
+  maxValue        String?        // Decimal as String for SQLite (null for unlimited)
+  commissionRate  String         // Decimal as String for SQLite
+  order           Int            // Sıralama için
+  
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+
+  @@index([commissionRuleId])
 }

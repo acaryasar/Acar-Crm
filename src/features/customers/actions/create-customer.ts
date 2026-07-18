@@ -28,6 +28,11 @@ export async function createCustomer(formData: FormData) {
       city:       toStr(formData.get("city")),
       postalCode: toStr(formData.get("postalCode")),
       notes:      toStr(formData.get("notes")),
+      taxOffice:  toStr(formData.get("taxOffice")),
+      taxNumber:  toStr(formData.get("taxNumber")),
+      responsiblePerson: toStr(formData.get("responsiblePerson")),
+      customerGroup: toStr(formData.get("customerGroup")),
+      sector:     toStr(formData.get("sector")),
     },
   });
 
@@ -67,6 +72,11 @@ export async function updateCustomer(formData: FormData) {
       city:       toStr(formData.get("city")),
       postalCode: toStr(formData.get("postalCode")),
       notes:      toStr(formData.get("notes")),
+      taxOffice:  toStr(formData.get("taxOffice")),
+      taxNumber:  toStr(formData.get("taxNumber")),
+      responsiblePerson: toStr(formData.get("responsiblePerson")),
+      customerGroup: toStr(formData.get("customerGroup")),
+      sector:     toStr(formData.get("sector")),
     },
   });
 

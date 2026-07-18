@@ -277,4 +277,37 @@ export const ENTITY_CONFIG: Record<EntityType, EntityConfig> = {
       return actions;
     },
   },
+  COMMISSION_RULE: {
+    route: "/dashboard/commission-rules",
+    hasStatus: true,
+    canDelete: true,
+    canEdit: true,
+    canView: true,
+    canShowActivityLog: false,
+    getActions: (entityId, isActive, onDelete, onToggleStatus, t, userRole) => {
+      const actions: ActionItem[] = [
+        {
+          label: t("edit"),
+          icon: <Pencil size={15} />,
+          href: `/dashboard/commission-rules?mode=edit&id=${entityId}`,
+        },
+        {
+          label: isActive ? t("deactivateTitle") : t("activateTitle"),
+          icon: <Lock size={15} />,
+          onClick: () => onToggleStatus(entityId),
+        },
+      ];
+
+      if (canDelete(userRole)) {
+        actions.push({
+          label: t("delete"),
+          icon: <Trash2 size={15} />,
+          destructive: true,
+          onClick: () => onDelete(entityId),
+        });
+      }
+
+      return actions;
+    },
+  },
 };

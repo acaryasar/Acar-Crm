@@ -108,13 +108,11 @@ export default async function CustomersPage({
                 {
                   firstName: {
                     contains: params.search,
-                    mode: "insensitive",
                   },
                 },
                 {
                   lastName: {
                     contains: params.search,
-                    mode: "insensitive",
                   },
                 },
               ],
@@ -122,18 +120,35 @@ export default async function CustomersPage({
           : {}),
       },
 
-      include: {
-        _count: {
-          select: {
-            tickets: true,
-          },
-        },
-      },
-
       orderBy: {
         createdAt: "desc",
       },
     });
+
+  // Fetch all users to map responsible person IDs to names
+  const users = await prisma.user.findMany({
+    where: {
+      deletedAt: null,
+    },
+    select: {
+      id: true,
+      firstName: true,
+      lastName: true,
+    },
+  });
+
+  // Create a map of user IDs to names
+  const userMap = new Map(
+    users.map((user) => [user.id, `${user.firstName} ${user.lastName}`])
+  );
+
+  // Add responsible person names to customers
+  const customersWithNames = customers.map((customer: any) => ({
+    ...customer,
+    responsiblePersonName: customer.responsiblePerson
+      ? userMap.get(customer.responsiblePerson) || customer.responsiblePerson
+      : null,
+  }));
 
   return (
     <div className="h-full flex flex-col">
@@ -171,7 +186,7 @@ export default async function CustomersPage({
 
       {/* Table */}
       <div className="flex-1 min-h-0 mt-6">
-        <CustomerTable customers={customers} />
+        <CustomerTable customers={customersWithNames} />
       </div>
     </div>
   );

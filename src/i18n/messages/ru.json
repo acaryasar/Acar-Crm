@@ -54,7 +54,13 @@
     "employees": "Сотрудники",
     "employeesDescription": "Управление сотрудниками",
     "activityLogs": "Журналы активности",
-    "activityLogsDescription": "Просмотр журналов активности системы"
+    "activityLogsDescription": "Просмотр журналов активности системы",
+    "products": "Товары",
+    "productsDescription": "Управление товарами",
+    "stock": "Склад",
+    "stockDescription": "Состояние и движение товаров",
+    "orders": "Продажи / Заказы",
+    "ordersDescription": "Управление продажами и заказами"
   },
 
   "tickets": {

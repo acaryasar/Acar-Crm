@@ -54,7 +54,13 @@
     "employees": "Çalışanlar",
     "employeesDescription": "Çalışanları yönetin",
     "activityLogs": "Aktivite Logları",
-    "activityLogsDescription": "Sistem aktivite loglarını görüntüleyin"
+    "activityLogsDescription": "Sistem aktivite loglarını görüntüleyin",
+    "products": "Ürünler",
+    "productsDescription": "Ürün yönetimi",
+    "stock": "Stok Takibi",
+    "stockDescription": "Stok durumları ve hareketleri",
+    "orders": "Satış / Sipariş",
+    "ordersDescription": "Satış ve sipariş yönetimi"
   },
 
   "tickets": {

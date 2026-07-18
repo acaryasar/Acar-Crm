@@ -119,6 +119,7 @@ model Customer {
 
   tickets      Ticket[]
   appointments Appointment[]
+  orders       Order[]
 
   is_active  Boolean   @default(true)
   deletedAt DateTime? 
@@ -508,7 +509,6 @@ enum ChatStatus {
 
 // Parameter Tables
 
-
 model Bank {
   id        String    @id @default(cuid())
   name      String
@@ -690,4 +690,213 @@ model Currency {
   bankAccounts BankAccount[]
 
   @@index([deletedAt])
+}
+
+// ============================================
+// ÜRÜN YÖNETİMİ (PRODUCT MANAGEMENT)
+// ============================================
+
+enum ProductUnit {
+  PIECE     // Adet
+  KG        // Kilogram
+  M         // Metre
+  M2        // Metrekare
+  M3        // Metreküp
+  LT        // Litre
+  SET       // Set
+  BOX       // Kutu
+  PACKAGE   // Paket
+}
+
+model ProductCategory {
+  id          String    @id @default(cuid())
+  companyId   String
+  name        String
+  description String?
+  isActive    Boolean   @default(true)
+  isDeleted   Boolean   @default(false)
+  deletedAt   DateTime?
+  deletedBy   String?
+  createdAt   DateTime  @default(now())
+  createdBy   String?
+  updatedAt   DateTime  @updatedAt
+  updatedBy   String?
+
+  products Product[]
+
+  @@index([companyId])
+  @@index([deletedAt])
+}
+
+model Product {
+  id          String         @id @default(cuid())
+  companyId   String
+  code        String
+  name        String
+  description String?
+  categoryId  String?
+  category    ProductCategory? @relation(fields: [categoryId], references: [id])
+  unit        ProductUnit    @default(PIECE)
+  
+  // Fiyat bilgileri
+  purchasePrice String?  // Decimal as String for SQLite
+  salePrice     String   // Decimal as String for SQLite
+  taxRate       String   @default("0")  // Decimal as String for SQLite
+  
+  // Stok bilgileri
+  currentStock  Int           @default(0)
+  minStock      Int           @default(0)
+  maxStock      Int?
+  
+  // Ürün özellikleri
+  barcode       String?
+  imageUrl      String?
+  
+  isActive    Boolean   @default(true)
+  isDeleted   Boolean   @default(false)
+  deletedAt   DateTime?
+  deletedBy   String?
+  createdAt   DateTime  @default(now())
+  createdBy   String?
+  updatedAt   DateTime  @updatedAt
+  updatedBy   String?
+
+  stockMovements StockMovement[]
+  orderItems     OrderItem[]
+
+  @@unique([companyId, code])
+  @@index([companyId])
+  @@index([categoryId])
+  @@index([deletedAt])
+}
+
+// ============================================
+// STOK TAKİBİ (STOCK MANAGEMENT)
+// ============================================
+
+enum StockMovementType {
+  IN        // Giriş
+  OUT       // Çıkış
+  TRANSFER  // Transfer
+  ADJUSTMENT // Düzeltme
+}
+
+model StockMovement {
+  id          String            @id @default(cuid())
+  companyId   String
+  productId   String
+  product     Product           @relation(fields: [productId], references: [id])
+  type        StockMovementType
+  quantity    Int
+  
+  // İşlem öncesi ve sonrası stok
+  stockBefore Int
+  stockAfter  Int
+  
+  // Referans bilgileri
+  referenceType String?  // ORDER, PURCHASE, MANUAL, etc.
+  referenceId   String?
+  
+  notes       String?
+  
+  createdAt   DateTime  @default(now())
+  createdBy   String?
+
+  @@index([companyId])
+  @@index([productId])
+  @@index([createdAt])
+}
+
+// ============================================
+// SATIŞ / SİPARİŞ (ORDERS/SALES)
+// ============================================
+
+enum OrderStatus {
+  DRAFT           // Taslak
+  PENDING         // Beklemede
+  CONFIRMED       // Onaylandı
+  PROCESSING      // İşleniyor
+  SHIPPED         // Kargoya verildi
+  DELIVERED       // Teslim edildi
+  COMPLETED       // Tamamlandı
+  CANCELLED       // İptal edildi
+}
+
+enum PaymentStatus {
+  UNPAID          // Ödenmedi
+  PARTIAL         // Kısmi ödendi
+  PAID            // Ödendi
+  REFUNDED        // İade edildi
+}
+
+model Order {
+  id            String        @id @default(cuid())
+  companyId     String
+  orderNumber   String
+  
+  customerId    String
+  customer      Customer      @relation(fields: [customerId], references: [id])
+  
+  // Sipariş bilgileri
+  orderDate     DateTime      @default(now())
+  deliveryDate  DateTime?
+  status        OrderStatus   @default(DRAFT)
+  paymentStatus PaymentStatus @default(UNPAID)
+  
+  // Tutar bilgileri (Decimal as String for SQLite)
+  subtotal       String
+  taxAmount      String  @default("0")
+  discountAmount String  @default("0")
+  shippingCost   String  @default("0")
+  totalAmount    String
+  
+  // Adres ve notlar
+  shippingAddress String?
+  billingAddress  String?
+  notes           String?
+  
+  isActive    Boolean   @default(true)
+  isDeleted   Boolean   @default(false)
+  deletedAt   DateTime?
+  deletedBy   String?
+  createdAt   DateTime  @default(now())
+  createdBy   String?
+  updatedAt   DateTime  @updatedAt
+  updatedBy   String?
+
+  orderItems OrderItem[]
+
+  @@unique([companyId, orderNumber])
+  @@index([companyId])
+  @@index([customerId])
+  @@index([orderDate])
+  @@index([status])
+  @@index([deletedAt])
+}
+
+model OrderItem {
+  id          String   @id @default(cuid())
+  orderId     String
+  order       Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  
+  productId   String
+  product     Product  @relation(fields: [productId], references: [id])
+  
+  quantity    Int
+  unitPrice   String  // Decimal as String for SQLite
+  taxRate     String  @default("0")  // Decimal as String for SQLite
+  discount    String  @default("0")  // Decimal as String for SQLite
+  
+  // Hesaplanan tutarlar (Decimal as String for SQLite)
+  subtotal    String  // quantity * unitPrice
+  taxAmount   String
+  totalAmount String
+  
+  notes       String?
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([orderId])
+  @@index([productId])
 }

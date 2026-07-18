@@ -54,7 +54,13 @@
     "employees": "Employés",
     "employeesDescription": "Gérer les employés",
     "activityLogs": "Journaux d'activité",
-    "activityLogsDescription": "Voir les journaux d'activité du système"
+    "activityLogsDescription": "Voir les journaux d'activité du système",
+    "products": "Produits",
+    "productsDescription": "Gestion des produits",
+    "stock": "Stock",
+    "stockDescription": "État et mouvements de stock",
+    "orders": "Ventes / Commandes",
+    "ordersDescription": "Gestion des ventes et commandes"
   },
 
   "tickets": {

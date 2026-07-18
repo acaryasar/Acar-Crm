@@ -18,6 +18,11 @@ export const routes = {
     activityLogs: "/dashboard/activity-logs",
     notifications: "/dashboard/notifications",
     
+    // Product & Stock Management
+    products: "/dashboard/products",
+    stock: "/dashboard/stock",
+    orders: "/dashboard/orders",
+    
     // Parameters
     parameters: {
       base: "/dashboard/parameters",

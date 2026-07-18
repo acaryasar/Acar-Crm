@@ -54,7 +54,13 @@
     "employees": "Mitarbeiter",
     "employeesDescription": "Mitarbeiter verwalten",
     "activityLogs": "Aktivitätsprotokolle",
-    "activityLogsDescription": "Systemaktivitätsprotokolle anzeigen"
+    "activityLogsDescription": "Systemaktivitätsprotokolle anzeigen",
+    "products": "Produkte",
+    "productsDescription": "Produktverwaltung",
+    "stock": "Lagerbestand",
+    "stockDescription": "Lagerstatus und Bewegungen",
+    "orders": "Verkäufe / Bestellungen",
+    "ordersDescription": "Verkaufs- und Bestellverwaltung"
   },
 
   "tickets": {

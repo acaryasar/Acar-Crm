@@ -23,6 +23,9 @@ import {
   Bot,
   Settings,
   Truck,
+  Package,
+  ShoppingCart,
+  BarChart3,
 } from "lucide-react";
 
 interface NavItem {
@@ -43,6 +46,9 @@ const items: NavItem[] = [
   { label: "tickets",      href: "/dashboard/tickets",      icon: Ticket },
   { label: "appointments", href: "/dashboard/appointments", icon: Calendar },
   { label: "users",        href: "/dashboard/users",        icon: Users , roles: ["ADMIN", "SUPERVISOR"]},
+  { label: "products",     href: "/dashboard/products",     icon: Package, roles: ["ADMIN", "SUPERVISOR", "MANAGER"] },
+  { label: "stock",        href: "/dashboard/stock",        icon: BarChart3, roles: ["ADMIN", "SUPERVISOR", "MANAGER"] },
+  { label: "orders",       href: "/dashboard/orders",       icon: ShoppingCart, roles: ["ADMIN", "SUPERVISOR", "MANAGER"] },
   {
     label: "ai",
     icon: Bot,

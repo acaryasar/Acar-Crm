@@ -54,7 +54,13 @@
     "employees": "Employees",
     "employeesDescription": "Manage employees",
     "activityLogs": "Activity Logs",
-    "activityLogsDescription": "View system activity logs"
+    "activityLogsDescription": "View system activity logs",
+    "products": "Products",
+    "productsDescription": "Product management",
+    "stock": "Stock",
+    "stockDescription": "Stock status and movements",
+    "orders": "Sales / Orders",
+    "ordersDescription": "Sales and order management"
   },
 
   "tickets": {

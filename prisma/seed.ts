@@ -419,55 +419,61 @@ async function main() {
 
   // Customers - Company 1
   const customers1Data = [
-    { firstName: "Mehmet", lastName: "Yılmaz", email: "mehmet.yilmaz@gmail.com", phone: "+90 532 1234567", street: "Atatürk Caddesi 12", city: "İstanbul", postalCode: "34000" },
-    { firstName: "Ayşe", lastName: "Demir", email: "ayse.demir@hotmail.com", phone: "+90 533 9876543", street: "Bağdat Caddesi 45", city: "İstanbul", postalCode: "34700" },
-    { firstName: "Ali", lastName: "Kaya", email: "ali.kaya@outlook.com", phone: "+90 534 5554433", street: "Barış Manço Sokak 7", city: "Ankara", postalCode: "06000" },
-    { firstName: "Fatma", lastName: "Çelik", email: "fatma.celik@gmail.com", phone: "+90 535 6667788", street: "Cumhuriyet Caddesi 22", city: "İzmir", postalCode: "35000" },
-    { firstName: "Mustafa", lastName: "Şahin", email: "mustafa.sahin@yahoo.com", phone: "+90 542 1112233", street: "Gül Sokak 3", city: "Bursa", postalCode: "16000" },
+    { firstName: "Yıldız Teknik", lastName: "A.Ş.", email: "info@yildizteknik.com", phone: "+90 532 1234567", street: "Atatürk Caddesi 12", city: "İstanbul", postalCode: "34000" },
+    { firstName: "Demir İnşaat", lastName: "Ltd. Şti.", email: "info@demirinsaat.com", phone: "+90 533 9876543", street: "Bağdat Caddesi 45", city: "İstanbul", postalCode: "34700" },
+    { firstName: "Kaya Lojistik", lastName: "A.Ş.", email: "info@kayalojistik.com", phone: "+90 534 5554433", street: "Barış Manço Sokak 7", city: "Ankara", postalCode: "06000" },
+    { firstName: "Çelik Metal", lastName: "San. Tic. Ltd. Şti.", email: "info@celikmetal.com", phone: "+90 535 6667788", street: "Cumhuriyet Caddesi 22", city: "İzmir", postalCode: "35000" },
+    { firstName: "Şahin Otomotiv", lastName: "A.Ş.", email: "info@sahinoto.com", phone: "+90 542 1112233", street: "Gül Sokak 3", city: "Bursa", postalCode: "16000" },
   ];
 
   const customers1 = [];
-  for (const data of customers1Data) {
+  const originalIds1 = ["yilmaz", "demir", "kaya", "celik", "sahin"];
+  for (let i = 0; i < customers1Data.length; i++) {
+    const data = customers1Data[i];
     const customer = await prisma.customer.upsert({
-      where: { id: `seed-c1-${data.lastName.toLowerCase()}` },
-      create: { id: `seed-c1-${data.lastName.toLowerCase()}`, companyId: company1.id, ...data },
-      update: {},
+      where: { id: `seed-c1-${originalIds1[i]}` },
+      create: { id: `seed-c1-${originalIds1[i]}`, companyId: company1.id, ...data },
+      update: data,
     });
     customers1.push(customer);
   }
 
   // Customers - Company 2
   const customers2Data = [
-    { firstName: "Kemal", lastName: "Öztürk", email: "kemal.ozturk@acartech.com", phone: "+90 555 2345678", street: "Teknoloji Parkı 5", city: "İstanbul", postalCode: "34400" },
-    { firstName: "Selin", lastName: "Arslan", email: "selin.arslan@acartech.com", phone: "+90 556 3456789", street: "İnovasyon Caddesi 12", city: "Ankara", postalCode: "06100" },
-    { firstName: "Burak", lastName: "Koç", email: "burak.koc@acartech.com", phone: "+90 557 4567890", street: "Yazılım Sokak 8", city: "İzmir", postalCode: "35100" },
-    { firstName: "Elif", lastName: "Yıldız", email: "elif.yildiz@acartech.com", phone: "+90 558 5678901", street: "Dijital Meydan 3", city: "Bursa", postalCode: "16100" },
+    { firstName: "Öztürk Yazılım", lastName: "A.Ş.", email: "info@ozturkyazilim.com", phone: "+90 555 2345678", street: "Teknoloji Parkı 5", city: "İstanbul", postalCode: "34400" },
+    { firstName: "Arslan Danışmanlık", lastName: "Ltd. Şti.", email: "info@arslandanismanlik.com", phone: "+90 556 3456789", street: "İnovasyon Caddesi 12", city: "Ankara", postalCode: "06100" },
+    { firstName: "Koç Elektronik", lastName: "San. Tic. A.Ş.", email: "info@kacelektronik.com", phone: "+90 557 4567890", street: "Yazılım Sokak 8", city: "İzmir", postalCode: "35100" },
+    { firstName: "Yıldız Bilişim", lastName: "Hizmetleri Ltd. Şti.", email: "info@yildizbilisim.com", phone: "+90 558 5678901", street: "Dijital Meydan 3", city: "Bursa", postalCode: "16100" },
   ];
 
   const customers2 = [];
-  for (const data of customers2Data) {
+  const originalIds2 = ["ozturk", "arslan", "koc", "yildiz"];
+  for (let i = 0; i < customers2Data.length; i++) {
+    const data = customers2Data[i];
     const customer = await prisma.customer.upsert({
-      where: { id: `seed-c2-${data.lastName.toLowerCase()}` },
-      create: { id: `seed-c2-${data.lastName.toLowerCase()}`, companyId: company2.id, ...data },
-      update: {},
+      where: { id: `seed-c2-${originalIds2[i]}` },
+      create: { id: `seed-c2-${originalIds2[i]}`, companyId: company2.id, ...data },
+      update: data,
     });
     customers2.push(customer);
   }
 
   // Customers - Company 3
   const customers3Data = [
-    { firstName: "Tolga", lastName: "Polat", email: "tolga.polat@acarglobal.com", phone: "+90 559 6789012", street: "Global Caddesi 15", city: "Antalya", postalCode: "07000" },
-    { firstName: "Seda", lastName: "Kaya", email: "seda.kaya@acarglobal.com", phone: "+90 560 7890123", street: "Hizmet Meydanı 7", city: "İzmir", postalCode: "35200" },
-    { firstName: "Mert", lastName: "Çelik", email: "mert.celik@acarglobal.com", phone: "+90 561 8901234", street: "Uluslararası Sokak 22", city: "Ankara", postalCode: "06200" },
-    { firstName: "Zeynep", lastName: "Demir", email: "zeynep.demir@acarglobal.com", phone: "+90 562 9012345", street: "Dünya Pazarı 9", city: "İstanbul", postalCode: "34100" },
+    { firstName: "Polat Turizm", lastName: "A.Ş.", email: "info@polatturizm.com", phone: "+90 559 6789012", street: "Global Caddesi 15", city: "Antalya", postalCode: "07000" },
+    { firstName: "Kaya Gıda", lastName: "San. Tic. Ltd. Şti.", email: "info@kayagida.com", phone: "+90 560 7890123", street: "Hizmet Meydanı 7", city: "İzmir", postalCode: "35200" },
+    { firstName: "Çelik Makina", lastName: "İmalat A.Ş.", email: "info@celikmakina.com", phone: "+90 561 8901234", street: "Uluslararası Sokak 22", city: "Ankara", postalCode: "06200" },
+    { firstName: "Demir Lojistik", lastName: "Hizmetleri Ltd. Şti.", email: "info@demirlojistik.com", phone: "+90 562 9012345", street: "Dünya Pazarı 9", city: "İstanbul", postalCode: "34100" },
   ];
 
   const customers3 = [];
-  for (const data of customers3Data) {
+  const originalIds3 = ["polat", "kaya", "celik", "demir"];
+  for (let i = 0; i < customers3Data.length; i++) {
+    const data = customers3Data[i];
     const customer = await prisma.customer.upsert({
-      where: { id: `seed-c3-${data.lastName.toLowerCase()}` },
-      create: { id: `seed-c3-${data.lastName.toLowerCase()}`, companyId: company3.id, ...data },
-      update: {},
+      where: { id: `seed-c3-${originalIds3[i]}` },
+      create: { id: `seed-c3-${originalIds3[i]}`, companyId: company3.id, ...data },
+      update: data,
     });
     customers3.push(customer);
   }

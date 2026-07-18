@@ -26,6 +26,7 @@ import {
   Package,
   ShoppingCart,
   BarChart3,
+  DollarSign,
 } from "lucide-react";
 
 interface NavItem {
@@ -47,6 +48,17 @@ const items: NavItem[] = [
   { label: "stock",        href: "/dashboard/stock",        icon: BarChart3, roles: ["ADMIN", "SUPERVISOR", "MANAGER"] },
   { label: "orders",       href: "/dashboard/orders",       icon: ShoppingCart, roles: ["ADMIN", "SUPERVISOR", "MANAGER"] },
   { label: "purchases",    href: "/dashboard/purchases",    icon: Truck, roles: ["ADMIN", "SUPERVISOR", "MANAGER"] },
+  { label: "invoices",     href: "/dashboard/invoices",     icon: Receipt, roles: ["ADMIN", "SUPERVISOR"] },
+  {
+    label: "commission",
+    icon: DollarSign,
+    roles: ["ADMIN", "SUPERVISOR", "MANAGER"],
+    children: [
+      { label: "commissionRules", href: "/dashboard/commission-rules", icon: FileText },
+      { label: "commissionCalculation", href: "/dashboard/commission-calculation", icon: BarChart3 },
+      { label: "commissionPayment", href: "/dashboard/commission-payment", icon: Receipt },
+    ]
+  },
   { label: "tickets",      href: "/dashboard/tickets",      icon: Ticket },
   { label: "appointments", href: "/dashboard/appointments", icon: Calendar },
   { label: "users",        href: "/dashboard/users",        icon: Users , roles: ["ADMIN", "SUPERVISOR"]},
@@ -61,8 +73,6 @@ const items: NavItem[] = [
       { label: "webChatDemo", href: "/dashboard/web-chat-demo", icon: MessageCircle },
     ]
   },
-  { label: "quotes",       href: "/dashboard/quotes",       icon: FileText, roles: ["ADMIN", "SUPERVISOR"] },
-  { label: "invoices",     href: "/dashboard/invoices",     icon: Receipt, roles: ["ADMIN", "SUPERVISOR"] },
   {
     label: "parameters",
     icon: Settings,
@@ -76,7 +86,7 @@ const items: NavItem[] = [
 export function SidebarNav({ role }: { role?: string }) {
   const pathname = usePathname();
   const t = useTranslations("sidebar");
-  const [openMenus, setOpenMenus] = useState<Record<string, boolean>>({ ai: true, parameters: true });
+  const [openMenus, setOpenMenus] = useState<Record<string, boolean>>({ ai: true, parameters: true, commission: true });
 
   const userRole = role;
 

@@ -5,7 +5,8 @@ export type EntityType =
   | "APPOINTMENT"
   | "QUOTE"
   | "INVOICE"
-  | "COMPANY";
+  | "COMPANY"
+  | "COMMISSION_RULE";
 
 export interface ActionItem {
   label: string;

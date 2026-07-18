@@ -256,7 +256,7 @@ export const ENTITY_CONFIG: Record<EntityType, EntityConfig> = {
         {
           label: t("edit"),
           icon: <Pencil size={15} />,
-          href: `/dashboard/invoices/${entityId}/edit`,
+          href: `/dashboard/invoices?mode=edit&id=${entityId}`,
         },
         {
           label: t("activityLog"),

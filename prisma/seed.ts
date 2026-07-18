@@ -474,13 +474,16 @@ async function main() {
 
   const allCustomers = [...customers1, ...customers2, ...customers3];
 
-  // Tickets - Company 1
+  // Tickets - Company 1 (Products, Orders, Invoices, Shipping related)
   const tickets1Data = [
-    { title: "Klima arızası", description: "Klima sistemi çalışmıyor. Acil kontrol gerekiyor.", category: "HEATING" as const, priority: "URGENT" as const, status: "NEW" as const, source: "PHONE" as const, customer: customers1[0] },
-    { title: "Su borusu patladı", description: "Bodrum kattan su sızıntısı var, boru patlamış.", category: "PLUMBING" as const, priority: "HIGH" as const, status: "ASSIGNED" as const, source: "EMAIL" as const, customer: customers1[1] },
-    { title: "Elektrik prizi arızası", description: "Oturma odasındaki elektrik prizleri çalışmıyor.", category: "ELECTRICITY" as const, priority: "MEDIUM" as const, status: "IN_PROGRESS" as const, source: "WEB_CHAT" as const, customer: customers1[2] },
-    { title: "Duvar boyama", description: "Zemin kattaki tüm odaların duvarları yeniden boyanacak.", category: "PAINTING" as const, priority: "LOW" as const, status: "COMPLETED" as const, source: "PHONE" as const, customer: customers1[3] },
-    { title: "Termostat değişimi", description: "Oda termostatı yanlış sıcaklık gösteriyor.", category: "HEATING" as const, priority: "MEDIUM" as const, status: "ASSIGNED" as const, source: "EMAIL" as const, customer: customers1[4] },
+    { title: "Ürün teslimat gecikmesi", description: "Siparişimdeki ürünler henüz teslim edilmedi, kargo takibinde bilgi yok.", category: "OTHER" as const, priority: "HIGH" as const, status: "NEW" as const, source: "EMAIL" as const, customer: customers1[0] },
+    { title: "Fatura itirazı", description: "Son faturada yanlış tutar yansıtılmış, düzeltme talep ediyorum.", category: "OTHER" as const, priority: "URGENT" as const, status: "ASSIGNED" as const, source: "PHONE" as const, customer: customers1[1] },
+    { title: "Sipariş değişikliği", description: "Siparişimdeki ürün miktarını artırmak istiyorum.", category: "OTHER" as const, priority: "MEDIUM" as const, status: "IN_PROGRESS" as const, source: "WEB_CHAT" as const, customer: customers1[2] },
+    { title: "Ürün iadesi", description: "Teslim edilen ürün hasarlı, iade talep ediyorum.", category: "OTHER" as const, priority: "HIGH" as const, status: "NEW" as const, source: "EMAIL" as const, customer: customers1[3] },
+    { title: "Kargo hasarı", description: "Kargoda ürün kırılmış, hasar tespiti için talep.", category: "OTHER" as const, priority: "URGENT" as const, status: "ASSIGNED" as const, source: "PHONE" as const, customer: customers1[4] },
+    { title: "Fatura düzeltme", description: "Vergi numarası faturada yanlış yazılmış.", category: "OTHER" as const, priority: "MEDIUM" as const, status: "COMPLETED" as const, source: "EMAIL" as const, customer: customers1[0] },
+    { title: "Sipariş iptali", description: "Henüz kargoya verilmeyen siparişimi iptal etmek istiyorum.", category: "OTHER" as const, priority: "MEDIUM" as const, status: "ASSIGNED" as const, source: "WEB_CHAT" as const, customer: customers1[1] },
+    { title: "Kargo takibi", description: "Kargo nerede, teslimat durumu hakkında bilgi istiyorum.", category: "OTHER" as const, priority: "LOW" as const, status: "NEW" as const, source: "PHONE" as const, customer: customers1[2] },
   ];
 
   const now = new Date();
@@ -505,12 +508,14 @@ async function main() {
     });
   }
 
-  // Tickets - Company 2
+  // Tickets - Company 2 (Products, Orders, Invoices, Shipping related)
   const tickets2Data = [
-    { title: "Sunucu çöktü", description: "Ana sunucu çöktü ve yeniden başlamıyor.", category: "ELECTRICITY" as const, priority: "URGENT" as const, status: "NEW" as const, source: "EMAIL" as const, customer: customers2[0] },
-    { title: "Ağ sorunları", description: "Ofisteki Wi-Fi düzgün çalışmıyor.", category: "ELECTRICITY" as const, priority: "HIGH" as const, status: "IN_PROGRESS" as const, source: "WEB_CHAT" as const, customer: customers2[1] },
-    { title: "Yazılım güncellemesi", description: "Tüm iş istasyonları yazılım güncellemesi gerekiyor.", category: "OTHER" as const, priority: "MEDIUM" as const, status: "ASSIGNED" as const, source: "EMAIL" as const, customer: customers2[2] },
-    { title: "Yazıcı arızası", description: "Ağ yazıcısı yazmıyor.", category: "ELECTRICITY" as const, priority: "LOW" as const, status: "NEW" as const, source: "PHONE" as const, customer: customers2[3] },
+    { title: "Sipariş teslimat sorunu", description: "Siparişimdeki ürünler eksik teslim edildi.", category: "OTHER" as const, priority: "HIGH" as const, status: "NEW" as const, source: "EMAIL" as const, customer: customers2[0] },
+    { title: "Fatura ödeme sorunu", description: "Fatura ödemesi yapıldı ama sistemde görünmüyor.", category: "OTHER" as const, priority: "URGENT" as const, status: "ASSIGNED" as const, source: "PHONE" as const, customer: customers2[1] },
+    { title: "Ürün stok sorunu", description: "Sipariş ettiğim ürün stokta yokmuş, bilgilendirilmedim.", category: "OTHER" as const, priority: "MEDIUM" as const, status: "IN_PROGRESS" as const, source: "WEB_CHAT" as const, customer: customers2[2] },
+    { title: "Kargo adresi değişikliği", description: "Kargo adresimi değiştirmek istiyorum.", category: "OTHER" as const, priority: "MEDIUM" as const, status: "ASSIGNED" as const, source: "EMAIL" as const, customer: customers2[3] },
+    { title: "Fatura kopyası", description: "Fatura kopyasını tekrar göndermenizi istiyorum.", category: "OTHER" as const, priority: "LOW" as const, status: "NEW" as const, source: "PHONE" as const, customer: customers2[0] },
+    { title: "Sipariş durumu", description: "Siparişim ne zaman kargoya verilecek?", category: "OTHER" as const, priority: "MEDIUM" as const, status: "COMPLETED" as const, source: "WEB_CHAT" as const, customer: customers2[1] },
   ];
 
   for (let i = 0; i < tickets2Data.length; i++) {
@@ -534,12 +539,13 @@ async function main() {
     });
   }
 
-  // Tickets - Company 3
+  // Tickets - Company 3 (Products, Orders, Invoices, Shipping related)
   const tickets3Data = [
-    { title: "Klima arızası", description: "Ofisteki klima sistemi soğutmuyor.", category: "HEATING" as const, priority: "HIGH" as const, status: "ASSIGNED" as const, source: "PHONE" as const, customer: customers3[0] },
-    { title: "Havalandırma sistemi", description: "Havalandırma sistemi gürültülü çalışıyor.", category: "HEATING" as const, priority: "MEDIUM" as const, status: "NEW" as const, source: "EMAIL" as const, customer: customers3[1] },
-    { title: "Aydınlatma kontrolü", description: "Salon aydınlatması bakım gerekiyor.", category: "ELECTRICITY" as const, priority: "LOW" as const, status: "IN_PROGRESS" as const, source: "WEB_CHAT" as const, customer: customers3[2] },
-    { title: "Güvenlik kontrolü", description: "Yıllık güvenlik kontrolü gerekli.", category: "OTHER" as const, priority: "MEDIUM" as const, status: "NEW" as const, source: "EMAIL" as const, customer: customers3[3] },
+    { title: "Ürün kalite sorunu", description: "Teslim edilen ürün kalitesi beklediğim gibi değil.", category: "OTHER" as const, priority: "HIGH" as const, status: "ASSIGNED" as const, source: "PHONE" as const, customer: customers3[0] },
+    { title: "Fatura ödeme planı", description: "Fatura ödemeyi taksitli yapmak istiyorum.", category: "OTHER" as const, priority: "MEDIUM" as const, status: "NEW" as const, source: "EMAIL" as const, customer: customers3[1] },
+    { title: "Sipariş iptal talebi", description: "Siparişimi iptal etmek istiyorum, iade süreci nedir?", category: "OTHER" as const, priority: "MEDIUM" as const, status: "IN_PROGRESS" as const, source: "WEB_CHAT" as const, customer: customers3[2] },
+    { title: "Kargo hasar tespiti", description: "Kargoda hasar oluştu, tespit raporu istiyorum.", category: "OTHER" as const, priority: "HIGH" as const, status: "NEW" as const, source: "EMAIL" as const, customer: customers3[3] },
+    { title: "Ürün değişimi", description: "Teslim edilen ürünü değiştirmek istiyorum.", category: "OTHER" as const, priority: "MEDIUM" as const, status: "ASSIGNED" as const, source: "PHONE" as const, customer: customers3[0] },
   ];
 
   for (let i = 0; i < tickets3Data.length; i++) {
@@ -969,6 +975,296 @@ async function main() {
     });
   }
 
+  // Orders - 50 orders with different statuses
+  const orderStatuses = ["DRAFT", "PENDING", "CONFIRMED", "PROCESSING", "SHIPPED", "DELIVERED", "COMPLETED", "CANCELLED"];
+  const paymentStatuses = ["UNPAID", "PARTIAL", "PAID", "REFUNDED"];
+  
+  const ordersData = [];
+  for (let i = 0; i < 50; i++) {
+    const customer = allCustomers[i % allCustomers.length];
+    const product1 = productsData[i % productsData.length];
+    const product2 = productsData[(i + 1) % productsData.length];
+    const product3 = productsData[(i + 2) % productsData.length];
+    
+    const qty1 = Math.floor(Math.random() * 5) + 1;
+    const qty2 = Math.floor(Math.random() * 3) + 1;
+    const qty3 = Math.floor(Math.random() * 2) + 1;
+    
+    const price1 = parseFloat(product1.salePrice);
+    const price2 = parseFloat(product2.salePrice);
+    const price3 = parseFloat(product3.salePrice);
+    
+    const subtotal1 = qty1 * price1;
+    const subtotal2 = qty2 * price2;
+    const subtotal3 = qty3 * price3;
+    
+    const tax1 = subtotal1 * 0.18;
+    const tax2 = subtotal2 * 0.18;
+    const tax3 = subtotal3 * 0.18;
+    
+    const total1 = subtotal1 + tax1;
+    const total2 = subtotal2 + tax2;
+    const total3 = subtotal3 + tax3;
+    
+    const subtotal = subtotal1 + subtotal2 + subtotal3;
+    const taxAmount = tax1 + tax2 + tax3;
+    const totalAmount = subtotal + taxAmount;
+    
+    const orderDate = new Date();
+    orderDate.setDate(orderDate.getDate() - Math.floor(Math.random() * 30));
+    
+    ordersData.push({
+      orderNumber: `ORD-${String(i + 1).padStart(5, "0")}`,
+      customerId: customer.id,
+      orderDate: orderDate,
+      status: orderStatuses[i % orderStatuses.length] as any,
+      paymentStatus: paymentStatuses[i % paymentStatuses.length] as any,
+      subtotal: subtotal.toFixed(2),
+      taxAmount: taxAmount.toFixed(2),
+      discountAmount: (Math.random() > 0.7 ? Math.floor(Math.random() * 500) : 0).toFixed(2),
+      shippingCost: (Math.random() > 0.5 ? Math.floor(Math.random() * 100) + 20 : 0).toFixed(2),
+      totalAmount: totalAmount.toFixed(2),
+      shippingAddress: `${customer.street || ""} ${customer.city || "İstanbul"} ${customer.postalCode || ""}`,
+      billingAddress: `${customer.street || ""} ${customer.city || "İstanbul"} ${customer.postalCode || ""}`,
+      notes: i % 5 === 0 ? "Acil sipariş" : "",
+      orderItems: [
+        {
+          productId: `seed-prod-${String(i % productsData.length).padStart(3, "0")}`,
+          quantity: qty1,
+          unitPrice: product1.salePrice,
+          taxRate: "18",
+          discount: "0",
+          subtotal: subtotal1.toFixed(2),
+          taxAmount: tax1.toFixed(2),
+          totalAmount: total1.toFixed(2),
+        },
+        {
+          productId: `seed-prod-${String((i + 1) % productsData.length).padStart(3, "0")}`,
+          quantity: qty2,
+          unitPrice: product2.salePrice,
+          taxRate: "18",
+          discount: "0",
+          subtotal: subtotal2.toFixed(2),
+          taxAmount: tax2.toFixed(2),
+          totalAmount: total2.toFixed(2),
+        },
+        {
+          productId: `seed-prod-${String((i + 2) % productsData.length).padStart(3, "0")}`,
+          quantity: qty3,
+          unitPrice: product3.salePrice,
+          taxRate: "18",
+          discount: "0",
+          subtotal: subtotal3.toFixed(2),
+          taxAmount: tax3.toFixed(2),
+          totalAmount: total3.toFixed(2),
+        },
+      ],
+    });
+  }
+
+  // Create orders
+  for (let i = 0; i < ordersData.length; i++) {
+    const o = ordersData[i];
+    const order = await prisma.order.upsert({
+      where: { id: `seed-order-${String(i).padStart(3, "0")}` },
+      create: {
+        id: `seed-order-${String(i).padStart(3, "0")}`,
+        companyId: company1.id,
+        orderNumber: o.orderNumber,
+        customerId: o.customerId,
+        orderDate: o.orderDate,
+        status: o.status,
+        paymentStatus: o.paymentStatus,
+        subtotal: o.subtotal,
+        taxAmount: o.taxAmount,
+        discountAmount: o.discountAmount,
+        shippingCost: o.shippingCost,
+        totalAmount: o.totalAmount,
+        shippingAddress: o.shippingAddress,
+        billingAddress: o.billingAddress,
+        notes: o.notes,
+        isActive: true,
+      },
+      update: {},
+    });
+
+    // Create order items
+    for (let j = 0; j < o.orderItems.length; j++) {
+      const item = o.orderItems[j];
+      await prisma.orderItem.upsert({
+        where: { id: `seed-order-item-${String(i).padStart(3, "0")}-${String(j).padStart(2, "0")}` },
+        create: {
+          id: `seed-order-item-${String(i).padStart(3, "0")}-${String(j).padStart(2, "0")}`,
+          orderId: order.id,
+          productId: item.productId,
+          quantity: item.quantity,
+          unitPrice: item.unitPrice,
+          taxRate: item.taxRate,
+          discount: item.discount,
+          subtotal: item.subtotal,
+          taxAmount: item.taxAmount,
+          totalAmount: item.totalAmount,
+        },
+        update: {},
+      });
+    }
+  }
+
+  // Invoices - 100 invoices with different statuses
+  const invoiceStatuses = ["DRAFT", "SENT", "PARTIAL", "PAID", "OVERDUE", "CANCELLED"];
+  
+  const invoicesData = [];
+  for (let i = 0; i < 100; i++) {
+    const customer = allCustomers[i % allCustomers.length];
+    const order = ordersData[i % ordersData.length];
+    const product1 = productsData[i % productsData.length];
+    const product2 = productsData[(i + 1) % productsData.length];
+    
+    const qty1 = Math.floor(Math.random() * 5) + 1;
+    const qty2 = Math.floor(Math.random() * 3) + 1;
+    
+    const price1 = parseFloat(product1.salePrice);
+    const price2 = parseFloat(product2.salePrice);
+    
+    const subtotal1 = qty1 * price1;
+    const subtotal2 = qty2 * price2;
+    
+    const tax1 = subtotal1 * 0.18;
+    const tax2 = subtotal2 * 0.18;
+    
+    const total1 = subtotal1 + tax1;
+    const total2 = subtotal2 + tax2;
+    
+    const subtotal = subtotal1 + subtotal2;
+    const taxAmount = tax1 + tax2;
+    const totalAmount = subtotal + taxAmount;
+    
+    const invoiceDate = new Date();
+    invoiceDate.setDate(invoiceDate.getDate() - Math.floor(Math.random() * 60));
+    
+    const dueDate = new Date(invoiceDate);
+    dueDate.setDate(dueDate.getDate() + 30);
+    
+    const status = invoiceStatuses[i % invoiceStatuses.length] as any;
+    const paidAmount = status === "PAID" ? String(totalAmount) : status === "PARTIAL" ? String(totalAmount * (Math.random() * 0.5 + 0.25)) : "0";
+    const remainingAmount = String(totalAmount - parseFloat(paidAmount));
+    
+    invoicesData.push({
+      invoiceNumber: `INV-${String(i + 1).padStart(6, "0")}`,
+      customerId: customer.id,
+      orderId: order.orderNumber,
+      invoiceDate: invoiceDate,
+      dueDate: dueDate,
+      status: status,
+      subtotal: subtotal.toFixed(2),
+      taxAmount: taxAmount.toFixed(2),
+      discountAmount: (Math.random() > 0.8 ? Math.floor(Math.random() * 500) : 0).toFixed(2),
+      totalAmount: totalAmount.toFixed(2),
+      paidAmount: paidAmount,
+      remainingAmount: remainingAmount,
+      billingAddress: `${customer.street || ""} ${customer.city || "İstanbul"} ${customer.postalCode || ""}`,
+      shippingAddress: `${customer.street || ""} ${customer.city || "İstanbul"} ${customer.postalCode || ""}`,
+      notes: i % 10 === 0 ? "Acil fatura" : "",
+      emailSent: status !== "DRAFT",
+      invoiceItems: [
+        {
+          productId: `seed-prod-${String(i % productsData.length).padStart(3, "0")}`,
+          description: product1.name,
+          quantity: qty1,
+          unitPrice: product1.salePrice,
+          taxRate: "18",
+          discount: "0",
+          subtotal: subtotal1.toFixed(2),
+          taxAmount: tax1.toFixed(2),
+          totalAmount: total1.toFixed(2),
+        },
+        {
+          productId: `seed-prod-${String((i + 1) % productsData.length).padStart(3, "0")}`,
+          description: product2.name,
+          quantity: qty2,
+          unitPrice: product2.salePrice,
+          taxRate: "18",
+          discount: "0",
+          subtotal: subtotal2.toFixed(2),
+          taxAmount: tax2.toFixed(2),
+          totalAmount: total2.toFixed(2),
+        },
+      ],
+    });
+  }
+
+  // Create invoices
+  for (let i = 0; i < invoicesData.length; i++) {
+    const inv = invoicesData[i];
+    const invoice = await prisma.invoice.upsert({
+      where: { id: `seed-invoice-${String(i).padStart(3, "0")}` },
+      create: {
+        id: `seed-invoice-${String(i).padStart(3, "0")}`,
+        companyId: company1.id,
+        invoiceNumber: inv.invoiceNumber,
+        customerId: inv.customerId,
+        orderId: inv.orderId ? `seed-order-${String(i % ordersData.length).padStart(3, "0")}` : null,
+        invoiceDate: inv.invoiceDate,
+        dueDate: inv.dueDate,
+        status: inv.status,
+        subtotal: inv.subtotal,
+        taxAmount: inv.taxAmount,
+        discountAmount: inv.discountAmount,
+        totalAmount: inv.totalAmount,
+        paidAmount: inv.paidAmount,
+        remainingAmount: inv.remainingAmount,
+        billingAddress: inv.billingAddress,
+        shippingAddress: inv.shippingAddress,
+        notes: inv.notes,
+        emailSent: inv.emailSent,
+        isActive: true,
+      },
+      update: {},
+    });
+
+    // Create invoice items
+    for (let j = 0; j < inv.invoiceItems.length; j++) {
+      const item = inv.invoiceItems[j];
+      await prisma.invoiceItem.upsert({
+        where: { id: `seed-invoice-item-${String(i).padStart(3, "0")}-${String(j).padStart(2, "0")}` },
+        create: {
+          id: `seed-invoice-item-${String(i).padStart(3, "0")}-${String(j).padStart(2, "0")}`,
+          invoiceId: invoice.id,
+          productId: item.productId,
+          description: item.description,
+          quantity: item.quantity,
+          unitPrice: item.unitPrice,
+          taxRate: item.taxRate,
+          discount: item.discount,
+          subtotal: item.subtotal,
+          taxAmount: item.taxAmount,
+          totalAmount: item.totalAmount,
+        },
+        update: {},
+      });
+    }
+
+    // Create payments for PARTIAL and PAID invoices
+    if (inv.status === "PARTIAL" || inv.status === "PAID") {
+      const paymentAmount = parseFloat(inv.paidAmount);
+      const payment = await prisma.payment.upsert({
+        where: { id: `seed-payment-${String(i).padStart(3, "0")}` },
+        create: {
+          id: `seed-payment-${String(i).padStart(3, "0")}`,
+          companyId: company1.id,
+          invoiceId: invoice.id,
+          paymentDate: new Date(),
+          amount: inv.paidAmount,
+          paymentMethod: "BANK_TRANSFER",
+          reference: `REF-${String(i + 1).padStart(6, "0")}`,
+          notes: "Otomatik ödeme",
+          isActive: true,
+        },
+        update: {},
+      });
+    }
+  }
+
   console.log("✅ Seed tamamlandı:");
   console.log(`   - 3 şirket`);
   console.log(`   - 10 banka`);
@@ -981,6 +1277,8 @@ async function main() {
   console.log(`   - ${notifIndex} bildirim`);
   console.log(`   - 8 ürün kategorisi`);
   console.log(`   - ${productsData.length} ürün`);
+  console.log(`   - ${ordersData.length} sipariş`);
+  console.log(`   - ${invoicesData.length} fatura`);
   console.log(`\n   Giriş bilgileri:`);
   console.log(`   - Company 1: admin@acar-crm.local / Admin123!`);
   console.log(`   - Company 2: manager@acartech.local / Admin123!`);

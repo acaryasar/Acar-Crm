@@ -129,6 +129,7 @@ model Customer {
   tickets      Ticket[]
   appointments Appointment[]
   orders       Order[]
+  invoices     Invoice[]
 
   is_active  Boolean   @default(true)
   deletedAt DateTime? 
@@ -772,6 +773,7 @@ model Product {
   updatedBy   String?
 
   stockMovements StockMovement[]
+  invoiceItems  InvoiceItem[]
   orderItems     OrderItem[]
 
   @@unique([companyId, code])
@@ -875,6 +877,7 @@ model Order {
   updatedBy   String?
 
   orderItems OrderItem[]
+  invoices    Invoice[]
 
   @@unique([companyId, orderNumber])
   @@index([companyId])
@@ -909,4 +912,179 @@ model OrderItem {
 
   @@index([orderId])
   @@index([productId])
+}
+
+// ============================================
+// FATURALAR (INVOICES)
+// ============================================
+
+enum InvoiceStatus {
+  DRAFT           // Taslak
+  SENT            // Gönderildi
+  PARTIAL         // Kısmi Ödendi
+  PAID            // Ödendi
+  OVERDUE         // Vadesi Geçmiş
+  CANCELLED       // İptal Edildi
+}
+
+model Invoice {
+  id            String        @id @default(cuid())
+  companyId     String
+  invoiceNumber String
+  
+  customerId    String
+  customer      Customer      @relation(fields: [customerId], references: [id])
+  
+  orderId       String?
+  order         Order?        @relation(fields: [orderId], references: [id])
+  
+  // Fatura bilgileri
+  invoiceDate   DateTime      @default(now())
+  dueDate       DateTime?
+  status        InvoiceStatus @default(DRAFT)
+  
+  // Tutar bilgileri (Decimal as String for SQLite)
+  subtotal       String
+  taxAmount      String  @default("0")
+  discountAmount String  @default("0")
+  totalAmount    String
+  
+  // Ödeme bilgileri
+  paidAmount     String  @default("0")
+  remainingAmount String
+  
+  // Adres ve notlar
+  billingAddress String?
+  shippingAddress String?
+  notes           String?
+  
+  // Email gönderim bilgileri
+  emailSent      Boolean @default(false)
+  emailSentAt    DateTime?
+  
+  isActive    Boolean   @default(true)
+  isDeleted   Boolean   @default(false)
+  deletedAt   DateTime?
+  deletedBy   String?
+  createdAt   DateTime  @default(now())
+  createdBy   String?
+  updatedAt   DateTime  @updatedAt
+  updatedBy   String?
+
+  invoiceItems InvoiceItem[]
+  payments     Payment[]
+
+  @@unique([companyId, invoiceNumber])
+  @@index([companyId])
+  @@index([customerId])
+  @@index([orderId])
+  @@index([invoiceDate])
+  @@index([status])
+  @@index([deletedAt])
+}
+
+model InvoiceItem {
+  id          String   @id @default(cuid())
+  invoiceId   String
+  invoice     Invoice  @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+  
+  productId   String
+  product     Product  @relation(fields: [productId], references: [id])
+  
+  description String
+  quantity    Int
+  unitPrice   String  // Decimal as String for SQLite
+  taxRate     String  @default("0")  // Decimal as String for SQLite
+  discount    String  @default("0")  // Decimal as String for SQLite
+  
+  // Hesaplanan tutarlar (Decimal as String for SQLite)
+  subtotal    String  // quantity * unitPrice
+  taxAmount   String
+  totalAmount String
+  
+  notes       String?
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([invoiceId])
+  @@index([productId])
+}
+
+model Payment {
+  id          String   @id @default(cuid())
+  companyId   String
+  invoiceId   String
+  invoice     Invoice  @relation(fields: [invoiceId], references: [id])
+  
+  paymentDate DateTime @default(now())
+  amount      String
+  paymentMethod String // CASH, BANK_TRANSFER, CREDIT_CARD, CHECK
+  reference   String?
+  notes       String?
+  
+  isActive    Boolean   @default(true)
+  isDeleted   Boolean   @default(false)
+  deletedAt   DateTime?
+  deletedBy   String?
+  createdAt   DateTime  @default(now())
+  createdBy   String?
+  updatedAt   DateTime  @updatedAt
+  updatedBy   String?
+
+  @@index([companyId])
+  @@index([invoiceId])
+  @@index([paymentDate])
+  @@index([deletedAt])
+}
+
+// ============================================
+// PRIM KURALLARI (COMMISSION RULES)
+// ============================================
+
+enum CommissionType {
+  PERCENTAGE  // Yüzde
+  FIXED       // Sabit
+  TIERED      // Kademeli
+}
+
+enum CalculationPeriod {
+  DAILY       // Günlük
+  WEEKLY      // Haftalık
+  MONTHLY     // Aylık
+  QUARTERLY   // Çeyreklik
+  YEARLY      // Yıllık
+}
+
+model CommissionRule {
+  id              String         @id @default(cuid())
+  companyId       String
+  
+  name            String
+  description     String?
+  
+  commissionType  CommissionType @default(PERCENTAGE)
+  commissionRate  String         @default("0")  // Decimal as String for SQLite
+  fixedAmount     String         @default("0")  // Decimal as String for SQLite
+  
+  productCategoryId String?
+  salesTarget     String         @default("0")  // Decimal as String for SQLite
+  calculationPeriod CalculationPeriod @default(MONTHLY)
+  
+  effectiveDate   DateTime       @default(now())
+  expiryDate      DateTime?
+  
+  isActive        Boolean        @default(true)
+  isDeleted       Boolean        @default(false)
+  deletedAt       DateTime?
+  deletedBy       String?
+  
+  createdAt       DateTime       @default(now())
+  createdBy       String?
+  updatedAt       DateTime       @updatedAt
+  updatedBy       String?
+
+  @@index([companyId])
+  @@index([deletedAt])
+  @@index([effectiveDate])
 }

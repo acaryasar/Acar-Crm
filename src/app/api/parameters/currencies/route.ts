@@ -41,6 +41,7 @@ export async function POST(request: Request) {
       data: {
         code: code.toUpperCase().trim(),
         name: name.trim(),
+        symbol: code.toUpperCase().trim(), // Default to code
         isDeleted: isDeleted ?? false,
         createdBy: session.user?.id,
       },

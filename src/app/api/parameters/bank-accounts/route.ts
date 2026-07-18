@@ -31,7 +31,7 @@ export async function POST(request: Request) {
     }
 
     const body = await request.json();
-    const { bankId, currencyId, iban, swiftNumber, isDeleted } = body;
+    const { bankId, currencyId, currencyCode, iban, swiftNumber, isDeleted } = body;
 
     if (!bankId) {
       return failure('Bank is required', 400);
@@ -53,6 +53,7 @@ export async function POST(request: Request) {
       data: {
         bankId,
         currencyId,
+        currencyCode: currencyCode || 'TRY',
         iban: iban.trim().toUpperCase(),
         swiftNumber: swiftNumber.trim().toUpperCase(),
         isDeleted: isDeleted ?? false,

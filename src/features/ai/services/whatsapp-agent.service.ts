@@ -424,8 +424,8 @@ Eksik bilgileri sırayla iste. Her seferinde SADECE bir şey sor. Kısa ve doğa
       this.state.customerId = customer.id;
       this.state.firstName = customer.firstName;
       this.state.lastName = customer.lastName;
-      this.state.phone = customer.phone;
-      this.state.email = customer.email;
+      this.state.phone = customer.phone ?? undefined;
+      this.state.email = customer.email ?? undefined;
 
       // Log activity
       await prisma.activityLog.create({

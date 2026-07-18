@@ -26,7 +26,7 @@ import { useRouter } from 'next/navigation';
 
 interface CustomerType {
   id: string;
-  typeName: string;
+  name: string;
   isDeleted: boolean;
   deletedAt: Date | null;
   deletedBy: string | null;
@@ -47,7 +47,7 @@ export function CustomerTypeList({ customerTypes }: CustomerTypeListProps) {
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
   const filteredCustomerTypes = customerTypes.filter(
-    (ct) => ct.typeName.toLowerCase().includes(searchTerm.toLowerCase())
+    (ct) => ct.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const handleDelete = async () => {
@@ -70,7 +70,7 @@ export function CustomerTypeList({ customerTypes }: CustomerTypeListProps) {
 
   const handleExportExcel = () => {
     const data = filteredCustomerTypes.map((ct) => ({
-      'Type Name': ct.typeName,
+      'Type Name': ct.name,
       'Active': ct.isDeleted ? 'No' : 'Yes',
       'Created At': new Date(ct.createdAt).toLocaleString(),
     }));
@@ -154,7 +154,7 @@ export function CustomerTypeList({ customerTypes }: CustomerTypeListProps) {
             ) : (
               filteredCustomerTypes.map((customerType) => (
                 <TableRow key={customerType.id}>
-                  <TableCell className="font-medium">{customerType.typeName}</TableCell>
+                  <TableCell className="font-medium">{customerType.name}</TableCell>
                   <TableCell>
                     <span
                       className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${

@@ -351,7 +351,7 @@ export async function updateTicketAssignment(
   }
 
   // Notify customer about changes
-  if (userChanged || appointmentChanged) {
+  if ((userChanged || appointmentChanged) && newAssignedUser) {
     await sendCustomerAssignmentNotification({
       customerId: ticket.customerId,
       companyId,

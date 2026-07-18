@@ -23,7 +23,7 @@ export default async function SalesTypesPage({
     });
   }
 
-  const salesTypes = await prisma.salesType.findMany({
+  const salesTypes = await prisma.saleType.findMany({
     orderBy: {
       createdAt: 'desc',
     },

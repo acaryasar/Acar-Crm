@@ -21,24 +21,24 @@ export async function Sidebar() {
   const companyName = session?.user?.companyId ? await getCompanyName(session.user.companyId) : "Handwerk Assist";
   
   return (
-    <aside className="w-56 bg-slate-950 text-white flex flex-col justify-between">
-      <div>
-        <div className="px-4 py-5 border-b border-slate-800">
-          <div className="flex items-center gap-3">
-            <div className="h-8 w-8 rounded-lg bg-gradient-to-r from-indigo-500 to-violet-500 flex items-center justify-center font-bold text-xs shrink-0">
-              HA
-            </div>
-            <div className="min-w-0">
-              <h2 className="font-bold text-sm truncate">Handwerk Assist</h2>
-              <p className="text-xs text-slate-400 truncate">{companyName}</p>
-            </div>
+    <aside className="w-56 bg-slate-950 text-white flex flex-col h-full">
+      <div className="px-4 py-5 border-b border-slate-800 shrink-0">
+        <div className="flex items-center gap-3">
+          <div className="h-8 w-8 rounded-lg bg-gradient-to-r from-indigo-500 to-violet-500 flex items-center justify-center font-bold text-xs shrink-0">
+            HA
+          </div>
+          <div className="min-w-0">
+            <h2 className="font-bold text-sm truncate">Handwerk Assist</h2>
+            <p className="text-xs text-slate-400 truncate">{companyName}</p>
           </div>
         </div>
+      </div>
 
+      <div className="flex-1 overflow-y-auto sidebar-scrollbar">
         <SidebarNav role={session?.user?.role} />
       </div>
 
-      <div className="border-t border-slate-800 px-4 py-4">
+      <div className="border-t border-slate-800 px-4 py-4 shrink-0">
         <div className="flex justify-center">
           <div className="text-center">
             <p className="text-sm font-medium">

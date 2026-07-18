@@ -89,7 +89,8 @@
       "PHONE": "📞 Telefon Araması",
       "WHATSAPP": "💬 WhatsApp Bot",
       "EMAIL": "✉️ E-posta Analiz",
-      "WEB": "🌐 Web"
+      "WEB": "🌐 Web",
+      "WEB_CHAT": "💬 Web Chat"
     },
     "priorities": {
       "LOW": "Düşük",

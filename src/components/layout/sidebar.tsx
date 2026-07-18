@@ -9,7 +9,7 @@ const getCompanyName = unstable_cache(
       where: { id: companyId },
       select: { name: true },
     });
-    return company?.name ?? "Handwerk Assist";
+    return company?.name ?? "CRM";
   },
   ["company-name"],
   { revalidate: 3600 }
@@ -18,18 +18,17 @@ const getCompanyName = unstable_cache(
 export async function Sidebar() {
   const session = await getSession();
   
-  const companyName = session?.user?.companyId ? await getCompanyName(session.user.companyId) : "Handwerk Assist";
+  const companyName = session?.user?.companyId ? await getCompanyName(session.user.companyId) : "CRM";
   
   return (
     <aside className="w-56 bg-slate-950 text-white flex flex-col h-full">
       <div className="px-4 py-5 border-b border-slate-800 shrink-0">
         <div className="flex items-center gap-3">
           <div className="h-8 w-8 rounded-lg bg-gradient-to-r from-indigo-500 to-violet-500 flex items-center justify-center font-bold text-xs shrink-0">
-            HA
+            AC
           </div>
           <div className="min-w-0">
-            <h2 className="font-bold text-sm truncate">Handwerk Assist</h2>
-            <p className="text-xs text-slate-400 truncate">{companyName}</p>
+            <h2 className="font-bold text-sm truncate">CRM</h2>
           </div>
         </div>
       </div>

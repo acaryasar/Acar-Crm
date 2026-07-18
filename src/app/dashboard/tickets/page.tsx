@@ -33,7 +33,7 @@ export default async function TicketsPage({
   const deletedAt = null;
 
   let ticket = null;
-  let appointments = [];
+  let appointments: { id: string; startAt: Date; endAt: Date; title: string; status: string }[] = [];
 
   if ((mode === "edit" || mode === "view") && ticketId) {
     ticket = await prisma.ticket.findUnique({

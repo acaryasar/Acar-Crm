@@ -1,5 +1,6 @@
 import "./globals.css";
 import { Inter } from "next/font/google";
+import type { Metadata } from "next";
 
 import { I18nProvider } from "@/i18n/provider";
 
@@ -8,6 +9,14 @@ const inter = Inter({
   variable: "--font-sans",
   display: "swap",
 });
+
+export const metadata: Metadata = {
+  title: {
+    default: "Acar CRM",
+    template: "%s | Acar CRM",
+  },
+  description: "AI-powered business management system",
+};
 
 export default function RootLayout({
   children,

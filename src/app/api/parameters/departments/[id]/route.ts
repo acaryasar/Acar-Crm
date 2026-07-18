@@ -28,8 +28,7 @@ export async function PUT(
     const department = await prisma.department.update({
       where: { id },
       data: {
-        departmentName: departmentName.trim(),
-        departmentUpper: departmentUpper.trim().toUpperCase(),
+        name: departmentName.trim(),
         isDeleted,
       },
     });

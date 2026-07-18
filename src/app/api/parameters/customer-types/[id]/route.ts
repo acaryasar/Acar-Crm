@@ -24,7 +24,7 @@ export async function PUT(
     const customerType = await prisma.customerType.update({
       where: { id },
       data: {
-        typeName: typeName.trim(),
+        name: typeName.trim(),
         isDeleted,
         updatedBy: session.user?.id,
       },

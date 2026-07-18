@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { cookies } from "next/headers";
 import { LOCALE_STORAGE_KEY, isLocale, defaultLocale, messages } from "@/i18n/config";
 import { Mail, CheckCircle2, Clock } from "lucide-react";
+import type { EmailInbox } from "@prisma/client";
 
 export default async function InboxPage() {
   const cookieStore = await cookies();
@@ -14,7 +15,7 @@ export default async function InboxPage() {
     take: 50,
   });
 
-  const unread = emails.filter((e) => !e.processed).length;
+  const unread = emails.filter((e: EmailInbox) => !e.processed).length;
 
   return (
     <div className="space-y-6">
@@ -53,7 +54,7 @@ export default async function InboxPage() {
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
-              {emails.map((email) => (
+              {emails.map((email: EmailInbox) => (
                 <tr key={email.id} className={`hover:bg-slate-50 transition-colors ${!email.processed ? "bg-blue-50/40" : ""}`}>
                   <td className="px-6 py-4">
                     <span className={`text-sm ${!email.processed ? "font-semibold text-slate-800" : "text-slate-600"}`}>

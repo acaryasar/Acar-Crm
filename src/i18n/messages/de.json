@@ -54,11 +54,18 @@
     "employees": "Mitarbeiter",
     "employeesDescription": "Mitarbeiter verwalten",
     "activityLogs": "Aktivitätsprotokolle",
-    "activityLogsDescription": "Systemaktivitätsprotokolle anzeigen"
+    "activityLogsDescription": "Systemaktivitätsprotokolle anzeigen",
+    "products": "Produkte",
+    "productsDescription": "Produktverwaltung",
+    "stock": "Lagerbestand",
+    "stockDescription": "Lagerstatus und Bewegungen",
+    "orders": "Verkäufe / Bestellungen",
+    "ordersDescription": "Verkaufs- und Bestellverwaltung"
   },
 
   "tickets": {
     "title": "Tickets",
+    "tickettitle": "Tickettitel",
     "search": "Ticket suchen",
     "status": "Status",
     "priority": "Priorität",
@@ -88,7 +95,8 @@
       "PHONE": "📞 Telefonanruf",
       "WHATSAPP": "💬 WhatsApp Bot",
       "EMAIL": "✉️ E-Mail-Analyse",
-      "WEB": "🌐 Web"
+      "WEB": "🌐 Web",
+      "WEB_CHAT": "💬 Web-Chat"
     },
     "priorities": {
       "LOW": "Niedrig",
@@ -154,6 +162,9 @@
     "newCompany": "Neues Unternehmen",
     "new": "Neues",
     "newCompanySubtitle": "Fügen Sie ein neues Unternehmen zu Ihrem Arbeitsbereich hinzu",
+    "createCompanyDesc": "Füllen Sie die Informationen aus, um ein neues Unternehmen zu erstellen",
+    "editCompany": "Unternehmen bearbeiten",
+    "viewCompany": "Unternehmen anzeigen",
     "backToCompanies": "Zurück zu Unternehmen",
     "search": "Unternehmen suchen...",
     "noCompaniesFound": "Keine Unternehmen gefunden",
@@ -300,7 +311,7 @@
     "yes": "Ja",
     "no": "Nein",
     "view": "Anzeigen",
-    "edit": "Unternehmen bearbeiten",
+    "edit": "Bearbeiten",
 
     "deleteTitle": "Datensatz löschen",
     "deleteDescription": "Dieser Datensatz wird gelöscht. Diese Aktion kann nicht rückgängig gemacht werden.",

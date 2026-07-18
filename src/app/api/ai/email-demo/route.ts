@@ -149,7 +149,7 @@ async function createCustomerTicketAppointment(session: DemoSession, companyId: 
         lastName: session.data.lastName || "User",
         email: session.data.email || "demo@example.com",
         phone: session.data.phone || "+905555555555",
-        isActive: true,
+        is_active: true,
       }
     });
 
@@ -162,6 +162,7 @@ async function createCustomerTicketAppointment(session: DemoSession, companyId: 
         description: session.data.description || "Email üzerinden gelen talep",
         source: "EMAIL",
         status: "NEW",
+        category: "OTHER",
         priority: (session.data.priority as any) || "MEDIUM",
       }
     });
@@ -174,12 +175,17 @@ async function createCustomerTicketAppointment(session: DemoSession, companyId: 
 
     // Create appointment if date provided
     if (session.data.appointmentDate) {
+      const appointmentDate = new Date(session.data.appointmentDate);
+      const endDate = new Date(appointmentDate.getTime() + 60 * 60 * 1000); // 1 hour later
+      
       await prisma.appointment.create({
         data: {
           companyId,
           customerId: customer.id,
-          ticketId: ticket.id,
-          appointmentDate: new Date(session.data.appointmentDate),
+          title: "Email Randevusu",
+          description: session.data.description || "Email üzerinden gelen randevu",
+          startAt: appointmentDate,
+          endAt: endDate,
           status: "PLANNED",
         }
       });

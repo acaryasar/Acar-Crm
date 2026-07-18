@@ -21,7 +21,7 @@ export async function PUT(
       return failure('Name must be at least 2 characters', 400);
     }
 
-    const salesType = await prisma.salesType.update({
+    const salesType = await prisma.saleType.update({
       where: { id },
       data: {
         name: name.trim(),
@@ -49,7 +49,7 @@ export async function DELETE(
 
     const { id } = await params;
 
-    await prisma.salesType.delete({
+    await prisma.saleType.delete({
       where: { id },
     });
 

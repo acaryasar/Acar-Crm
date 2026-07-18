@@ -25,7 +25,7 @@ export default async function DepartmentsPage({
 
   const departments = await prisma.department.findMany({
     orderBy: {
-      departmentName: 'asc',
+      name: 'asc',
     },
   });
 

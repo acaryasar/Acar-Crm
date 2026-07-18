@@ -12,14 +12,6 @@ export async function getTicket(
       customer: true,
       company: true,
       assignedUser: true,
-      appointments: {
-        where: {
-          status: "PLANNED",
-        },
-        orderBy: {
-          startAt: "asc",
-        },
-      },
     },
   });
 }

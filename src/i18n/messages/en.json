@@ -54,11 +54,18 @@
     "employees": "Employees",
     "employeesDescription": "Manage employees",
     "activityLogs": "Activity Logs",
-    "activityLogsDescription": "View system activity logs"
+    "activityLogsDescription": "View system activity logs",
+    "products": "Products",
+    "productsDescription": "Product management",
+    "stock": "Stock",
+    "stockDescription": "Stock status and movements",
+    "orders": "Sales / Orders",
+    "ordersDescription": "Sales and order management"
   },
 
   "tickets": {
     "title": "Tickets",
+    "tickettitle": "Ticket Title",
     "search": "Search",
     "status": "Status",
     "priority": "Priority",
@@ -88,7 +95,8 @@
       "PHONE": "📞 Phone Call",
       "WHATSAPP": "💬 WhatsApp Bot",
       "EMAIL": "✉️ Email Analysis",
-      "WEB": "🌐 Web"
+      "WEB": "🌐 Web",
+      "WEB_CHAT": "💬 Web Chat"
     },
     "priorities": {
       "LOW": "Low",
@@ -140,7 +148,7 @@
     "firstName": "First Name",
     "lastName": "Last Name",
     "isActive": "State",
-    "active": "Aktive",
+    "active": "Active",
     "passive": "Inactive",
     "deleted": "Deleted",
     "deleteCustomer": "Deleted",
@@ -154,6 +162,9 @@
     "newCompany": "New Company",
     "new": "New",
     "newCompanySubtitle": "Add a new company to your workspace",
+    "createCompanyDesc": "Fill in the information to create a new company",
+    "editCompany": "Edit Company",
+    "viewCompany": "View Company",
     "backToCompanies": "Back to Companies",
     "search": "Search company...",
     "noCompaniesFound": "No companies found",
@@ -167,7 +178,7 @@
     "save": "Save Company",
     "edit": "Edit Company",
     "isActive": "State",
-    "active": "Aktive",
+    "active": "Active",
     "passive": "Inactive",
     "deleted": "Deleted",
     "basicInfo": "Basic Information",
@@ -209,7 +220,7 @@
     "lastName": "Last Name",
     "password": "Password",
     "isActive": "State",
-    "active": "Aktive",
+    "active": "Active",
     "passive": "Inactive",
     "deleted": "Deleted",
     "actions": "Actions"

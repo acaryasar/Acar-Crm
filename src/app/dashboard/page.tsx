@@ -5,6 +5,17 @@ import { requireRole, isAdmin, isAdminOrSupervisor } from "@/lib/auth-guard";
 import { prisma } from "@/lib/prisma";
 import { Users, UserRound, Ticket, Calendar, Home } from "lucide-react";
 import Link from "next/link";
+import type { Metadata } from "next";
+import { createPageMetadata, routes } from "@/config/routes";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const cookieStore = await cookies();
+  const localeCookie = cookieStore.get(LOCALE_STORAGE_KEY);
+  const locale = localeCookie && isLocale(localeCookie.value) ? localeCookie.value : defaultLocale;
+  const title = messages[locale].dashboard.title;
+  
+  return createPageMetadata("dashboard", title);
+}
 
 export default async function DashboardPage() {
   const cookieStore = await cookies();
@@ -44,10 +55,10 @@ export default async function DashboardPage() {
     ]);
 
   const kpis = [
-    { label: t("customers"),    value: customerCount,    icon: UserRound, color: "text-indigo-600 bg-indigo-50",   href: "/dashboard/customers", roles: ["ADMIN", "SUPERVISOR"]},
-    { label: t("tickets"),      value: ticketCount,      icon: Ticket,    color: "text-orange-600 bg-orange-50",   href: "/dashboard/tickets" },
-    { label: t("users"),        value: userCount,        icon: Users,     color: "text-slate-600  bg-slate-100",   href: "/dashboard/users", roles: ["ADMIN", "SUPERVISOR"]},
-    { label: t("appointments"), value: appointmentCount, icon: Calendar,  color: "text-emerald-600 bg-emerald-50", href: "/dashboard/appointments" },
+    { label: t("customers"),    value: customerCount,    icon: UserRound, color: "text-indigo-600 bg-indigo-50",   href: routes.dashboard.customers, roles: ["ADMIN", "SUPERVISOR"]},
+    { label: t("tickets"),      value: ticketCount,      icon: Ticket,    color: "text-orange-600 bg-orange-50",   href: routes.dashboard.tickets },
+    { label: t("users"),        value: userCount,        icon: Users,     color: "text-slate-600  bg-slate-100",   href: routes.dashboard.users, roles: ["ADMIN", "SUPERVISOR"]},
+    { label: t("appointments"), value: appointmentCount, icon: Calendar,  color: "text-emerald-600 bg-emerald-50", href: routes.dashboard.appointments },
   ];
 
   return (
@@ -86,7 +97,7 @@ export default async function DashboardPage() {
         <div className="rounded-xl bg-white p-5 shadow-sm border border-slate-100">
           <div className="flex items-center justify-between mb-4">
             <p className="text-sm font-semibold text-slate-700">{t("recentTickets")}</p>
-            <Link href="/dashboard/tickets" className="text-xs text-indigo-600 hover:text-indigo-700 font-medium">
+            <Link href={routes.dashboard.tickets} className="text-xs text-indigo-600 hover:text-indigo-700 font-medium">
               {t("viewAll")}
             </Link>
           </div>

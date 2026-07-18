@@ -2,19 +2,28 @@ import { prisma } from "@/lib/prisma";
 import { auth } from "@/auth";
 import Link from "next/link";
 import { Bell } from "lucide-react";
+import { unstable_cache } from "next/cache";
+
+const getNotificationCount = unstable_cache(
+  async (companyId: string, userId: string) => {
+    return await prisma.notification.count({
+      where: {
+        companyId,
+        userId,
+        isRead: false,
+      },
+    });
+  },
+  ["notification-count"],
+  { revalidate: 60, tags: ["notifications"] }
+);
 
 export async function NotificationBell() {
   const session = await auth();
 
   if (!session?.user) return null;
 
-  const count = await prisma.notification.count({
-    where: {
-      companyId: session.user.companyId,
-      userId:session.user.id,
-      isRead: false,
-    },
-  });
+  const count = await getNotificationCount(session.user.companyId, session.user.id);
 
   return (
     <Link

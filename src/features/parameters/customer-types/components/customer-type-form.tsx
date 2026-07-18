@@ -10,7 +10,7 @@ import Link from 'next/link';
 
 interface CustomerType {
   id: string;
-  typeName: string;
+  name: string;
   isDeleted: boolean;
   deletedAt: Date | null;
   deletedBy: string | null;
@@ -28,16 +28,16 @@ interface CustomerTypeFormProps {
 export function CustomerTypeForm({ mode, customerType }: CustomerTypeFormProps) {
   const router = useRouter();
   const [formData, setFormData] = useState({
-    typeName: customerType?.typeName || '',
+    name: customerType?.name || '',
     isDeleted: customerType?.isDeleted ?? false,
   });
-  const [errors, setErrors] = useState<{ typeName?: string }>({});
+  const [errors, setErrors] = useState<{ name?: string }>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const validateForm = () => {
-    const newErrors: { typeName?: string } = {};
-    if (!formData.typeName || formData.typeName.trim().length < 2) {
-      newErrors.typeName = 'Type name must be at least 2 characters';
+    const newErrors: { name?: string } = {};
+    if (!formData.name || formData.name.trim().length < 2) {
+      newErrors.name = 'Type name must be at least 2 characters';
     }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -61,7 +61,7 @@ export function CustomerTypeForm({ mode, customerType }: CustomerTypeFormProps) 
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          typeName: formData.typeName,
+          name: formData.name,
           isDeleted: formData.isDeleted,
         }),
       });
@@ -100,7 +100,7 @@ export function CustomerTypeForm({ mode, customerType }: CustomerTypeFormProps) 
               {mode === 'create' ? 'New Customer Type' : mode === 'edit' ? 'Edit Customer Type' : 'View Customer Type'}
             </h1>
             <p className="text-sm text-slate-500">
-              {mode === 'create' ? 'Create a new customer type' : customerType?.typeName || ''}
+              {mode === 'create' ? 'Create a new customer type' : customerType?.name || ''}
             </p>
           </div>
         </div>
@@ -145,19 +145,19 @@ export function CustomerTypeForm({ mode, customerType }: CustomerTypeFormProps) 
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-2">
-                <label htmlFor="typeName" className="text-sm font-medium text-slate-700">
+                <label htmlFor="name" className="text-sm font-medium text-slate-700">
                   Type Name <span className="text-red-500">*</span>
                 </label>
                 <Input
-                  id="typeName"
-                  value={formData.typeName}
-                  onChange={(e) => setFormData({ ...formData, typeName: e.target.value })}
+                  id="name"
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   disabled={isViewMode || isSubmitting}
                   placeholder="Enter customer type name"
-                  className={errors.typeName ? 'border-red-500' : ''}
+                  className={errors.name ? 'border-red-500' : ''}
                 />
-                {errors.typeName && (
-                  <p className="text-sm text-red-500">{errors.typeName}</p>
+                {errors.name && (
+                  <p className="text-sm text-red-500">{errors.name}</p>
                 )}
               </div>
 

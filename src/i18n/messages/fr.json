@@ -54,11 +54,18 @@
     "employees": "Employés",
     "employeesDescription": "Gérer les employés",
     "activityLogs": "Journaux d'activité",
-    "activityLogsDescription": "Voir les journaux d'activité du système"
+    "activityLogsDescription": "Voir les journaux d'activité du système",
+    "products": "Produits",
+    "productsDescription": "Gestion des produits",
+    "stock": "Stock",
+    "stockDescription": "État et mouvements de stock",
+    "orders": "Ventes / Commandes",
+    "ordersDescription": "Gestion des ventes et commandes"
   },
 
   "tickets": {
     "title": "Tickets",
+    "tickettitle": "Titre du Ticket",
     "search": "Rechercher",
     "status": "Statut",
     "priority": "Priorité",
@@ -88,7 +95,8 @@
       "PHONE": "📞 Appel téléphonique",
       "WHATSAPP": "💬 Bot WhatsApp",
       "EMAIL": "✉️ Analyse e-mail",
-      "WEB": "🌐 Web"
+      "WEB": "🌐 Web",
+      "WEB_CHAT": "💬 Chat Web"
     },
     "priorities": {
       "LOW": "Faible",
@@ -154,6 +162,9 @@
     "newCompany": "Nouvelle Entreprise",
     "new": "Nouveau",
     "newCompanySubtitle": "Ajoutez une nouvelle entreprise à votre espace de travail",
+    "createCompanyDesc": "Remplissez les informations pour créer une nouvelle entreprise",
+    "editCompany": "Modifier l'Entreprise",
+    "viewCompany": "Voir l'Entreprise",
     "backToCompanies": "Retour aux Entreprises",
     "search": "Rechercher une entreprise...",
     "noCompaniesFound": "Aucune entreprise trouvée",
@@ -300,7 +311,7 @@
     "yes": "Oui",
     "no": "Non",
     "view": "Voir",
-    "edit": "Modifier l'Entreprise",
+    "edit": "Modifier",
 
     "deleteTitle": "Supprimer l'enregistrement",
     "deleteDescription": "Cet enregistrement sera supprimé. Cette action est irréversible.",

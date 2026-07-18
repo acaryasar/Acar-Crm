@@ -54,7 +54,7 @@ export async function Topbar() {
           </div>
         </div>
 
-        <LogoutButton />
+        <LogoutButton label={t("logout")} />
       </div>
     </header>
   );

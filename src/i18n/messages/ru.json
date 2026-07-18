@@ -54,11 +54,18 @@
     "employees": "Сотрудники",
     "employeesDescription": "Управление сотрудниками",
     "activityLogs": "Журналы активности",
-    "activityLogsDescription": "Просмотр журналов активности системы"
+    "activityLogsDescription": "Просмотр журналов активности системы",
+    "products": "Товары",
+    "productsDescription": "Управление товарами",
+    "stock": "Склад",
+    "stockDescription": "Состояние и движение товаров",
+    "orders": "Продажи / Заказы",
+    "ordersDescription": "Управление продажами и заказами"
   },
 
   "tickets": {
     "title": "Заявки",
+    "tickettitle": "Заголовок заявки",
     "search": "Поиск заявок",
     "status": "Статус",
     "priority": "Приоритет",
@@ -88,7 +95,8 @@
       "PHONE": "📞 Телефонный звонок",
       "WHATSAPP": "💬 WhatsApp Бот",
       "EMAIL": "✉️ Анализ электронной почты",
-      "WEB": "🌐 Веб"
+      "WEB": "🌐 Веб",
+      "WEB_CHAT": "💬 Веб-чат"
     },
     "priorities": {
       "LOW": "Низкий",
@@ -154,6 +162,9 @@
     "newCompany": "Новая Компания",
     "new": "Новая",
     "newCompanySubtitle": "Добавьте новую компанию в вашу рабочую область",
+    "createCompanyDesc": "Заполните информацию для создания новой компании",
+    "editCompany": "Редактировать Компанию",
+    "viewCompany": "Просмотреть Компанию",
     "backToCompanies": "Вернуться к Компаниям",
     "search": "Поиск компании...",
     "noCompaniesFound": "Компании не найдены",
@@ -324,7 +335,7 @@
     "entities": {
       "customer": "Клиент",
       "user": "Пользователь",
-      "ticket": "Тикет",
+      "ticket": "Заявка",
       "company": "Компания",
       "appointment": "Встреча",
       "quote": "Предложение",
@@ -345,7 +356,7 @@
     "entities": {
       "customer": "Клиент",
       "user": "Пользователь",
-      "ticket": "Тикет",
+      "ticket": "Заявка",
       "company": "Компания",
       "appointment": "Встреча",
       "quote": "Предложение",

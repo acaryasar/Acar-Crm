@@ -2,7 +2,17 @@
 
 import { useTranslations } from "next-intl";
 import { useState, useEffect } from "react";
-import { Calculator, Calendar, User, FileText, TrendingUp, Eye, X } from "lucide-react";
+import { Calculator, Calendar, User, FileText, TrendingUp, Eye, X, AlertCircle } from "lucide-react";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 export function CommissionCalculationForm() {
   const t = useTranslations("commission");
@@ -15,6 +25,8 @@ export function CommissionCalculationForm() {
   const [users, setUsers] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [selectedUserForDetail, setSelectedUserForDetail] = useState<any>(null);
+  const [showValidationDialog, setShowValidationDialog] = useState(false);
+  const [showErrorDialog, setShowErrorDialog] = useState(false);
 
   // Generate months for current year
   const currentYear = new Date().getFullYear();
@@ -64,7 +76,7 @@ export function CommissionCalculationForm() {
 
   const handleCalculate = async () => {
     if (!selectedUser || !selectedRule) {
-      alert("Lütfen kullanıcı ve kural seçin");
+      setShowValidationDialog(true);
       return;
     }
 
@@ -89,7 +101,7 @@ export function CommissionCalculationForm() {
       }
     } catch (error) {
       console.error("Error calculating commission:", error);
-      alert("Hesaplama başarısız oldu");
+      setShowErrorDialog(true);
     } finally {
       setLoading(false);
     }
@@ -523,6 +535,46 @@ export function CommissionCalculationForm() {
           <p className="text-sm">{t("noData")}</p>
         </div>
       )}
+
+      {/* Validation Dialog */}
+      <AlertDialog open={showValidationDialog} onOpenChange={setShowValidationDialog}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <div className="flex items-center gap-2">
+              <AlertCircle className="h-5 w-5 text-amber-600" />
+              <AlertDialogTitle>Eksik Bilgi</AlertDialogTitle>
+            </div>
+            <AlertDialogDescription>
+              Lütfen kullanıcı ve kural seçin
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogAction onClick={() => setShowValidationDialog(false)}>
+              Tamam
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      {/* Error Dialog */}
+      <AlertDialog open={showErrorDialog} onOpenChange={setShowErrorDialog}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <div className="flex items-center gap-2">
+              <AlertCircle className="h-5 w-5 text-red-600" />
+              <AlertDialogTitle>Hata</AlertDialogTitle>
+            </div>
+            <AlertDialogDescription>
+              Hesaplama başarısız oldu
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogAction onClick={() => setShowErrorDialog(false)}>
+              Tamam
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }

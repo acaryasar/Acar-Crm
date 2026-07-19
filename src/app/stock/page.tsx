@@ -7,6 +7,7 @@ import { BarChart3, Plus, ArrowLeft, Edit, Save } from "lucide-react";
 import { StockTable } from "@/features/stock/components/stock-table";
 import { StockForm } from "@/features/stock/components/stock-form";
 import { StockSearch } from "@/features/stock/components/stock-search";
+import { StockStatsCards } from "@/features/stock/components/stock-stats-cards";
 
 export default async function StockPage({
   searchParams,
@@ -147,7 +148,6 @@ export default async function StockPage({
           </div>
           <div>
             <h1 className="text-2xl font-bold text-slate-800">{t("title")}</h1>
-            <p className="text-sm text-slate-500">{products.length} {t("products").toLowerCase()}</p>
           </div>
         </div>
 
@@ -161,6 +161,10 @@ export default async function StockPage({
             {t("newMovement")}
           </Link>
         </div>
+      </div>
+
+      <div className="mb-6 shrink-0">
+        <StockStatsCards />
       </div>
 
       <div className="flex-1 min-h-0">

@@ -23,11 +23,6 @@ const sessions = new Map<string, DemoSession>();
 export async function POST(req: NextRequest) {
   try {
     const session = await auth();
-    const companyId = (session?.user as any)?.companyId;
-
-    if (!companyId) {
-      return NextResponse.json({ error: "Unauthorized - No company ID found" }, { status: 401 });
-    }
 
     const { message, sessionId } = await req.json();
 
@@ -41,7 +36,6 @@ export async function POST(req: NextRequest) {
       // Create conversation log for new session
       const conversationLog = await prisma.aIConversationLog.create({
         data: {
-          companyId,
           channelType: "PHONE",
           conversationType: "INITIAL_INQUIRY",
           startTime: new Date(),
@@ -57,7 +51,7 @@ export async function POST(req: NextRequest) {
       sessions.set(sessionId, demoSession);
     }
 
-    const response = await processStep(demoSession, message, companyId);
+    const response = await processStep(demoSession, message);
 
     return NextResponse.json({ answer: response });
   } catch (error) {
@@ -69,7 +63,7 @@ export async function POST(req: NextRequest) {
   }
 }
 
-async function processStep(session: DemoSession, message: string, companyId: string): Promise<string> {
+async function processStep(session: DemoSession, message: string): Promise<string> {
   const lowerMessage = message.toLowerCase().trim();
 
   switch (session.step) {
@@ -125,11 +119,11 @@ async function processStep(session: DemoSession, message: string, companyId: str
     case "appointment_date":
       if (lowerMessage === "hayır" || lowerMessage === "yok" || lowerMessage === "no") {
         session.step = "confirmation";
-        return await createCustomerTicketAppointment(session, companyId);
+        return await createCustomerTicketAppointment(session);
       }
       session.data.appointmentDate = message;
       session.step = "confirmation";
-      return await createCustomerTicketAppointment(session, companyId);
+      return await createCustomerTicketAppointment(session);
 
     case "confirmation":
       session.step = "completed";
@@ -148,12 +142,11 @@ async function processStep(session: DemoSession, message: string, companyId: str
   }
 }
 
-async function createCustomerTicketAppointment(session: DemoSession, companyId: string): Promise<string> {
+async function createCustomerTicketAppointment(session: DemoSession): Promise<string> {
   try {
     // Create customer
     const customer = await prisma.customer.create({
       data: {
-        companyId,
         firstName: session.data.firstName || "Demo",
         lastName: session.data.lastName || "User",
         email: session.data.email || "demo@example.com",
@@ -165,7 +158,6 @@ async function createCustomerTicketAppointment(session: DemoSession, companyId: 
     // Create ticket
     const ticket = await prisma.ticket.create({
       data: {
-        companyId,
         customerId: customer.id,
         title: `${session.data.category || "Genel"} - Telefon Talebi`,
         description: session.data.description || "Telefon araması üzerinden gelen talep",
@@ -189,7 +181,6 @@ async function createCustomerTicketAppointment(session: DemoSession, companyId: 
       
       await prisma.appointment.create({
         data: {
-          companyId,
           customerId: customer.id,
           title: "Telefon Randevusu",
           description: session.data.description || "Telefon araması üzerinden gelen randevu",

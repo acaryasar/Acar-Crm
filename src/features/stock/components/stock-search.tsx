@@ -14,9 +14,9 @@ export function StockSearch() {
 
   useEffect(() => {
     if (debounced) {
-      router.push(`/dashboard/stock?search=${debounced}`);
+      router.push(`/stock?search=${debounced}`);
     } else {
-      router.push("/dashboard/stock");
+      router.push("/stock");
     }
   }, [debounced, router]);
 

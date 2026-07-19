@@ -19,7 +19,6 @@ export async function GET(req: NextRequest) {
           ? {
               name: {
                 contains: search,
-                mode: "insensitive",
               },
             }
           : {}),
@@ -61,7 +60,6 @@ export async function POST(req: NextRequest) {
 
     const rule = await prisma.commissionRule.create({
       data: {
-        companyId: session.user.companyId,
         name,
         description,
         commissionType,

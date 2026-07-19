@@ -10,7 +10,6 @@ export async function getTicket(
 
     include: {
       customer: true,
-      company: true,
       assignedUser: true,
     },
   });

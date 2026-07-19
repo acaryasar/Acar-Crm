@@ -134,7 +134,7 @@ export function BankList({ banks }: BankListProps) {
             Export
           </Button>
           <Button
-            onClick={() => router.push('/dashboard/parameters/banks?mode=create')}
+            onClick={() => router.push('/parameters/banks?mode=create')}
             className="gap-2"
           >
             <Plus size={16} />
@@ -183,7 +183,7 @@ export function BankList({ banks }: BankListProps) {
                       <Button
                         variant="ghost"
                         size="sm"
-                        onClick={() => router.push(`/dashboard/parameters/banks?mode=edit&id=${bank.id}`)}
+                        onClick={() => router.push(`/parameters/banks?mode=edit&id=${bank.id}`)}
                       >
                         <Edit size={16} />
                       </Button>

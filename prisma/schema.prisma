@@ -15,56 +15,6 @@ enum UserRole {
   EMPLOYEE
 }
 
-model Company {
-  id        String   @id @default(cuid())
-  name      String
-  
-  // Fatura bilgileri
-  taxId     String?  // Vergi numarası
-  taxOffice String?  // Vergi dairesi
-  
-  // İletişim bilgileri
-  email     String?
-  phone     String?
-  website   String?
-  
-  // Adres bilgileri
-  street    String?
-  city      String?
-  postalCode String?
-  country   String?
-  
-  // Banka bilgileri
-  bankName  String?
-  iban      String?
-  
-  // Logo
-  logoUrl   String?
-  
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  users         User[]
-  customers     Customer[]
-  tickets       Ticket[]
-  appointments  Appointment[]
-  emails        EmailInbox[]
-  activityLogs  ActivityLog[]
-  notifications Notification[]
-
-  // AI Assistant
-  whatsappMessages WhatsAppMessage[]
-  phoneCalls        PhoneCall[]
-  webChatSessions   WebChatSession[]
-  aiConversationLogs AIConversationLog[]
-
-  // AI asistan konfigürasyonu
-  aiConfig Json?
-
-  is_active  Boolean   @default(true)
-  deletedAt DateTime?
-  @@index([deletedAt])
-}
 
 /**
  * User
@@ -78,8 +28,6 @@ model User {
   lastName  String
   role      UserRole @default(EMPLOYEE)
 
-  companyId       String
-  company         Company         @relation(fields: [companyId], references: [id])
   assignedTickets Ticket[]        @relation("AssignedTickets")
   appointments    Appointment[]
   activityLogs    ActivityLog[]
@@ -93,14 +41,10 @@ model User {
   is_active  Boolean   @default(true)
   deletedAt DateTime? 
   @@index([deletedAt])
-  @@index([companyId])
 }
 
 model Customer {
   id String @id @default(cuid())
-
-  companyId String
-  company   Company @relation(fields: [companyId], references: [id])
 
   firstName String
   lastName  String
@@ -135,7 +79,6 @@ model Customer {
   deletedAt DateTime? 
 
   @@index([deletedAt])
-  @@index([companyId])
   @@index([lastName])
   @@index([email])
   @@index([customerGroup])
@@ -143,9 +86,6 @@ model Customer {
 
 model Ticket {
   id String @id @default(cuid())
-
-  companyId String
-  company   Company @relation(fields: [companyId], references: [id])
 
   customerId String
   customer   Customer @relation(fields: [customerId], references: [id])
@@ -186,7 +126,6 @@ model Ticket {
   deletedAt DateTime?
   @@index([deletedAt])
 
-  @@index([companyId])
   @@index([customerId])
   @@index([assignedUserId])
   @@index([status])
@@ -228,9 +167,6 @@ enum TicketSource {
 model Appointment {
   id String @id @default(cuid())
 
-  companyId String
-  company   Company @relation(fields: [companyId], references: [id])
-
   customerId String
   customer   Customer @relation(fields: [customerId], references: [id])
 
@@ -252,7 +188,6 @@ model Appointment {
   deletedAt DateTime? 
   @@index([deletedAt])
 
-  @@index([companyId])
   @@index([customerId])
   @@index([employeeId])
   @@index([startAt])
@@ -266,9 +201,6 @@ enum AppointmentStatus {
 
 model ActivityLog {
   id String @id @default(cuid())
-
-  companyId String
-  company   Company @relation(fields: [companyId], references: [id])
 
   userId String?
   user   User?   @relation(fields: [userId], references: [id])
@@ -284,7 +216,6 @@ model ActivityLog {
 
   createdAt DateTime @default(now())
 
-  @@index([companyId])
   @@index([userId])
   @@index([entityType])
   @@index([createdAt])
@@ -292,9 +223,6 @@ model ActivityLog {
 
 model EmailInbox {
   id String @id @default(cuid())
-
-  companyId String
-  company   Company @relation(fields: [companyId], references: [id])
 
   messageId String @unique
 
@@ -314,16 +242,12 @@ model EmailInbox {
 
   createdAt DateTime @default(now())
 
-  @@index([companyId])
   @@index([processed])
   @@index([createdAt])
 }
 
 model Notification {
   id String @id @default(cuid())
-
-  companyId String
-  company   Company @relation(fields: [companyId], references: [id])
 
   userId String?
   user   User?   @relation(fields: [userId], references: [id])
@@ -340,7 +264,6 @@ model Notification {
 
   createdAt DateTime @default(now())
 
-  @@index([companyId])
   @@index([userId])
   @@index([isRead])
   @@index([createdAt])
@@ -364,9 +287,6 @@ enum Locale {
 // AI Conversation Log - Ticket ile ilişkilendirilmiş konuşmalar
 model AIConversationLog {
   id String @id @default(cuid())
-
-  companyId String
-  company   Company @relation(fields: [companyId], references: [id])
 
   ticketId String? @unique
   ticket   Ticket? @relation(fields: [ticketId], references: [id])
@@ -396,7 +316,6 @@ model AIConversationLog {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@index([companyId])
   @@index([ticketId])
   @@index([channelType])
   @@index([createdAt])
@@ -413,9 +332,6 @@ enum ConversationType {
 // WhatsApp Message
 model WhatsAppMessage {
   id String @id @default(cuid())
-
-  companyId String
-  company   Company @relation(fields: [companyId], references: [id])
 
   conversationLogId String?
   conversationLog   AIConversationLog? @relation(fields: [conversationLogId], references: [id])
@@ -434,7 +350,6 @@ model WhatsAppMessage {
 
   createdAt DateTime @default(now())
 
-  @@index([companyId])
   @@index([ticketId])
   @@index([phoneNumber])
   @@index([createdAt])
@@ -443,9 +358,6 @@ model WhatsAppMessage {
 // Phone Call
 model PhoneCall {
   id String @id @default(cuid())
-
-  companyId String
-  company   Company @relation(fields: [companyId], references: [id])
 
   conversationLogId String?
   conversationLog   AIConversationLog? @relation(fields: [conversationLogId], references: [id])
@@ -464,7 +376,6 @@ model PhoneCall {
 
   createdAt DateTime @default(now())
 
-  @@index([companyId])
   @@index([ticketId])
   @@index([phoneNumber])
   @@index([createdAt])
@@ -485,9 +396,6 @@ enum CallStatus {
 model WebChatSession {
   id String @id @default(cuid())
 
-  companyId String
-  company   Company @relation(fields: [companyId], references: [id])
-
   conversationLogId String?
   conversationLog   AIConversationLog? @relation(fields: [conversationLogId], references: [id])
 
@@ -506,7 +414,6 @@ model WebChatSession {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@index([companyId])
   @@index([ticketId])
   @@index([sessionId])
   @@index([createdAt])
@@ -721,7 +628,6 @@ enum ProductUnit {
 
 model ProductCategory {
   id          String    @id @default(cuid())
-  companyId   String
   name        String
   description String?
   isActive    Boolean   @default(true)
@@ -735,14 +641,12 @@ model ProductCategory {
 
   products Product[]
 
-  @@index([companyId])
   @@index([deletedAt])
 }
 
 model Product {
   id          String         @id @default(cuid())
-  companyId   String
-  code        String
+  code        String   @unique
   name        String
   description String?
   categoryId  String?
@@ -776,8 +680,6 @@ model Product {
   invoiceItems  InvoiceItem[]
   orderItems     OrderItem[]
 
-  @@unique([companyId, code])
-  @@index([companyId])
   @@index([categoryId])
   @@index([deletedAt])
 }
@@ -795,7 +697,6 @@ enum StockMovementType {
 
 model StockMovement {
   id          String            @id @default(cuid())
-  companyId   String
   productId   String
   product     Product           @relation(fields: [productId], references: [id])
   type        StockMovementType
@@ -814,7 +715,6 @@ model StockMovement {
   createdAt   DateTime  @default(now())
   createdBy   String?
 
-  @@index([companyId])
   @@index([productId])
   @@index([createdAt])
 }
@@ -843,8 +743,7 @@ enum PaymentStatus {
 
 model Order {
   id            String        @id @default(cuid())
-  companyId     String
-  orderNumber   String
+  orderNumber   String   @unique
   
   customerId    String
   customer      Customer      @relation(fields: [customerId], references: [id])
@@ -879,8 +778,6 @@ model Order {
   orderItems OrderItem[]
   invoices    Invoice[]
 
-  @@unique([companyId, orderNumber])
-  @@index([companyId])
   @@index([customerId])
   @@index([orderDate])
   @@index([status])
@@ -929,8 +826,7 @@ enum InvoiceStatus {
 
 model Invoice {
   id            String        @id @default(cuid())
-  companyId     String
-  invoiceNumber String
+  invoiceNumber String   @unique
   
   customerId    String
   customer      Customer      @relation(fields: [customerId], references: [id])
@@ -974,8 +870,6 @@ model Invoice {
   invoiceItems InvoiceItem[]
   payments     Payment[]
 
-  @@unique([companyId, invoiceNumber])
-  @@index([companyId])
   @@index([customerId])
   @@index([orderId])
   @@index([invoiceDate])
@@ -1013,7 +907,6 @@ model InvoiceItem {
 
 model Payment {
   id          String   @id @default(cuid())
-  companyId   String
   invoiceId   String
   invoice     Invoice  @relation(fields: [invoiceId], references: [id])
   
@@ -1032,7 +925,6 @@ model Payment {
   updatedAt   DateTime  @updatedAt
   updatedBy   String?
 
-  @@index([companyId])
   @@index([invoiceId])
   @@index([paymentDate])
   @@index([deletedAt])
@@ -1058,8 +950,6 @@ enum CalculationPeriod {
 
 model CommissionRule {
   id              String         @id @default(cuid())
-  companyId       String
-  
   name            String
   description     String?
   
@@ -1086,7 +976,6 @@ model CommissionRule {
 
   tiers           CommissionTier[]
 
-  @@index([companyId])
   @@index([deletedAt])
   @@index([effectiveDate])
 }

@@ -93,7 +93,7 @@ export function OrderForm({ mode, order }: Props) {
 
     // Recalculate item totals
     const item = updated[index];
-    const qty = parseFloat(item.quantity) || 0;
+    const qty = item.quantity || 0;
     const price = parseFloat(item.unitPrice) || 0;
     const taxRate = parseFloat(item.taxRate) || 0;
     const discount = parseFloat(item.discount) || 0;

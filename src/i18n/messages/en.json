@@ -373,48 +373,6 @@
     }
   },
 
-  "companies": {
-    "title": "Companies",
-    "newCompany": "New Company",
-    "new": "New",
-    "newCompanySubtitle": "Add a new company to your workspace",
-    "createCompanyDesc": "Fill in the information to create a new company",
-    "editCompany": "Edit Company",
-    "viewCompany": "View Company",
-    "backToCompanies": "Back to Companies",
-    "search": "Search company...",
-    "noCompaniesFound": "No companies found",
-    "name": "Company Name",
-    "created": "Created At",
-    "totalUsers": "Total Users",
-    "totalCustomers": "Total Customers",
-    "totalTickets": "Total Tickets",
-    "actions": "Actions",
-    "view": "View",
-    "save": "Save Company",
-    "edit": "Edit Company",
-    "isActive": "State",
-    "active": "Active",
-    "passive": "Inactive",
-    "deleted": "Deleted",
-    "basicInfo": "Basic Information",
-    "invoiceInfo": "Invoice Information",
-    "taxId": "Tax ID",
-    "taxOffice": "Tax Office",
-    "contactInfo": "Contact Information",
-    "email": "Email",
-    "phone": "Phone",
-    "website": "Website",
-    "addressInfo": "Address Information",
-    "street": "Street",
-    "city": "City",
-    "postalCode": "Postal Code",
-    "country": "Country",
-    "bankInfo": "Bank Information",
-    "bankName": "Bank Name",
-    "iban": "IBAN"
-  },
-
   "users": {
     "title": "Users",
     "newUser": "Create User",
@@ -462,8 +420,7 @@
     "viewAll": "View All",
     "noTicketsYet": "No tickets yet",
     "appointments": "Appointments",
-    "users": "Users",
-    "companynotfound": "Company information could not be found"
+    "users": "Users"
   },
 
   "roles": {
@@ -552,7 +509,6 @@
       "customer": "Customer",
       "user": "User",
       "ticket": "Ticket",
-      "company": "Company",
       "appointment": "Appointment",
       "quote": "Quote",
       "invoice": "Invoice"
@@ -567,13 +523,11 @@
     "action": "Action",
     "entityType": "Entity Type",
     "user": "User",
-    "company": "Company",
     "timestamp": "Timestamp",
     "entities": {
       "customer": "Customer",
       "user": "User",
       "ticket": "Ticket",
-      "company": "Company",
       "appointment": "Appointment",
       "quote": "Quote",
       "invoice": "Invoice"
@@ -621,9 +575,6 @@
     "maxValue": "Max Value",
     "tierRate": "Tier Rate (%)",
     "tierOrder": "Order",
-    "calculationTitle": "Commission Calculation",
-    "calculationDescription": "Calculate commissions",
-    "calculationComingSoon": "Commission calculation page coming soon",
     "selectUser": "Select User",
     "selectPeriod": "Select Period",
     "selectRule": "Select Rule",

@@ -14,9 +14,9 @@ export function UserSearch() {
 
   useEffect(() => {
     if (debounced) {
-      router.push(`/dashboard/users?search=${debounced}`);
+      router.push(`/users?search=${debounced}`);
     } else {
-      router.push("/dashboard/users");
+      router.push("/users");
     }
   }, [debounced, router]);
 

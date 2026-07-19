@@ -5,11 +5,9 @@ import { prisma } from "@/lib/prisma";
 export async function GET(request: NextRequest) {
   try {
     const session = await requireRole(["ADMIN", "SUPERVISOR", "MANAGER"]);
-    const companyId = session.user.companyId;
 
     const products = await prisma.product.findMany({
       where: {
-        companyId,
         deletedAt: null,
       },
       include: {

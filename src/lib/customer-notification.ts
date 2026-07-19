@@ -2,7 +2,6 @@ import { prisma } from "@/lib/prisma";
 
 interface CustomerNotificationData {
   customerId: string;
-  companyId: string;
   ticketTitle: string;
   assignedUserName: string;
   appointmentDate: Date;
@@ -16,7 +15,7 @@ interface CustomerNotificationData {
 export async function sendCustomerAssignmentNotification(
   data: CustomerNotificationData
 ) {
-  const { customerId, companyId, ticketTitle, assignedUserName, appointmentDate, ticketId } = data;
+  const { customerId, ticketTitle, assignedUserName, appointmentDate, ticketId } = data;
 
   // Get customer details
   const customer = await prisma.customer.findUnique({
@@ -56,12 +55,12 @@ export async function sendCustomerAssignmentNotification(
   try {
     // If ticket came from WhatsApp, try to send WhatsApp message
     if (ticket.source === "WHATSAPP" && customer.phone) {
-      await sendWhatsAppNotification(customer.phone, message, companyId);
+      await sendWhatsAppNotification(customer.phone, message);
     }
     
     // If customer has email, send email notification
     if (customer.email) {
-      await sendEmailNotification(customer.email, ticketTitle, message, companyId);
+      await sendEmailNotification(customer.email, ticketTitle, message);
     }
 
     // If ticket came from phone, you could add SMS notification here
@@ -71,7 +70,7 @@ export async function sendCustomerAssignmentNotification(
     }
 
     // Log the notification
-    await logCustomerNotification(customerId, companyId, ticketId, message);
+    await logCustomerNotification(customerId, ticketId, message);
   } catch (error) {
     console.error("Error sending customer notification:", error);
   }
@@ -79,34 +78,20 @@ export async function sendCustomerAssignmentNotification(
 
 async function sendWhatsAppNotification(
   phoneNumber: string,
-  message: string,
-  companyId: string
+  message: string
 ) {
   try {
     // Import WhatsApp service dynamically to avoid circular dependencies
     const { WhatsAppService } = await import("@/features/ai/channels/whatsapp/whatsapp.service");
     const { WhatsAppAdapter } = await import("@/features/ai/channels/whatsapp/whatsapp.adapter");
     
-    // Get company AI config for WhatsApp settings
-    const company = await prisma.company.findUnique({
-      where: { id: companyId },
-      select: { aiConfig: true },
-    });
-
-    if (!company?.aiConfig) {
-      console.log("No WhatsApp config found for company");
-      return;
-    }
-
-    const whatsappConfig = company.aiConfig as any;
-    
     const adapter = new WhatsAppAdapter({
-      phoneNumberId: whatsappConfig.phoneNumberId || process.env.WHATSAPP_PHONE_NUMBER_ID,
-      accessToken: whatsappConfig.accessToken || process.env.WHATSAPP_ACCESS_TOKEN,
-      apiVersion: whatsappConfig.apiVersion || "v18.0",
-      enabled: whatsappConfig.enabled !== false,
-      autoResponse: whatsappConfig.autoResponse || false,
-      responseDelay: whatsappConfig.responseDelay || 0,
+      phoneNumberId: process.env.WHATSAPP_PHONE_NUMBER_ID || "",
+      accessToken: process.env.WHATSAPP_ACCESS_TOKEN || "",
+      apiVersion: "v18.0",
+      enabled: true,
+      autoResponse: false,
+      responseDelay: 0,
     });
     
     const whatsappService = new WhatsAppService(adapter);
@@ -115,8 +100,7 @@ async function sendWhatsAppNotification(
       {
         to: phoneNumber,
         content: message,
-      },
-      companyId
+      }
     );
     
     console.log("WhatsApp notification sent successfully");
@@ -129,8 +113,7 @@ async function sendWhatsAppNotification(
 async function sendEmailNotification(
   email: string,
   subject: string,
-  message: string,
-  companyId: string
+  message: string
 ) {
   try {
     // Here you would integrate with your email sending service
@@ -156,14 +139,12 @@ async function sendEmailNotification(
 
 async function logCustomerNotification(
   customerId: string,
-  companyId: string,
   ticketId: string,
   message: string
 ) {
   try {
     await prisma.activityLog.create({
       data: {
-        companyId,
         action: "CUSTOMER_NOTIFICATION",
         entityType: "CUSTOMER",
         entityId: customerId,
@@ -173,7 +154,7 @@ async function logCustomerNotification(
           message: message.substring(0, 100),
         },
       },
-    });
+    } as any);
   } catch (error) {
     console.error("Error logging customer notification:", error);
   }

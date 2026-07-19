@@ -74,7 +74,7 @@ export async function POST(req: NextRequest) {
           orderBy: { order: "asc" },
         },
       },
-    } as any);
+    } as any) as any;
 
     if (!rule) {
       return NextResponse.json({ error: "Commission rule not found" }, { status: 404 });
@@ -94,7 +94,6 @@ export async function POST(req: NextRequest) {
     if (userId === "all") {
       // Fetch all users based on role
       const userRole = session.user.role;
-      const userCompanyId = session.user.companyId;
       
       let users;
       if (userRole === "ADMIN") {
@@ -105,7 +104,7 @@ export async function POST(req: NextRequest) {
         });
       } else {
         users = await prisma.user.findMany({
-          where: { deletedAt: null, companyId: userCompanyId },
+          where: { deletedAt: null },
           select: { id: true, firstName: true, lastName: true },
           orderBy: { firstName: "asc" },
         });

@@ -73,7 +73,7 @@ export function CurrencyForm({ mode, currency }: CurrencyFormProps) {
       });
 
       if (response.ok) {
-        router.push('/dashboard/parameters/currencies');
+        router.push('/parameters/currencies');
         router.refresh();
       } else {
         const error = await response.json();
@@ -93,7 +93,7 @@ export function CurrencyForm({ mode, currency }: CurrencyFormProps) {
       <div className="flex items-center justify-between mb-6 shrink-0">
         <div className="flex items-center gap-3">
           <Link
-            href="/dashboard/parameters/currencies"
+            href="/parameters/currencies"
             className="inline-flex items-center justify-center gap-2 text-slate-600 hover:text-slate-800 transition-colors"
           >
             <ArrowLeft size={20} />
@@ -114,7 +114,7 @@ export function CurrencyForm({ mode, currency }: CurrencyFormProps) {
         <div className="flex items-center gap-3">
           {isViewMode && currency && (
             <Link
-              href={`/dashboard/parameters/currencies?mode=edit&id=${currency.id}`}
+              href={`/parameters/currencies?mode=edit&id=${currency.id}`}
               className="inline-flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium px-4 py-2.5 rounded-xl transition-colors shadow-sm"
             >
               <Save size={16} />
@@ -124,7 +124,7 @@ export function CurrencyForm({ mode, currency }: CurrencyFormProps) {
           {!isViewMode && (
             <>
               <Link
-                href="/dashboard/parameters/currencies"
+                href="/parameters/currencies"
                 className="inline-flex items-center justify-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-medium px-4 py-2.5 rounded-xl transition-colors shadow-sm"
               >
                 <X size={16} />

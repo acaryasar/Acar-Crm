@@ -64,7 +64,7 @@ export function SalesTypeForm({ mode, salesType }: SalesTypeFormProps) {
       });
 
       if (response.ok) {
-        router.push('/dashboard/parameters/sales-types');
+        router.push('/parameters/sales-types');
         router.refresh();
       } else {
         const error = await response.json();
@@ -105,7 +105,7 @@ export function SalesTypeForm({ mode, salesType }: SalesTypeFormProps) {
         <div className="flex items-center gap-3">
           {isViewMode && salesType && (
             <Link
-              href={`/dashboard/parameters/sales-types?mode=edit&id=${salesType.id}`}
+              href={`/parameters/sales-types?mode=edit&id=${salesType.id}`}
               className="inline-flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium px-4 py-2.5 rounded-xl transition-colors shadow-sm"
             >
               <Save size={16} />
@@ -115,7 +115,7 @@ export function SalesTypeForm({ mode, salesType }: SalesTypeFormProps) {
           {!isViewMode && (
             <>
               <Link
-                href="/dashboard/parameters/sales-types"
+                href="/parameters/sales-types"
                 className="inline-flex items-center justify-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-medium px-4 py-2.5 rounded-xl transition-colors shadow-sm"
               >
                 <X size={16} />

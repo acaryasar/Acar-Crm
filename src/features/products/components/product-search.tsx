@@ -14,9 +14,9 @@ export function ProductSearch() {
 
   useEffect(() => {
     if (debounced) {
-      router.push(`/dashboard/products?search=${debounced}`);
+      router.push(`/products?search=${debounced}`);
     } else {
-      router.push("/dashboard/products");
+      router.push("/products");
     }
   }, [debounced, router]);
 

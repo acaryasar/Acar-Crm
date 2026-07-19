@@ -16,5 +16,5 @@ export async function cancelAppointment(
     },
   });
 
-  revalidatePath("/dashboard/appointments");
+  revalidatePath("/appointments");
 }

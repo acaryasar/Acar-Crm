@@ -10,5 +10,5 @@ export async function updateStatusTicket(ticketId: string, status: TicketStatus)
     data: { status },
   });
 
-  revalidatePath("/dashboard/tickets");
+  revalidatePath("/tickets");
 }

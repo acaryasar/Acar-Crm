@@ -7,43 +7,52 @@ export const routes = {
   // Dashboard
   dashboard: {
     home: "/dashboard",
-    inbox: "/dashboard/inbox",
-    customers: "/dashboard/customers",
-    companies: "/dashboard/companies",
-    tickets: "/dashboard/tickets",
-    appointments: "/dashboard/appointments",
-    users: "/dashboard/users",
-    quotes: "/dashboard/quotes",
-    invoices: "/dashboard/invoices",
-    activityLogs: "/dashboard/activity-logs",
-    notifications: "/dashboard/notifications",
-    
-    // Product & Stock Management
-    products: "/dashboard/products",
-    stock: "/dashboard/stock",
-    orders: "/dashboard/orders",
-    
-    // Parameters
-    parameters: {
-      base: "/dashboard/parameters",
-      salesTypes: "/dashboard/parameters/sales-types",
-      currencies: "/dashboard/parameters/currencies",
-      customerTypes: "/dashboard/parameters/customer-types",
-      departments: "/dashboard/parameters/departments",
-      banks: "/dashboard/parameters/banks",
-      bankAccounts: "/dashboard/parameters/bank-accounts",
-      cargoFirms: "/dashboard/parameters/cargo-firms",
-      customerAuthorities: "/dashboard/parameters/customer-authorities",
-      employees: "/dashboard/parameters/employees",
-    },
-    
-    // AI Features
-    ai: {
-      whatsappDemo: "/dashboard/whatsapp-demo",
-      phoneCallDemo: "/dashboard/phone-call-demo",
-      emailDemo: "/dashboard/email-demo",
-      webChatDemo: "/dashboard/web-chat-demo",
-    },
+  },
+  
+  // Main pages (without dashboard prefix)
+  inbox: "/inbox",
+  customers: "/customers",
+  companies: "/companies",
+  tickets: "/tickets",
+  appointments: "/appointments",
+  users: "/users",
+  quotes: "/quotes",
+  invoices: "/invoices",
+  notifications: "/notifications",
+  
+  // Product & Stock Management
+  products: "/products",
+  stock: "/stock",
+  orders: "/orders",
+  purchases: "/purchases",
+  
+  // Commission
+  commission: {
+    rules: "/commission-rules",
+    calculation: "/commission-calculation",
+    payment: "/commission-payment",
+  },
+  
+  // Parameters
+  parameters: {
+    base: "/parameters",
+    salesTypes: "/parameters/sales-types",
+    currencies: "/parameters/currencies",
+    customerTypes: "/parameters/customer-types",
+    departments: "/parameters/departments",
+    banks: "/parameters/banks",
+    bankAccounts: "/parameters/bank-accounts",
+    cargoFirms: "/parameters/cargo-firms",
+    customerAuthorities: "/parameters/customer-authorities",
+    employees: "/parameters/employees",
+  },
+  
+  // AI Features
+  ai: {
+    whatsappDemo: "/whatsapp-demo",
+    phoneCallDemo: "/phone-call-demo",
+    emailDemo: "/email-demo",
+    webChatDemo: "/web-chat-demo",
   },
 } as const;
 
@@ -52,35 +61,47 @@ export const routeMetadata: Record<string, { titleKey: string; descriptionKey?: 
   [routes.dashboard.home]: {
     titleKey: "dashboard",
   },
-  [routes.dashboard.customers]: {
+  [routes.customers]: {
     titleKey: "customers",
   },
-  [routes.dashboard.tickets]: {
+  [routes.tickets]: {
     titleKey: "tickets",
   },
-  [routes.dashboard.appointments]: {
+  [routes.appointments]: {
     titleKey: "appointments",
   },
-  [routes.dashboard.users]: {
+  [routes.users]: {
     titleKey: "users",
   },
-  [routes.dashboard.inbox]: {
+  [routes.inbox]: {
     titleKey: "inbox",
   },
-  [routes.dashboard.companies]: {
+  [routes.companies]: {
     titleKey: "companies",
   },
-  [routes.dashboard.quotes]: {
+  [routes.quotes]: {
     titleKey: "quotes",
   },
-  [routes.dashboard.invoices]: {
+  [routes.invoices]: {
     titleKey: "invoices",
   },
-  [routes.dashboard.activityLogs]: {
-    titleKey: "activityLogs",
-  },
-  [routes.dashboard.notifications]: {
+  [routes.notifications]: {
     titleKey: "notifications",
+  },
+  [routes.products]: {
+    titleKey: "products",
+  },
+  [routes.stock]: {
+    titleKey: "stock",
+  },
+  [routes.orders]: {
+    titleKey: "orders",
+  },
+  [routes.purchases]: {
+    titleKey: "purchases",
+  },
+  [routes.parameters.base]: {
+    titleKey: "parameters",
   },
 };
 

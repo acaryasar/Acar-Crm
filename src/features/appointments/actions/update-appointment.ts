@@ -29,5 +29,5 @@ export async function updateAppointment(
     },
   });
 
-  revalidatePath("/dashboard/appointments");
+  revalidatePath("/appointments");
 }

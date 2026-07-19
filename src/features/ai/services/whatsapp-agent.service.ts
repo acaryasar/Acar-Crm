@@ -18,12 +18,10 @@ interface ConversationState {
 
 class WhatsAppAgent {
   private state: ConversationState = {};
-  private companyId: string;
   private aiProvider: any;
   private mockStep: number = 0;
 
-  constructor(companyId: string, config?: AIProviderConfig) {
-    this.companyId = companyId;
+  constructor(config?: AIProviderConfig) {
     this.aiProvider = createAIProvider(config);
   }
 
@@ -353,10 +351,9 @@ Eksik bilgileri sırayla iste. Her seferinde SADECE bir şey sor. Kısa ve doğa
       const startOfDay = new Date(targetDate.setHours(8, 0, 0, 0));
       const endOfDay = new Date(targetDate.setHours(18, 0, 0, 0));
 
-      // Get all users in the company
+      // Get all active users
       const users = await prisma.user.findMany({
         where: {
-          companyId: this.companyId,
           is_active: true,
         },
         include: {
@@ -413,7 +410,6 @@ Eksik bilgileri sırayla iste. Her seferinde SADECE bir şey sor. Kısa ve doğa
     try {
       const customer = await prisma.customer.create({
         data: {
-          companyId: this.companyId,
           firstName: data.firstName,
           lastName: data.lastName,
           phone: data.phone,
@@ -430,7 +426,6 @@ Eksik bilgileri sırayla iste. Her seferinde SADECE bir şey sor. Kısa ve doğa
       // Log activity
       await prisma.activityLog.create({
         data: {
-          companyId: this.companyId,
           action: 'CUSTOMER_CREATED',
           entityType: 'CUSTOMER',
           entityId: customer.id,
@@ -456,7 +451,6 @@ Eksik bilgileri sırayla iste. Her seferinde SADECE bir şey sor. Kısa ve doğa
     try {
       const ticket = await prisma.ticket.create({
         data: {
-          companyId: this.companyId,
           customerId: data.customerId,
           title: data.title,
           description: data.description,
@@ -472,7 +466,6 @@ Eksik bilgileri sırayla iste. Her seferinde SADECE bir şey sor. Kısa ve doğa
       // Log activity
       await prisma.activityLog.create({
         data: {
-          companyId: this.companyId,
           action: 'TICKET_CREATED',
           entityType: 'TICKET',
           entityId: ticket.id,
@@ -503,7 +496,6 @@ Eksik bilgileri sırayla iste. Her seferinde SADECE bir şey sor. Kısa ve doğa
 
       const availableUsers = await prisma.user.findMany({
         where: {
-          companyId: this.companyId,
           is_active: true,
           appointments: {
             none: {
@@ -528,7 +520,6 @@ Eksik bilgileri sırayla iste. Her seferinde SADECE bir şey sor. Kısa ve doğa
 
       const appointment = await prisma.appointment.create({
         data: {
-          companyId: this.companyId,
           customerId: data.customerId,
           employeeId: selectedUser.id,
           title: data.title,
@@ -553,7 +544,6 @@ Eksik bilgileri sırayla iste. Her seferinde SADECE bir şey sor. Kısa ve doğa
       // Log activity
       await prisma.activityLog.create({
         data: {
-          companyId: this.companyId,
           action: 'APPOINTMENT_CREATED',
           entityType: 'APPOINTMENT',
           entityId: appointment.id,
@@ -572,7 +562,6 @@ Eksik bilgileri sırayla iste. Her seferinde SADECE bir şey sor. Kısa ve doğa
       // Send notification to user
       await prisma.notification.create({
         data: {
-          companyId: this.companyId,
           userId: selectedUser.id,
           title: 'Yeni Randevu Atandı',
           message: `${data.title} - ${startAt.toLocaleString('tr-TR')}`,

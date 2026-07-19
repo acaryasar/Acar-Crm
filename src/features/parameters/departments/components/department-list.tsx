@@ -122,7 +122,7 @@ export function DepartmentList({ departments }: DepartmentListProps) {
             Export
           </Button>
           <Button
-            onClick={() => router.push('/dashboard/parameters/departments?mode=create')}
+            onClick={() => router.push('/parameters/departments?mode=create')}
             className="gap-2"
           >
             <Plus size={16} />
@@ -169,7 +169,7 @@ export function DepartmentList({ departments }: DepartmentListProps) {
                       <Button
                         variant="ghost"
                         size="sm"
-                        onClick={() => router.push(`/dashboard/parameters/departments?mode=edit&id=${department.id}`)}
+                        onClick={() => router.push(`/parameters/departments?mode=edit&id=${department.id}`)}
                       >
                         <Edit size={16} />
                       </Button>

@@ -16,5 +16,5 @@ export async function assignEmployee(
     },
   });
 
-  revalidatePath("/dashboard/appointments");
+  revalidatePath("/appointments");
 }

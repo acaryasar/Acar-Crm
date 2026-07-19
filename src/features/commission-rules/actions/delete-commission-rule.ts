@@ -20,5 +20,5 @@ export async function deleteCommissionRule(id: string) {
     },
   });
 
-  revalidatePath("/dashboard/commission-rules");
+  revalidatePath("/commission-rules");
 }

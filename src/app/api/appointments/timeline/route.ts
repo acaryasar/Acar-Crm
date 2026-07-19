@@ -49,15 +49,9 @@ export async function GET(request: Request) {
   if (userId) {
     // If specific userId is provided, filter by that user
     whereClause = { id: userId };
-  } else if (session.user.role === "ADMIN") {
-    // Admin sees all users - no where clause
-    whereClause = undefined;
-  } else if (session.user.role === "SUPERVISOR" as any) {
-    // Supervisor sees users from their company
-    whereClause = { companyId: session.user.companyId };
   } else {
-    // Other roles see only themselves
-    whereClause = { id: session.user.id };
+    // All users - no where clause
+    whereClause = undefined;
   }
 
   // Fetch users
@@ -84,11 +78,6 @@ export async function GET(request: Request) {
       lte: endDate,
     },
   };
-
-  // Add companyId filter for non-admin roles
-  if (session.user.role !== "ADMIN") {
-    appointmentsWhere.companyId = session.user.companyId;
-  }
 
   const appointments = await prisma.appointment.findMany({
     where: appointmentsWhere,

@@ -14,9 +14,9 @@ export function OrderSearch() {
 
   useEffect(() => {
     if (debounced) {
-      router.push(`/dashboard/orders?search=${debounced}`);
+      router.push(`/orders?search=${debounced}`);
     } else {
-      router.push("/dashboard/orders");
+      router.push("/orders");
     }
   }, [debounced, router]);
 

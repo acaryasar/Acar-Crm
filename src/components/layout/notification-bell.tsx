@@ -5,10 +5,9 @@ import { Bell } from "lucide-react";
 import { unstable_cache } from "next/cache";
 
 const getNotificationCount = unstable_cache(
-  async (companyId: string, userId: string) => {
+  async ( userId: string) => {
     return await prisma.notification.count({
       where: {
-        companyId,
         userId,
         isRead: false,
       },
@@ -23,7 +22,7 @@ export async function NotificationBell() {
 
   if (!session?.user) return null;
 
-  const count = await getNotificationCount(session.user.companyId, session.user.id);
+  const count = await getNotificationCount(session.user.id);
 
   return (
     <Link

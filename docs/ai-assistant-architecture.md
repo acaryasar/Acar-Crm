@@ -132,9 +132,6 @@ enum ConversationType {
 model WhatsAppMessage {
   id String @id @default(cuid())
 
-  companyId String
-  company   Company @relation(fields: [companyId], references: [id])
-
   conversationLogId String?
   conversationLog   AIConversationLog? @relation(fields: [conversationLogId], references: [id])
 
@@ -152,7 +149,6 @@ model WhatsAppMessage {
 
   createdAt DateTime @default(now())
 
-  @@index([companyId])
   @@index([ticketId])
   @@index([phoneNumber])
   @@index([createdAt])
@@ -161,9 +157,6 @@ model WhatsAppMessage {
 // Phone Call
 model PhoneCall {
   id String @id @default(cuid())
-
-  companyId String
-  company   Company @relation(fields: [companyId], references: [id])
 
   conversationLogId String?
   conversationLog   AIConversationLog? @relation(fields: [conversationLogId], references: [id])
@@ -182,7 +175,6 @@ model PhoneCall {
 
   createdAt DateTime @default(now())
 
-  @@index([companyId])
   @@index([ticketId])
   @@index([phoneNumber])
   @@index([createdAt])
@@ -203,9 +195,6 @@ enum CallStatus {
 model WebChatSession {
   id String @id @default(cuid())
 
-  companyId String
-  company   Company @relation(fields: [companyId], references: [id])
-
   conversationLogId String?
   conversationLog   AIConversationLog? @relation(fields: [conversationLogId], references: [id])
 
@@ -224,7 +213,6 @@ model WebChatSession {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@index([companyId])
   @@index([ticketId])
   @@index([sessionId])
   @@index([createdAt])
@@ -333,8 +321,7 @@ async function handleAppointmentRequest(
   
   // 2. Müsait kullanıcıları bul
   const availableUsers = await availabilityService.findAvailableUsers(
-    preferredDateTime,
-    customer.companyId
+    preferredDateTime
   );
   
   // 3. En uygun kullanıcıyı seç (AI ile)

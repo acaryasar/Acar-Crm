@@ -1,7 +1,6 @@
 import { prisma } from "@/lib/prisma";
 
 export async function createNotification({
-  companyId,
   userId,
   title,
   message,
@@ -9,8 +8,6 @@ export async function createNotification({
   entityType,
   entityId,
 }: {
-  companyId: string;
-
   userId?: string;
 
   title: string;
@@ -27,7 +24,6 @@ export async function createNotification({
 }) {
   return prisma.notification.create({
     data: {
-      companyId,
       userId,
       title,
       message,

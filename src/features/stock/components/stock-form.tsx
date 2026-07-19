@@ -79,7 +79,7 @@ export function StockForm({ mode, stockMovement, selectedProduct }: Props) {
       });
       
       setLoading(false);
-      router.push("/dashboard/stock");
+      router.push("/stock");
     } catch (error) {
       console.error("Error:", error);
       setLoading(false);

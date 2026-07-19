@@ -7,7 +7,6 @@ import {
 } from "@prisma/client";
 
 export async function createTicket(data: {
-  companyId: string;
   customerId: string;
   title: string;
   description?: string;
@@ -18,7 +17,6 @@ export async function createTicket(data: {
 }) {
   return prisma.ticket.create({
     data: {
-      companyId:   data.companyId,
       customerId:  data.customerId,
       title:       data.title,
       description: data.description,

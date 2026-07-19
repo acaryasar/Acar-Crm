@@ -11,13 +11,12 @@ interface AssignUserWithAppointmentInput {
   assignedUserId: string;
   appointmentStartAt: Date;
   appointmentEndAt: Date;
-  companyId: string;
 }
 
 export async function assignUserTicketWithAppointment(
   data: AssignUserWithAppointmentInput
 ) {
-  const { ticketId, assignedUserId, appointmentStartAt, appointmentEndAt, companyId } = data;
+  const { ticketId, assignedUserId, appointmentStartAt, appointmentEndAt } = data;
 
   // Get ticket details
   const ticket = await prisma.ticket.findUnique({
@@ -51,7 +50,6 @@ export async function assignUserTicketWithAppointment(
   // Create appointment
   const appointment = await prisma.appointment.create({
     data: {
-      companyId,
       customerId: ticket.customerId,
       employeeId: assignedUserId,
       title: `Ticket: ${ticket.title}`,
@@ -64,7 +62,6 @@ export async function assignUserTicketWithAppointment(
 
   // Create notification for assigned user
   await createNotification({
-    companyId,
     userId: assignedUserId,
     title: "Yeni Talep Atandı",
     message: `${ticket.customer.firstName} ${ticket.customer.lastName} müşterisinin "${ticket.title}" talebi size atandı. Randevu: ${appointmentStartAt.toLocaleString()}`,
@@ -76,16 +73,13 @@ export async function assignUserTicketWithAppointment(
   // Send notification to customer
   await sendCustomerAssignmentNotification({
     customerId: ticket.customerId,
-    companyId,
     ticketTitle: ticket.title,
     assignedUserName: `${assignedUser.firstName} ${assignedUser.lastName}`,
     appointmentDate: appointmentStartAt,
     ticketId,
   });
 
-  // Create notification for company admins (about customer notification)
   await createNotification({
-    companyId,
     title: "Müşteriye Bildirim Gönderildi",
     message: `${ticket.customer.firstName} ${ticket.customer.lastName} müşterisine atama ve randevu bilgileri gönderildi.`,
     type: "SUCCESS",
@@ -106,21 +100,20 @@ export async function assignUserTicketWithAppointment(
     },
   });
 
-  revalidatePath("/dashboard/tickets");
-  revalidatePath(`/dashboard/tickets/${ticketId}`);
+  revalidatePath("/tickets");
+  revalidatePath(`/tickets/${ticketId}`);
 
   return { ticket: updatedTicket, appointment };
 }
 
 interface CancelAssignmentInput {
   ticketId: string;
-  companyId: string;
 }
 
 export async function cancelTicketAssignment(
   data: CancelAssignmentInput
 ) {
-  const { ticketId, companyId } = data;
+  const { ticketId } = data;
 
   // Get ticket details with appointment
   const ticket = await prisma.ticket.findUnique({
@@ -169,7 +162,6 @@ export async function cancelTicketAssignment(
   // Notify the previously assigned user
   if (ticket.assignedUser) {
     await createNotification({
-      companyId,
       userId: ticket.assignedUser.id,
       title: "Talep Ataması İptal Edildi",
       message: `${ticket.customer.firstName} ${ticket.customer.lastName} müşterisinin "${ticket.title}" talebinin ataması iptal edildi.`,
@@ -179,9 +171,7 @@ export async function cancelTicketAssignment(
     });
   }
 
-  // Notify company admins
   await createNotification({
-    companyId,
     title: "Talep Ataması İptal Edildi",
     message: `${ticket.customer.firstName} ${ticket.customer.lastName} müşterisinin "${ticket.title}" talebinin ataması iptal edildi.`,
     type: "WARNING",
@@ -200,8 +190,8 @@ export async function cancelTicketAssignment(
     },
   });
 
-  revalidatePath("/dashboard/tickets");
-  revalidatePath(`/dashboard/tickets/${ticketId}`);
+  revalidatePath("/tickets");
+  revalidatePath(`/tickets/${ticketId}`);
 
   return { ticket: updatedTicket };
 }
@@ -211,13 +201,12 @@ interface UpdateAssignmentInput {
   newAssignedUserId?: string;
   newAppointmentStartAt?: Date;
   newAppointmentEndAt?: Date;
-  companyId: string;
 }
 
 export async function updateTicketAssignment(
   data: UpdateAssignmentInput
 ) {
-  const { ticketId, newAssignedUserId, newAppointmentStartAt, newAppointmentEndAt, companyId } = data;
+  const { ticketId, newAssignedUserId, newAppointmentStartAt, newAppointmentEndAt } = data;
 
   // Get ticket details
   const ticket = await prisma.ticket.findUnique({
@@ -287,7 +276,6 @@ export async function updateTicketAssignment(
     // Create new appointment
     updatedAppointment = await prisma.appointment.create({
       data: {
-        companyId,
         customerId: ticket.customerId,
         employeeId: newAssignedUserId || ticket.assignedUserId,
         title: `Ticket: ${ticket.title}`,
@@ -312,7 +300,6 @@ export async function updateTicketAssignment(
 
     updatedAppointment = await prisma.appointment.create({
       data: {
-        companyId,
         customerId: ticket.customerId,
         employeeId: newAssignedUserId,
         title: `Ticket: ${ticket.title}`,
@@ -327,7 +314,6 @@ export async function updateTicketAssignment(
   // Notify old user if changed
   if (userChanged && ticket.assignedUser) {
     await createNotification({
-      companyId,
       userId: ticket.assignedUser.id,
       title: "Talep Ataması Değiştirildi",
       message: `${ticket.customer.firstName} ${ticket.customer.lastName} müşterisinin "${ticket.title}" talebi başka personele atandı.`,
@@ -340,7 +326,6 @@ export async function updateTicketAssignment(
   // Notify new user if changed
   if (userChanged && newAssignedUserId) {
     await createNotification({
-      companyId,
       userId: newAssignedUserId,
       title: "Yeni Talep Atandı",
       message: `${ticket.customer.firstName} ${ticket.customer.lastName} müşterisinin "${ticket.title}" talebi size atandı. Randevu: ${updatedAppointment?.startAt?.toLocaleString() || "Belirlenmedi"}`,
@@ -354,7 +339,6 @@ export async function updateTicketAssignment(
   if ((userChanged || appointmentChanged) && newAssignedUser) {
     await sendCustomerAssignmentNotification({
       customerId: ticket.customerId,
-      companyId,
       ticketTitle: ticket.title,
       assignedUserName: `${newAssignedUser.firstName} ${newAssignedUser.lastName}`,
       appointmentDate: updatedAppointment?.startAt || new Date(),
@@ -362,9 +346,7 @@ export async function updateTicketAssignment(
     });
   }
 
-  // Notify company admins
   await createNotification({
-    companyId,
     title: "Talep Ataması Güncellendi",
     message: `${ticket.customer.firstName} ${ticket.customer.lastName} müşterisinin "${ticket.title}" talebinin ataması güncellendi.`,
     type: "INFO",
@@ -386,8 +368,8 @@ export async function updateTicketAssignment(
     },
   });
 
-  revalidatePath("/dashboard/tickets");
-  revalidatePath(`/dashboard/tickets/${ticketId}`);
+  revalidatePath("/tickets");
+  revalidatePath(`/tickets/${ticketId}`);
 
   return { ticket, appointment: updatedAppointment };
 }

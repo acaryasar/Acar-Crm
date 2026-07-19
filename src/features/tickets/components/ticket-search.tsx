@@ -14,9 +14,9 @@ export function TicketSearch() {
 
   useEffect(() => {
     if (debounced) {
-      router.push(`/dashboard/tickets?search=${debounced}`);
+      router.push(`/tickets?search=${debounced}`);
     } else {
-      router.push("/dashboard/tickets");
+      router.push("/tickets");
     }
   }, [debounced, router]);
 

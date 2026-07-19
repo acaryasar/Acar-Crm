@@ -17,8 +17,7 @@ export async function GET() {
   if (session.user.role === "ADMIN") {
     // Admin sees all users
   } else if (session.user.role === "SUPERVISOR" as any) {
-    // Supervisor sees users from their company
-    whereClause.companyId = session.user.companyId;
+    // Supervisor sees all users
   } else {
     // Manager/Employee see only themselves
     whereClause.id = session.user.id;
@@ -51,7 +50,6 @@ export async function POST(
       email: body.email,
       password,
       role: body.role,
-      companyId: body.companyId,
     },
   });
 

@@ -7,7 +7,6 @@ export class TicketCreationService {
    */
   async createTicket(data: {
     customerId: string;
-    companyId: string;
     title: string;
     description?: string;
     source: any;
@@ -19,7 +18,6 @@ export class TicketCreationService {
       const ticket = await prisma.ticket.create({
         data: {
           customerId: data.customerId,
-          companyId: data.companyId,
           title: data.title,
           description: data.description,
           source: data.source,
@@ -69,14 +67,12 @@ export class TicketCreationService {
    */
   async createManualReviewTicket(
     message: IncomingMessage,
-    intentResult: IntentResult | null,
-    companyId: string
+    intentResult: IntentResult | null
   ): Promise<any> {
     try {
       const ticket = await prisma.ticket.create({
         data: {
           customerId: '', // Will be updated later
-          companyId,
           title: 'Manuel İnceleme Gerekiyor',
           description: message.content,
           source: message.channelType,
@@ -96,12 +92,11 @@ export class TicketCreationService {
   /**
    * Hata ticket'ı oluştur
    */
-  async createErrorTicket(message: IncomingMessage, companyId: string): Promise<any> {
+  async createErrorTicket(message: IncomingMessage): Promise<any> {
     try {
       const ticket = await prisma.ticket.create({
         data: {
           customerId: '',
-          companyId,
           title: 'AI İşleme Hatası',
           description: message.content,
           source: message.channelType,

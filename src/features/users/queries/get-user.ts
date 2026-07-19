@@ -6,10 +6,6 @@ export async function getUser(
   return prisma.customer.findUnique({
     where: {
       id: userId,
-    },
-
-    include: {
-      company: true,
-    },
+    }
   });
 }

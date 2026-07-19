@@ -134,7 +134,7 @@ export function CargoFirmList({ cargoFirms }: CargoFirmListProps) {
             Export
           </Button>
           <Button
-            onClick={() => router.push('/dashboard/parameters/cargo-firms?mode=create')}
+            onClick={() => router.push('/parameters/cargo-firms?mode=create')}
             className="gap-2"
           >
             <Plus size={16} />
@@ -183,7 +183,7 @@ export function CargoFirmList({ cargoFirms }: CargoFirmListProps) {
                       <Button
                         variant="ghost"
                         size="sm"
-                        onClick={() => router.push(`/dashboard/parameters/cargo-firms?mode=edit&id=${cargoFirm.id}`)}
+                        onClick={() => router.push(`/parameters/cargo-firms?mode=edit&id=${cargoFirm.id}`)}
                       >
                         <Edit size={16} />
                       </Button>

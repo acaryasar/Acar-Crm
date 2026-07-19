@@ -20,7 +20,6 @@ interface Appointment {
 interface Props {
   ticketId: string;
   customerId: string;
-  companyId: string;
   currentAssignedUserId: string;
   currentAppointment?: Appointment;
   isOpen: boolean;
@@ -31,7 +30,6 @@ interface Props {
 export function TicketAssignmentEditDialog({
   ticketId,
   customerId,
-  companyId,
   currentAssignedUserId,
   currentAppointment,
   isOpen,
@@ -132,7 +130,6 @@ export function TicketAssignmentEditDialog({
         newAssignedUserId: userChanged ? selectedUserId : undefined,
         newAppointmentStartAt: timeChanged ? startAt : undefined,
         newAppointmentEndAt: timeChanged ? endAt : undefined,
-        companyId,
       });
 
       onSuccess();

@@ -13,73 +13,89 @@ const toStr = (val: FormDataEntryValue | null) => {
 export async function createCustomer(formData: FormData) {
   const session = await auth();
 
-  if (!session?.user?.companyId) {
+  if (!session) {
     throw new Error("Unauthorized");
   }
 
-  const customer = await prisma.customer.create({
-    data: {
-      companyId: session.user.companyId,
-      firstName: String(formData.get("firstName")),
-      lastName:  String(formData.get("lastName")),
-      email:      toStr(formData.get("email")),
-      phone:      toStr(formData.get("phone")),
-      street:     toStr(formData.get("street")),
-      city:       toStr(formData.get("city")),
-      postalCode: toStr(formData.get("postalCode")),
-      notes:      toStr(formData.get("notes")),
-      taxOffice:  toStr(formData.get("taxOffice")),
-      taxNumber:  toStr(formData.get("taxNumber")),
-      responsiblePerson: toStr(formData.get("responsiblePerson")),
-      customerGroup: toStr(formData.get("customerGroup")),
-      sector:     toStr(formData.get("sector")),
-    },
-  });
-
-  await prisma.activityLog.create({
-    data: {
-      companyId: (session.user as any).companyId,
-      action: "CUSTOMER_CREATED",
-      entityType: "CUSTOMER",
-      entityId: customer.id,
-      metadata: {
-        customerName: `${customer.firstName} ${customer.lastName}`,
+  try {
+    const customer = await prisma.customer.create({
+      data: {
+        firstName: String(formData.get("firstName")),
+        lastName:  String(formData.get("lastName")),
+        email:      toStr(formData.get("email")),
+        phone:      toStr(formData.get("phone")),
+        street:     toStr(formData.get("street")),
+        city:       toStr(formData.get("city")),
+        postalCode: toStr(formData.get("postalCode")),
+        notes:      toStr(formData.get("notes")),
+        taxOffice:  toStr(formData.get("taxOffice")),
+        taxNumber:  toStr(formData.get("taxNumber")),
+        responsiblePerson: toStr(formData.get("responsiblePerson")),
+        customerGroup: toStr(formData.get("customerGroup")),
+        sector:     toStr(formData.get("sector")),
       },
-    },
-  });
+    } as any);
 
-  revalidatePath("/dashboard/customers");
-  redirect(`/dashboard/customers?mode=view&id=${customer.id}`);
+    await prisma.activityLog.create({
+      data: {
+        action: "CUSTOMER_CREATED",
+        entityType: "CUSTOMER",
+        entityId: customer.id,
+        metadata: {
+          customerName: `${customer.firstName} ${customer.lastName}`,
+        },
+      },
+    });
+
+    revalidatePath("/customers");
+    redirect(`/customers?mode=view&id=${customer.id}`);
+  } catch (error) {
+    console.error("Error creating customer:", error);
+    throw new Error("Failed to create customer. Please try again.");
+  }
 }
 
 export async function updateCustomer(formData: FormData) {
   const session = await auth();
 
-  if (!session?.user?.companyId) {
+  if (!session) {
     throw new Error("Unauthorized");
   }
 
   const id = String(formData.get("id"));
 
-  await prisma.customer.update({
-    where: { id },
-    data: {
-      firstName: String(formData.get("firstName")),
-      lastName:  String(formData.get("lastName")),
-      email:      toStr(formData.get("email")),
-      phone:      toStr(formData.get("phone")),
-      street:     toStr(formData.get("street")),
-      city:       toStr(formData.get("city")),
-      postalCode: toStr(formData.get("postalCode")),
-      notes:      toStr(formData.get("notes")),
-      taxOffice:  toStr(formData.get("taxOffice")),
-      taxNumber:  toStr(formData.get("taxNumber")),
-      responsiblePerson: toStr(formData.get("responsiblePerson")),
-      customerGroup: toStr(formData.get("customerGroup")),
-      sector:     toStr(formData.get("sector")),
-    },
-  });
+  if (!id) {
+    throw new Error("Customer ID is required");
+  }
 
-  revalidatePath("/dashboard/customers");
-  redirect(`/dashboard/customers?mode=view&id=${id}`);
+  try {
+    await prisma.customer.update({
+      where: { id },
+      data: {
+        firstName: String(formData.get("firstName")),
+        lastName:  String(formData.get("lastName")),
+        email:      toStr(formData.get("email")),
+        phone:      toStr(formData.get("phone")),
+        street:     toStr(formData.get("street")),
+        city:       toStr(formData.get("city")),
+        postalCode: toStr(formData.get("postalCode")),
+        notes:      toStr(formData.get("notes")),
+        taxOffice:  toStr(formData.get("taxOffice")),
+        taxNumber:  toStr(formData.get("taxNumber")),
+        responsiblePerson: toStr(formData.get("responsiblePerson")),
+        customerGroup: toStr(formData.get("customerGroup")),
+        sector:     toStr(formData.get("sector")),
+      },
+    } as any);
+
+    revalidatePath("/customers");
+  } catch (error) {
+    console.error("Error updating customer:", error);
+    if (error instanceof Error) {
+      throw new Error(`Failed to update customer: ${error.message}`);
+    }
+    throw new Error("Failed to update customer. Please try again.");
+  }
+
+  redirect(`/customers?mode=view&id=${id}`);
 }

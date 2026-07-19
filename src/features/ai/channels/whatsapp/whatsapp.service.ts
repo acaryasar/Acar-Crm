@@ -11,15 +11,15 @@ export class WhatsAppService {
   /**
    * Gelen WhatsApp mesajını işle
    */
-  async processIncomingMessage(message: IncomingMessage, companyId: string): Promise<void> {
+  async processIncomingMessage(message: IncomingMessage): Promise<void> {
     try {
       // Mesajı logla
-      await this.logIncomingMessage(message, companyId);
+      await this.logIncomingMessage(message);
 
       // AI Orchestrator'a ilet
       const { AIOrchestrator } = await import('../../core/ai-orchestrator');
       const orchestrator = new AIOrchestrator();
-      await orchestrator.processMessage(message, companyId);
+      await orchestrator.processMessage(message);
     } catch (error) {
       console.error('Error processing WhatsApp message:', error);
       throw error;
@@ -29,13 +29,13 @@ export class WhatsAppService {
   /**
    * Giden WhatsApp mesajını işle
    */
-  async processOutgoingMessage(message: OutgoingMessage, companyId: string): Promise<void> {
+  async processOutgoingMessage(message: OutgoingMessage): Promise<void> {
     try {
       // Mesajı gönder
       await this.adapter.sendMessage(message);
 
       // Mesajı logla
-      await this.logOutgoingMessage(message, companyId);
+      await this.logOutgoingMessage(message);
     } catch (error) {
       console.error('Error sending WhatsApp message:', error);
       throw error;
@@ -45,19 +45,19 @@ export class WhatsAppService {
   /**
    * Gelen mesajı logla
    */
-  private async logIncomingMessage(message: IncomingMessage, companyId: string): Promise<void> {
+  private async logIncomingMessage(message: IncomingMessage): Promise<void> {
     const { ConversationLogger } = await import('../../logging/conversation-logger');
     const logger = new ConversationLogger();
-    await logger.logIncomingMessage(message, companyId);
+    await logger.logIncomingMessage(message);
   }
 
   /**
    * Giden mesajı logla
    */
-  private async logOutgoingMessage(message: OutgoingMessage, companyId: string): Promise<void> {
+  private async logOutgoingMessage(message: OutgoingMessage): Promise<void> {
     const { ConversationLogger } = await import('../../logging/conversation-logger');
     const logger = new ConversationLogger();
-    await logger.logOutgoingMessage(message, 'WHATSAPP', companyId);
+    await logger.logOutgoingMessage(message, 'WHATSAPP');
   }
 
   /**

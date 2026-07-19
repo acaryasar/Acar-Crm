@@ -18,7 +18,7 @@ export function TicketCard({
   const sourceConfig = getSourceConfig(ticket.source);
 
   return (
-    <Link href={`/dashboard/tickets?mode=view&id=${ticket.id}`}
+    <Link href={`/tickets?mode=view&id=${ticket.id}`}
       className={`block bg-white rounded-xl border p-5 shadow-sm hover:shadow-md transition border-l-4 ${sourceConfig.border}`}>
       <div className="flex justify-between gap-6">
         <div className="flex-1 space-y-3">

@@ -15,10 +15,9 @@ const sessions = new Map<string, DemoSession>();
 export async function POST(req: NextRequest) {
   try {
     const session = await auth();
-    const companyId = (session?.user as any)?.companyId;
 
-    if (!companyId) {
-      return NextResponse.json({ error: "Unauthorized - No company ID found" }, { status: 401 });
+    if (!session) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const { message, sessionId, reset } = await req.json();
@@ -43,7 +42,6 @@ export async function POST(req: NextRequest) {
       // Create conversation log for new session
       const conversationLog = await prisma.aIConversationLog.create({
         data: {
-          companyId,
           channelType: "WHATSAPP",
           conversationType: "INITIAL_INQUIRY",
           startTime: new Date(),
@@ -58,7 +56,7 @@ export async function POST(req: NextRequest) {
       };
 
       demoSession = {
-        agent: new WhatsAppAgent(companyId, aiConfig),
+        agent: new WhatsAppAgent(aiConfig),
         conversationLogId: conversationLog.id,
         phoneNumber: `+90${Math.floor(Math.random() * 1000000000)}`, // Random phone for demo
       };
@@ -69,7 +67,6 @@ export async function POST(req: NextRequest) {
     try {
       await prisma.whatsAppMessage.create({
         data: {
-          companyId,
           conversationLogId: demoSession.conversationLogId,
           phoneNumber: demoSession.phoneNumber || "+905555555555",
           messageFrom: "customer",
@@ -88,7 +85,6 @@ export async function POST(req: NextRequest) {
     try {
       await prisma.whatsAppMessage.create({
         data: {
-          companyId,
           conversationLogId: demoSession.conversationLogId,
           phoneNumber: demoSession.phoneNumber || "+905555555555",
           messageFrom: "assistant",

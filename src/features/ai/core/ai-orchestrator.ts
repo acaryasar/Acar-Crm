@@ -13,12 +13,10 @@ export class AIOrchestrator {
   private ticketCreationService: any;
   private appointmentSchedulerService: any;
   private notificationService: any;
-  private companyId: string;
 
   constructor() {
     this.channels = new Map();
     this.conversationLogger = new ConversationLogger();
-    this.companyId = '';
 
     // Lazy load services
     this.intentProcessor = null;
@@ -78,9 +76,8 @@ export class AIOrchestrator {
   /**
    * Gelen mesajı işle
    */
-  async processMessage(message: IncomingMessage, companyId: string): Promise<void> {
+  async processMessage(message: IncomingMessage): Promise<void> {
     try {
-      this.companyId = companyId;
       await this.initServices();
 
       const channel = this.getChannel(message.channelType);
@@ -90,7 +87,7 @@ export class AIOrchestrator {
       }
 
       // 1. Konuşmayı logla
-      await this.conversationLogger.logIncomingMessage(message, companyId);
+      await this.conversationLogger.logIncomingMessage(message);
 
       // 2. Intent belirle
       const intentResult = await this.intentProcessor.process(message);
@@ -101,14 +98,14 @@ export class AIOrchestrator {
       console.log('Entities:', entities);
 
       // 4. İş mantığına göre aksiyon al
-      const response = await this.handleIntent(message, intentResult, entities, companyId);
+      const response = await this.handleIntent(message, intentResult, entities);
 
       // 5. Cevabı gönder
       if (response && channel.getConfig().autoResponse) {
         const delay = channel.getConfig().responseDelay || 0;
         setTimeout(async () => {
           await channel.sendMessage(response);
-          await this.conversationLogger.logOutgoingMessage(response, message.channelType, companyId);
+          await this.conversationLogger.logOutgoingMessage(response, message.channelType);
         }, delay);
       }
 
@@ -116,7 +113,7 @@ export class AIOrchestrator {
       console.error('Error processing message:', error);
       // Hata durumunda manuel müdahale için ticket oluştur
       await this.initServices();
-      await this.ticketCreationService.createErrorTicket(message, companyId);
+      await this.ticketCreationService.createErrorTicket(message);
     }
   }
 
@@ -126,35 +123,34 @@ export class AIOrchestrator {
   private async handleIntent(
     message: IncomingMessage,
     intentResult: IntentResult,
-    entities: Record<string, any>,
-    companyId: string
+    entities: Record<string, any>
   ): Promise<OutgoingMessage | null> {
     const { intent, confidence } = intentResult;
 
     // Confidence düşükse insan müdahalesi iste
     if (confidence < 0.7) {
-      await this.ticketCreationService.createManualReviewTicket(message, intentResult, companyId);
+      await this.ticketCreationService.createManualReviewTicket(message, intentResult);
       return this.responseGenerator.generateLowConfidenceResponse(message);
     }
 
     switch (intent) {
       case 'NEW_CUSTOMER_INQUIRY':
-        return await this.handleNewCustomerInquiry(message, entities, companyId);
+        return await this.handleNewCustomerInquiry(message, entities);
 
       case 'EXISTING_CUSTOMER_FOLLOWUP':
-        return await this.handleExistingCustomerFollowup(message, entities, companyId);
+        return await this.handleExistingCustomerFollowup(message, entities);
 
       case 'APPOINTMENT_REQUEST':
-        return await this.handleAppointmentRequest(message, entities, companyId);
+        return await this.handleAppointmentRequest(message, entities);
 
       case 'URGENT_ISSUE':
-        return await this.handleUrgentIssue(message, entities, companyId);
+        return await this.handleUrgentIssue(message, entities);
 
       case 'GENERAL_QUESTION':
-        return await this.handleGeneralQuestion(message, entities, companyId);
+        return await this.handleGeneralQuestion(message, entities);
 
       default:
-        return await this.handleUnknownIntent(message, companyId);
+        return await this.handleUnknownIntent(message);
     }
   }
 
@@ -163,18 +159,16 @@ export class AIOrchestrator {
    */
   private async handleNewCustomerInquiry(
     message: IncomingMessage,
-    entities: Record<string, any>,
-    companyId: string
+    entities: Record<string, any>
   ): Promise<OutgoingMessage> {
     // Mevcut müşteriyi ara
     const existingCustomer = await this.customerResolutionService.findCustomer(
-      message.from,
-      companyId
+      message.from
     );
 
     if (existingCustomer) {
       // Mevcut müşteri varsa follow-up'a yönlendir
-      return await this.handleExistingCustomerFollowup(message, entities, companyId);
+      return await this.handleExistingCustomerFollowup(message, entities);
     }
 
     // Eksik bilgileri topla
@@ -186,14 +180,12 @@ export class AIOrchestrator {
 
     // Yeni müşteri oluştur
     const customer = await this.customerResolutionService.createCustomer(
-      entities as CustomerInfo,
-      companyId
+      entities as CustomerInfo
     );
 
     // Ticket oluştur
     const ticket = await this.ticketCreationService.createTicket({
       customerId: customer.id,
-      companyId,
       title: 'Yeni Müşteri Kaydı',
       description: message.content,
       source: message.channelType,
@@ -212,19 +204,17 @@ export class AIOrchestrator {
    */
   private async handleExistingCustomerFollowup(
     message: IncomingMessage,
-    entities: Record<string, any>,
-    companyId: string
+    entities: Record<string, any>
   ): Promise<OutgoingMessage> {
-    const customer = await this.customerResolutionService.findCustomer(message.from, companyId);
+    const customer = await this.customerResolutionService.findCustomer(message.from);
     
     if (!customer) {
-      return await this.handleNewCustomerInquiry(message, entities, companyId);
+      return await this.handleNewCustomerInquiry(message, entities);
     }
 
     // Ticket oluştur
     const ticket = await this.ticketCreationService.createTicket({
       customerId: customer.id,
-      companyId,
       title: 'Müşteri Follow-up',
       description: message.content,
       source: message.channelType,
@@ -243,14 +233,13 @@ export class AIOrchestrator {
    */
   private async handleAppointmentRequest(
     message: IncomingMessage,
-    entities: Record<string, any>,
-    companyId: string
+    entities: Record<string, any>
   ): Promise<OutgoingMessage> {
-    const customer = await this.customerResolutionService.findCustomer(message.from, companyId);
+    const customer = await this.customerResolutionService.findCustomer(message.from);
     
     if (!customer) {
       // Önce müşteri oluştur
-      await this.handleNewCustomerInquiry(message, entities, companyId);
+      await this.handleNewCustomerInquiry(message, entities);
       return this.responseGenerator.generateAppointmentRequestAfterCustomerCreation();
     }
 
@@ -262,8 +251,7 @@ export class AIOrchestrator {
     // Müsait kullanıcıları bul
     const availableUsers = await this.appointmentSchedulerService.findAvailableUsers(
       entities.preferredStartAt,
-      entities.preferredEndAt,
-      companyId
+      entities.preferredEndAt
     );
 
     if (availableUsers.length === 0) {
@@ -281,7 +269,6 @@ export class AIOrchestrator {
     const appointment = await this.appointmentSchedulerService.createAppointment({
       customerId: customer.id,
       employeeId: selectedUser.id,
-      companyId: this.companyId,
       startAt: entities.preferredStartAt,
       endAt: entities.preferredEndAt,
       title: entities.category || 'Randevu',
@@ -291,7 +278,6 @@ export class AIOrchestrator {
     // Ticket oluştur ve güncelle
     const ticket = await this.ticketCreationService.createTicket({
       customerId: customer.id,
-      companyId,
       title: 'Randevu Talebi',
       description: message.content,
       source: message.channelType,
@@ -317,19 +303,17 @@ export class AIOrchestrator {
    */
   private async handleUrgentIssue(
     message: IncomingMessage,
-    entities: Record<string, any>,
-    companyId: string
+    entities: Record<string, any>
   ): Promise<OutgoingMessage> {
-    const customer = await this.customerResolutionService.findCustomer(message.from, companyId);
+    const customer = await this.customerResolutionService.findCustomer(message.from);
     
     if (!customer) {
-      await this.handleNewCustomerInquiry(message, entities, companyId);
+      await this.handleNewCustomerInquiry(message, entities);
     }
 
     // Yüksek öncelikli ticket oluştur
     const ticket = await this.ticketCreationService.createTicket({
       customerId: customer?.id || '',
-      companyId,
       title: 'Acil Durum',
       description: message.content,
       source: message.channelType,
@@ -343,8 +327,7 @@ export class AIOrchestrator {
     // Müsait bir kullanıcıya ata
     const availableUser = await this.appointmentSchedulerService.findAvailableUsers(
       new Date(),
-      new Date(Date.now() + 3600000), // 1 saat
-      companyId
+      new Date(Date.now() + 3600000) // 1 saat
     );
 
     if (availableUser.length > 0) {
@@ -360,8 +343,7 @@ export class AIOrchestrator {
    */
   private async handleGeneralQuestion(
     message: IncomingMessage,
-    entities: Record<string, any>,
-    companyId: string
+    entities: Record<string, any>
   ): Promise<OutgoingMessage> {
     // AI ile cevap oluştur
     const answer = await this.responseGenerator.generateAIResponse(message.content);
@@ -376,11 +358,10 @@ export class AIOrchestrator {
    * Bilinmeyen intent'i işle
    */
   private async handleUnknownIntent(
-    message: IncomingMessage,
-    companyId: string
+    message: IncomingMessage
   ): Promise<OutgoingMessage> {
     // Manuel inceleme için ticket oluştur
-    await this.ticketCreationService.createManualReviewTicket(message, null, companyId);
+    await this.ticketCreationService.createManualReviewTicket(message, null);
     
     return this.responseGenerator.generateUnknownIntentResponse();
   }

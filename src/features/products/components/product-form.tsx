@@ -86,7 +86,7 @@ export function ProductForm({ mode = "create", product }: ProductFormProps) {
     }
 
     setLoading(false);
-    router.push("/dashboard/products");
+    router.push("/products");
   }
 
   return (

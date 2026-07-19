@@ -15,8 +15,7 @@ export async function GET() {
   if (session.user.role === "ADMIN") {
     // Admin sees all appointments
   } else if (session.user.role === "SUPERVISOR" as any) {
-    // Supervisor sees appointments from their company
-    whereClause.companyId = session.user.companyId;
+    // Supervisor sees all appointments
   } else {
     // Manager/Employee see only their assigned appointments
     whereClause.employeeId = session.user.id;
@@ -45,7 +44,6 @@ export async function POST(request: Request) {
 
   const appointment = await prisma.appointment.create({
     data: {
-      companyId: session.user!.companyId,
       customerId: body.customerId,
       employeeId: body.employeeId,
       title: body.title,

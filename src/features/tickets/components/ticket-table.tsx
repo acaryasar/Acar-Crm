@@ -23,7 +23,7 @@ export function TicketTable({ tickets }: { tickets: Ticket[] }) {
   const t = useTranslations("tickets");
   const { data: session } = useSession();
   const { handleDelete, deleteId, confirmDelete, cancelDelete } = useEntityDelete(deleteTicket);
-  const { handleToggleStatus } = useEntityToggleStatus((id) => toggleEntityStatus({ entityType: "TICKET", entityId: id, revalidatePath: "/dashboard/tickets" }));
+  const { handleToggleStatus } = useEntityToggleStatus((id) => toggleEntityStatus({ entityType: "TICKET", entityId: id, revalidatePath: "/tickets" }));
   const userRole = session?.user?.role;
 
   if (!tickets.length) {

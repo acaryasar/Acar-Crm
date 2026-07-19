@@ -125,7 +125,7 @@ export function SalesTypeList({ salesTypes }: SalesTypeListProps) {
             Export
           </Button>
           <Button
-            onClick={() => router.push('/dashboard/parameters/sales-types?mode=create')}
+            onClick={() => router.push('/parameters/sales-types?mode=create')}
             className="gap-2"
           >
             <Plus size={16} />
@@ -176,7 +176,7 @@ export function SalesTypeList({ salesTypes }: SalesTypeListProps) {
                       <Button
                         variant="ghost"
                         size="sm"
-                        onClick={() => router.push(`/dashboard/parameters/sales-types?mode=edit&id=${salesType.id}`)}
+                        onClick={() => router.push(`/parameters/sales-types?mode=edit&id=${salesType.id}`)}
                       >
                         <Edit size={16} />
                       </Button>

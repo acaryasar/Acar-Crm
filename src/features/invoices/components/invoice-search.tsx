@@ -14,9 +14,9 @@ export function InvoiceSearch() {
 
   useEffect(() => {
     if (debounced) {
-      router.push(`/dashboard/invoices?search=${debounced}`);
+      router.push(`/invoices?search=${debounced}`);
     } else {
-      router.push("/dashboard/invoices");
+      router.push("/invoices");
     }
   }, [debounced, router]);
 

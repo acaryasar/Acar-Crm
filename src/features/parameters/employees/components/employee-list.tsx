@@ -143,7 +143,7 @@ export function EmployeeList({ employees }: EmployeeListProps) {
             Export
           </Button>
           <Button
-            onClick={() => router.push('/dashboard/parameters/employees?mode=create')}
+            onClick={() => router.push('/parameters/employees?mode=create')}
             className="gap-2"
           >
             <Plus size={16} />
@@ -194,7 +194,7 @@ export function EmployeeList({ employees }: EmployeeListProps) {
                       <Button
                         variant="ghost"
                         size="sm"
-                        onClick={() => router.push(`/dashboard/parameters/employees?mode=edit&id=${employee.id}`)}
+                        onClick={() => router.push(`/parameters/employees?mode=edit&id=${employee.id}`)}
                       >
                         <Edit size={16} />
                       </Button>

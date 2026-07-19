@@ -383,48 +383,6 @@
     "clear": "Temizle"
   },
   
-  "companies": {
-    "title": "Şirketler",
-    "newCompany": "Yeni Şirket",
-    "new": "Yeni",
-    "newCompanySubtitle": "Çalışma alanınıza yeni bir şirket ekleyin",
-    "createCompanyDesc": "Yeni bir şirket oluşturmak için bilgileri doldurun",
-    "editCompany": "Şirketi Düzenle",
-    "viewCompany": "Şirketi Görüntüle",
-    "backToCompanies": "Şirketler'e Geri Dön",
-    "search": "Şirket ara...",
-    "noCompaniesFound": "Şirket bulunamadı",
-    "name": "Şirket Adı",
-    "created": "Oluşturulma Tarihi",
-    "totalUsers": "Toplam Kullanıcı",
-    "totalCustomers": "Toplam Müşteri",
-    "totalTickets": "Toplam Talep",
-    "actions": "İşlemler",
-    "view": "Görüntüle",
-    "save": "Kaydet",
-    "edit": "Düzenle",
-    "isActive": "Durum",
-    "active": "Aktif",
-    "passive": "Pasif",
-    "deleted": "İptal",
-    "basicInfo": "Temel Bilgiler",
-    "invoiceInfo": "Fatura Bilgileri",
-    "taxId": "Vergi Numarası",
-    "taxOffice": "Vergi Dairesi",
-    "contactInfo": "İletişim Bilgileri",
-    "email": "E-posta",
-    "phone": "Telefon",
-    "website": "Web Sitesi",
-    "addressInfo": "Adres Bilgileri",
-    "street": "Sokak",
-    "city": "Şehir",
-    "postalCode": "Posta Kodu",
-    "country": "Ülke",
-    "bankInfo": "Banka Bilgileri",
-    "bankName": "Banka Adı",
-    "iban": "IBAN"
-  },
-
   "users": {
     "title": "Kullanıcılar",
     "newUser": "Yeni Kullanıcı",
@@ -473,8 +431,7 @@
     "viewAll": "Tümünü Gör",
     "noTicketsYet": "Henüz talep yok",
     "appointments": "Randevular",
-    "users": "Kullanıcılar",
-    "companynotfound": "Şirket bilgisi bulunamadı"
+    "users": "Kullanıcılar"
   },
 
   "roles": {
@@ -564,7 +521,6 @@
       "customer": "Müşteri",
       "user": "Kullanıcı",
       "ticket": "Talep",
-      "company": "Şirket",
       "appointment": "Randevu",
       "quote": "Teklif",
       "invoice": "Fatura"
@@ -579,13 +535,11 @@
     "action": "İşlem",
     "entityType": "Varlık Türü",
     "user": "Kullanıcı",
-    "company": "Şirket",
     "timestamp": "Zaman Damgası",
     "entities": {
       "customer": "Müşteri",
       "user": "Kullanıcı",
       "ticket": "Talep",
-      "company": "Şirket",
       "appointment": "Randevu",
       "quote": "Teklif",
       "invoice": "Fatura"

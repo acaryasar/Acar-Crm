@@ -21,7 +21,6 @@ interface Appointment {
 interface Props {
   ticketId: string;
   customerId: string;
-  companyId: string;
   isOpen: boolean;
   onClose: () => void;
   onSuccess: () => void;
@@ -30,7 +29,6 @@ interface Props {
 export function TicketAssignmentDialog({
   ticketId,
   customerId,
-  companyId,
   isOpen,
   onClose,
   onSuccess,
@@ -107,7 +105,6 @@ export function TicketAssignmentDialog({
         assignedUserId: selectedUserId,
         appointmentStartAt: startAt,
         appointmentEndAt: endAt,
-        companyId,
       });
 
       onSuccess();

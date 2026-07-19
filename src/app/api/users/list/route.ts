@@ -10,7 +10,6 @@ export async function GET(req: NextRequest) {
     }
 
     const userRole = session.user.role;
-    const userCompanyId = session.user.companyId;
 
     let users;
 
@@ -26,24 +25,16 @@ export async function GET(req: NextRequest) {
           lastName: true,
           email: true,
           role: true,
-          companyId: true,
-          company: {
-            select: {
-              id: true,
-              name: true,
-            },
-          },
         },
         orderBy: {
           firstName: "asc",
         },
       });
     } else {
-      // Supervisor can only see users in their company
+      // Other roles can see all users
       users = await prisma.user.findMany({
         where: {
           deletedAt: null,
-          companyId: userCompanyId,
         },
         select: {
           id: true,
@@ -51,13 +42,6 @@ export async function GET(req: NextRequest) {
           lastName: true,
           email: true,
           role: true,
-          companyId: true,
-          company: {
-            select: {
-              id: true,
-              name: true,
-            },
-          },
         },
         orderBy: {
           firstName: "asc",

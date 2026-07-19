@@ -56,9 +56,6 @@ async function processWhatsAppMessage(message: any, value: any) {
   const messageId = message.id;
   const timestamp = new Date(parseInt(message.timestamp) * 1000);
 
-  // Company ID'yi belirle (telefon numarasına göre veya default)
-  const companyId = await getCompanyIdByPhone(phoneNumber);
-
   // IncomingMessage oluştur
   const incomingMessage: IncomingMessage = {
     id: messageId,
@@ -75,16 +72,5 @@ async function processWhatsAppMessage(message: any, value: any) {
 
   // AI Orchestrator ile işle
   const orchestrator = new AIOrchestrator();
-  await orchestrator.processMessage(incomingMessage, companyId);
-}
-
-async function getCompanyIdByPhone(phoneNumber: string): Promise<string> {
-  // Basit implementasyon: İlk company'yi döndür
-  // İleride telefon numarasına göre company mapping yapılabilir
-  const { prisma } = await import('@/lib/prisma');
-  const company = await prisma.company.findFirst({
-    where: { is_active: true }
-  });
-
-  return company?.id || '';
+  await orchestrator.processMessage(incomingMessage);
 }

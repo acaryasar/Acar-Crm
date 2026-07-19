@@ -5,13 +5,9 @@ import { requireRole } from "@/lib/auth-guard";
 export async function GET(req: NextRequest) {
   try {
     const session = await requireRole(["ADMIN", "SUPERVISOR", "MANAGER"]);
-    const companyId = session.user.companyId;
-
-    const companyFilter = session.user.role === "ADMIN" ? {} : { companyId };
 
     const orders = await prisma.order.findMany({
       where: {
-        ...companyFilter,
         isDeleted: false,
       },
       include: {
@@ -37,7 +33,6 @@ export async function POST(req: NextRequest) {
   try {
     const session = await requireRole(["ADMIN", "SUPERVISOR", "MANAGER"]);
     const body = await req.json();
-    const companyId = session.user.companyId;
 
     const {
       customerId,
@@ -58,7 +53,6 @@ export async function POST(req: NextRequest) {
 
     // Generate order number
     const lastOrder = await prisma.order.findFirst({
-      where: { companyId },
       orderBy: { orderNumber: "desc" },
     });
 
@@ -67,7 +61,6 @@ export async function POST(req: NextRequest) {
 
     const order = await prisma.order.create({
       data: {
-        companyId,
         orderNumber,
         customerId,
         orderDate: new Date(orderDate),

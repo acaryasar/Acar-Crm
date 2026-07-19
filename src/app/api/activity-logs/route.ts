@@ -17,8 +17,8 @@ export async function GET(request: Request) {
   if ((session.user as any).role === "ADMIN") {
     // Admin sees all activity logs
   } else if ((session.user as any).role === "SUPERVISOR") {
-    // Supervisor sees logs from their company
-    whereClause.companyId = (session.user as any).companyId;
+    // Supervisor sees all activity logs
+
   } else {
     // Other roles don't have access
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
@@ -42,13 +42,7 @@ export async function GET(request: Request) {
           lastName: true,
           email: true,
         },
-      },
-      company: {
-        select: {
-          id: true,
-          name: true,
-        },
-      },
+      },      
     },
     orderBy: { createdAt: "desc" },
     take: 100,

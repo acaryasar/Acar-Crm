@@ -32,5 +32,5 @@ export async function updateTicket(data: UpdateTicketInput) {
     },
   });
 
-  revalidatePath("/dashboard/tickets");
+  revalidatePath("/tickets");
 }

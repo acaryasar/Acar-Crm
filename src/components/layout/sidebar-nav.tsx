@@ -41,46 +41,46 @@ interface NavItem {
 
 const items: NavItem[] = [
   { label: "dashboard",    href: "/dashboard",              icon: LayoutDashboard, exact: true },
-  { label: "inbox",        href: "/dashboard/inbox",        icon: Mail },
-  { label: "companies",    href: "/dashboard/companies",    icon: Building2, roles: ["ADMIN"] },
-  { label: "customers",    href: "/dashboard/customers",    icon: UserRound, roles: ["ADMIN", "SUPERVISOR"]},
-  { label: "products",     href: "/dashboard/products",     icon: Package, roles: ["ADMIN", "SUPERVISOR", "MANAGER"] },
-  { label: "stock",        href: "/dashboard/stock",        icon: BarChart3, roles: ["ADMIN", "SUPERVISOR", "MANAGER"] },
-  { label: "orders",       href: "/dashboard/orders",       icon: ShoppingCart, roles: ["ADMIN", "SUPERVISOR", "MANAGER"] },
-  { label: "purchases",    href: "/dashboard/purchases",    icon: Truck, roles: ["ADMIN", "SUPERVISOR", "MANAGER"] },
-  { label: "invoices",     href: "/dashboard/invoices",     icon: Receipt, roles: ["ADMIN", "SUPERVISOR"] },
+  { label: "inbox",        href: "/inbox",                  icon: Mail },
+  { label: "companies",    href: "/companies",              icon: Building2, roles: ["ADMIN"] },
+  { label: "customers",    href: "/customers",              icon: UserRound, roles: ["ADMIN", "SUPERVISOR"]},
+  { label: "products",     href: "/products",               icon: Package, roles: ["ADMIN", "SUPERVISOR", "MANAGER"] },
+  { label: "stock",        href: "/stock",                  icon: BarChart3, roles: ["ADMIN", "SUPERVISOR", "MANAGER"] },
+  { label: "orders",       href: "/orders",                 icon: ShoppingCart, roles: ["ADMIN", "SUPERVISOR", "MANAGER"] },
+  { label: "purchases",    href: "/purchases",              icon: Truck, roles: ["ADMIN", "SUPERVISOR", "MANAGER"] },
+  { label: "invoices",     href: "/invoices",               icon: Receipt, roles: ["ADMIN", "SUPERVISOR"] },
   {
     label: "commission",
     icon: DollarSign,
     roles: ["ADMIN", "SUPERVISOR", "MANAGER"],
     children: [
-      { label: "commissionRules", href: "/dashboard/commission-rules", icon: FileText },
-      { label: "commissionCalculation", href: "/dashboard/commission-calculation", icon: BarChart3 },
-      { label: "commissionPayment", href: "/dashboard/commission-payment", icon: Receipt },
+      { label: "commissionRules", href: "/commission-rules", icon: FileText },
+      { label: "commissionCalculation", href: "/commission-calculation", icon: BarChart3 },
+      { label: "commissionPayment", href: "/commission-payment", icon: Receipt },
     ]
   },
-  { label: "tickets",      href: "/dashboard/tickets",      icon: Ticket },
-  { label: "appointments", href: "/dashboard/appointments", icon: Calendar },
-  { label: "users",        href: "/dashboard/users",        icon: Users , roles: ["ADMIN", "SUPERVISOR"]},
+  { label: "tickets",      href: "/tickets",                icon: Ticket },
+  { label: "appointments", href: "/appointments",            icon: Calendar },
+  { label: "users",        href: "/users",                  icon: Users , roles: ["ADMIN", "SUPERVISOR"]},
   {
     label: "ai",
     icon: Bot,
     roles: ["ADMIN"],
     children: [
-      { label: "whatsappDemo", href: "/dashboard/whatsapp-demo", icon: MessageCircle, isWhatsApp: true },
-      { label: "phoneCallDemo", href: "/dashboard/phone-call-demo", icon: Phone },
-      { label: "emailDemo", href: "/dashboard/email-demo", icon: Mail },
-      { label: "webChatDemo", href: "/dashboard/web-chat-demo", icon: MessageCircle },
+      { label: "whatsappDemo", href: "/whatsapp-demo", icon: MessageCircle, isWhatsApp: true },
+      { label: "phoneCallDemo", href: "/phone-call-demo", icon: Phone },
+      { label: "emailDemo", href: "/email-demo", icon: Mail },
+      { label: "webChatDemo", href: "/web-chat-demo", icon: MessageCircle },
     ]
   },
   {
     label: "parameters",
     icon: Settings,
     roles: ["ADMIN", "SUPERVISOR", "MANAGER"],
-    href: "/dashboard/parameters",
+    href: "/parameters",
     exact: true,
   },
-  { label: "activityLogs", href: "/dashboard/activity-logs", icon: ListFilter, roles: ["ADMIN", "SUPERVISOR"] },
+  { label: "activityLogs", href: "/activity-logs", icon: ListFilter, roles: ["ADMIN", "SUPERVISOR"] },
 ];
 
 export function SidebarNav({ role }: { role?: string }) {

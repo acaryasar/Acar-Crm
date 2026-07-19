@@ -51,18 +51,6 @@ export async function toggleEntityStatus({
       });
       break;
 
-    case "COMPANY":
-      entity = await prisma.company.findUnique({
-        where: { id: entityId },
-      });
-      if (!entity) throw new Error("Company not found");
-      newStatus = !entity.is_active;
-      await prisma.company.update({
-        where: { id: entityId },
-        data: { is_active: newStatus },
-      });
-      break;
-
     case "TICKET":
       entity = await prisma.ticket.findUnique({
         where: { id: entityId },

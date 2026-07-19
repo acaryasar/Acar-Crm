@@ -39,7 +39,7 @@ export function ProductTable({ products }: Props) {
   const t = useTranslations("products");
   const { data: session } = useSession();
   const { handleDelete, deleteId, confirmDelete, cancelDelete } = useEntityDelete(() => Promise.resolve());
-  const { handleToggleStatus } = useEntityToggleStatus((id) => toggleEntityStatus({ entityType: "PRODUCT" as any, entityId: id, revalidatePath: "/dashboard/products" }));
+  const { handleToggleStatus } = useEntityToggleStatus((id) => toggleEntityStatus({ entityType: "PRODUCT" as any, entityId: id, revalidatePath: "/products" }));
   const userRole = session?.user?.role;
 
   if (!products.length) {
@@ -136,14 +136,14 @@ export function ProductTable({ products }: Props) {
                   <td className="px-6 py-4">
                     <div className="flex items-center justify-end gap-2">
                       <Link
-                        href={`/dashboard/products?mode=view&id=${product.id}`}
+                        href={`/products?mode=view&id=${product.id}`}
                         className="p-1.5 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors"
                         title={t("view")}
                       >
                         <Eye size={16} />
                       </Link>
                       <Link
-                        href={`/dashboard/products?mode=edit&id=${product.id}`}
+                        href={`/products?mode=edit&id=${product.id}`}
                         className="p-1.5 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors"
                         title={t("edit")}
                       >

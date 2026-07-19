@@ -9,14 +9,10 @@ export async function GET(
   try {
     const session = await requireRole(["ADMIN", "SUPERVISOR", "MANAGER"]);
     const { id } = await params;
-    const companyId = session.user.companyId;
-
-    const companyFilter = session.user.role === "ADMIN" ? {} : { companyId };
 
     const invoice = await prisma.invoice.findFirst({
       where: {
         id,
-        ...companyFilter,
         deletedAt: null,
       },
       include: {

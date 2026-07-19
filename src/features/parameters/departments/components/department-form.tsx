@@ -67,7 +67,7 @@ export function DepartmentForm({ mode, department }: DepartmentFormProps) {
       });
 
       if (response.ok) {
-        router.push('/dashboard/parameters/departments');
+        router.push('/parameters/departments');
         router.refresh();
       } else {
         const error = await response.json();
@@ -87,7 +87,7 @@ export function DepartmentForm({ mode, department }: DepartmentFormProps) {
       <div className="flex items-center justify-between mb-6 shrink-0">
         <div className="flex items-center gap-3">
           <Link
-            href="/dashboard/parameters/departments"
+            href="/parameters/departments"
             className="inline-flex items-center justify-center gap-2 text-slate-600 hover:text-slate-800 transition-colors"
           >
             <ArrowLeft size={20} />
@@ -108,7 +108,7 @@ export function DepartmentForm({ mode, department }: DepartmentFormProps) {
         <div className="flex items-center gap-3">
           {isViewMode && department && (
             <Link
-              href={`/dashboard/parameters/departments?mode=edit&id=${department.id}`}
+              href={`/parameters/departments?mode=edit&id=${department.id}`}
               className="inline-flex items-center justify-center gap-2 bg-orange-600 hover:bg-orange-700 text-white text-sm font-medium px-4 py-2.5 rounded-xl transition-colors shadow-sm"
             >
               <Save size={16} />
@@ -118,7 +118,7 @@ export function DepartmentForm({ mode, department }: DepartmentFormProps) {
           {!isViewMode && (
             <>
               <Link
-                href="/dashboard/parameters/departments"
+                href="/parameters/departments"
                 className="inline-flex items-center justify-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-medium px-4 py-2.5 rounded-xl transition-colors shadow-sm"
               >
                 <X size={16} />

@@ -11,8 +11,6 @@ export async function POST() {
     return Response.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const companyId = session.user.companyId;
-
   for (const email of emails) {
     if (
       !email.messageId
@@ -34,7 +32,6 @@ export async function POST() {
 
     await prisma.emailInbox.create({
       data: {
-        companyId: companyId,
         messageId: email.messageId,
         fromEmail: email.from?.value?.[0]?.address ?? "",
         fromName:  email.from?.value?.[0]?.name ?? "",

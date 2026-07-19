@@ -41,16 +41,6 @@ export async function softDelete({entityType, entityId,}: Props)
       });
       break;
 
-    case "COMPANY":
-      await prisma.company.update({
-        where: { id: entityId },
-        data: {
-          deletedAt: new Date(),
-          is_active: false,
-        },
-      });
-      break;
-
     case "APPOINTMENT":
       await prisma.appointment.update({
         where: { id: entityId },

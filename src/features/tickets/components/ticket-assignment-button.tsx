@@ -7,14 +7,12 @@ import { TicketAssignmentDialog } from "./ticket-assignment-dialog";
 interface Props {
   ticketId: string;
   customerId: string;
-  companyId: string;
   status: string;
 }
 
 export function TicketAssignmentButton({
   ticketId,
   customerId,
-  companyId,
   status,
 }: Props) {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -37,7 +35,6 @@ export function TicketAssignmentButton({
       <TicketAssignmentDialog
         ticketId={ticketId}
         customerId={customerId}
-        companyId={companyId}
         isOpen={isDialogOpen}
         onClose={() => setIsDialogOpen(false)}
         onSuccess={() => {

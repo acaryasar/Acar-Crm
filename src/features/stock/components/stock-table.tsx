@@ -107,7 +107,7 @@ export function StockTable({ products }: Props) {
                   <td className="px-4 py-3 text-right">
                     <div className="flex items-center justify-end gap-2">
                       <Link
-                        href={`/dashboard/stock?mode=create&productId=${product.id}`}
+                        href={`/stock?mode=create&productId=${product.id}`}
                         className="inline-flex items-center justify-center gap-1 text-xs font-medium text-indigo-600 hover:text-indigo-700 bg-indigo-50 hover:bg-indigo-100 px-2 py-1.5 rounded-lg transition-colors"
                       >
                         <ArrowDown size={12} />

@@ -100,7 +100,7 @@ export function BankAccountForm({ mode, bankAccount, banks, currencies }: BankAc
       });
 
       if (response.ok) {
-        router.push('/dashboard/parameters/bank-accounts');
+        router.push('/parameters/bank-accounts');
         router.refresh();
       } else {
         const error = await response.json();
@@ -120,7 +120,7 @@ export function BankAccountForm({ mode, bankAccount, banks, currencies }: BankAc
       <div className="flex items-center justify-between mb-6 shrink-0">
         <div className="flex items-center gap-3">
           <Link
-            href="/dashboard/parameters/bank-accounts"
+            href="/parameters/bank-accounts"
             className="inline-flex items-center justify-center gap-2 text-slate-600 hover:text-slate-800 transition-colors"
           >
             <ArrowLeft size={20} />
@@ -141,7 +141,7 @@ export function BankAccountForm({ mode, bankAccount, banks, currencies }: BankAc
         <div className="flex items-center gap-3">
           {isViewMode && bankAccount && (
             <Link
-              href={`/dashboard/parameters/bank-accounts?mode=edit&id=${bankAccount.id}`}
+              href={`/parameters/bank-accounts?mode=edit&id=${bankAccount.id}`}
               className="inline-flex items-center justify-center gap-2 bg-teal-600 hover:bg-teal-700 text-white text-sm font-medium px-4 py-2.5 rounded-xl transition-colors shadow-sm"
             >
               <Save size={16} />
@@ -151,7 +151,7 @@ export function BankAccountForm({ mode, bankAccount, banks, currencies }: BankAc
           {!isViewMode && (
             <>
               <Link
-                href="/dashboard/parameters/bank-accounts"
+                href="/parameters/bank-accounts"
                 className="inline-flex items-center justify-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-medium px-4 py-2.5 rounded-xl transition-colors shadow-sm"
               >
                 <X size={16} />

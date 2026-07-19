@@ -117,14 +117,14 @@ export function OrderTable({ orders }: Props) {
                 <td className="px-4 py-3 text-right">
                   <div className="flex items-center justify-end gap-2">
                     <Link
-                      href={`/dashboard/orders?mode=view&id=${order.id}`}
+                      href={`/orders?mode=view&id=${order.id}`}
                       className="inline-flex items-center justify-center gap-1 text-xs font-medium text-slate-600 hover:text-slate-800 bg-slate-50 hover:bg-slate-100 px-2 py-1.5 rounded-lg transition-colors"
                     >
                       <Eye size={12} />
                       {t("view")}
                     </Link>
                     <Link
-                      href={`/dashboard/orders?mode=edit&id=${order.id}`}
+                      href={`/orders?mode=edit&id=${order.id}`}
                       className="inline-flex items-center justify-center gap-1 text-xs font-medium text-indigo-600 hover:text-indigo-700 bg-indigo-50 hover:bg-indigo-100 px-2 py-1.5 rounded-lg transition-colors"
                     >
                       <Edit size={12} />

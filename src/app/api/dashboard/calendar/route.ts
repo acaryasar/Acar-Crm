@@ -19,16 +19,14 @@ export async function GET(request: Request) {
   const lastDay = new Date(year, month, 0);
 
   // Role-based filtering
-  // Admin: sees all appointments in the system (no company filter)
-  // Supervisor: sees only their company's appointments
+  // Admin: sees all appointments in the system
+  // Supervisor: sees all appointments
   // Manager/Employee: sees only their own appointments
-  const companyFilter = isAdmin(session) ? {} : { companyId: session.user.companyId };
   const employeeFilter = isAdminOrSupervisor(session) ? {} : { employeeId: session.user.id };
 
   // Get appointments for the user in this month
   const appointments = await prisma.appointment.findMany({
     where: {
-      ...companyFilter,
       ...employeeFilter,
       startAt: {
         gte: firstDay,
@@ -44,7 +42,6 @@ export async function GET(request: Request) {
   const appointmentIds = appointments.map((a: any) => a.id);
   const tickets = await prisma.ticket.findMany({
     where: {
-      companyId: session.user.companyId,
       customerId: {
         in: appointments.map((a: any) => a.customerId),
       },

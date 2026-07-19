@@ -5,13 +5,9 @@ import { requireRole } from "@/lib/auth-guard";
 export async function GET(req: NextRequest) {
   try {
     const session = await requireRole(["ADMIN", "SUPERVISOR", "MANAGER"]);
-    const companyId = session.user.companyId;
-
-    const companyFilter = session.user.role === "ADMIN" ? {} : { companyId };
 
     const invoices = await prisma.invoice.findMany({
       where: {
-        ...companyFilter,
         deletedAt: null,
       },
       include: {
@@ -34,7 +30,6 @@ export async function POST(req: NextRequest) {
   try {
     const session = await requireRole(["ADMIN", "SUPERVISOR", "MANAGER"]);
     const body = await req.json();
-    const companyId = session.user.companyId;
 
     const {
       customerId,
@@ -56,7 +51,6 @@ export async function POST(req: NextRequest) {
 
     // Generate invoice number
     const lastInvoice = await prisma.invoice.findFirst({
-      where: { companyId },
       orderBy: { invoiceNumber: "desc" },
     });
 
@@ -65,7 +59,6 @@ export async function POST(req: NextRequest) {
 
     const invoice = await prisma.invoice.create({
       data: {
-        companyId,
         invoiceNumber,
         customerId,
         orderId: orderId || null,

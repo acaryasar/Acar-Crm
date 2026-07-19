@@ -138,7 +138,7 @@ export function CustomerAuthorityList({ customerAuthorities }: CustomerAuthority
             Export
           </Button>
           <Button
-            onClick={() => router.push('/dashboard/parameters/customer-authorities?mode=create')}
+            onClick={() => router.push('/parameters/customer-authorities?mode=create')}
             className="gap-2"
           >
             <Plus size={16} />
@@ -191,7 +191,7 @@ export function CustomerAuthorityList({ customerAuthorities }: CustomerAuthority
                       <Button
                         variant="ghost"
                         size="sm"
-                        onClick={() => router.push(`/dashboard/parameters/customer-authorities?mode=edit&id=${customerAuthority.id}`)}
+                        onClick={() => router.push(`/parameters/customer-authorities?mode=edit&id=${customerAuthority.id}`)}
                       >
                         <Edit size={16} />
                       </Button>

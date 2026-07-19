@@ -37,7 +37,7 @@ export function UserTable({ users }: Props) {
   const t = useTranslations("users");
   const { data: session } = useSession();
   const { handleDelete, deleteId, confirmDelete, cancelDelete } = useEntityDelete(deleteUser);
-  const { handleToggleStatus } = useEntityToggleStatus((id) => toggleEntityStatus({ entityType: "USER", entityId: id, revalidatePath: "/dashboard/users" }));
+  const { handleToggleStatus } = useEntityToggleStatus((id) => toggleEntityStatus({ entityType: "USER", entityId: id, revalidatePath: "/users" }));
   const userRole = session?.user?.role;
 
   if (!users.length) {
@@ -128,7 +128,7 @@ export function UserTable({ users }: Props) {
 
                 <td className="px-6 py-4">
                   <div className="flex items-center justify-end gap-2">
-                    <ViewButton href={`/dashboard/users?mode=view&id=${user.id}`} />
+                    <ViewButton href={`/users?mode=view&id=${user.id}`} />
                     <EntityActions
                       entityType="USER"
                       entityId={user.id}

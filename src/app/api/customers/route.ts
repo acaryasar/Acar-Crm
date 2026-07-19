@@ -23,8 +23,7 @@ export async function GET(request: Request) {
   if (session.user.role === "ADMIN") {
     // Admin sees all customers
   } else {
-    // Supervisor/Manager/Employee see customers from their company
-    whereClause.companyId = session.user.companyId;
+    // Supervisor/Manager/Employee see all customers
   }
 
   const customers = await prisma.customer.findMany({
@@ -79,12 +78,11 @@ export async function POST(request: Request) {
     }
 
     const customer = await prisma.customer.create({
-      data: { ...CreateCustomerSchema.parse(data), companyId: session.user.companyId },
+      data: CreateCustomerSchema.parse(data),
     });
 
     await logActivity({ action: "CUSTOMER_CREATED", entityType: "CUSTOMER", entityId: customer.id });
     await createNotification({
-      companyId: session.user.companyId,
       title: "New Customer",
       message: customer.firstName,
       type: "SUCCESS",

@@ -19,7 +19,7 @@ export function InvoiceTable({ invoices }: Props) {
   const t = useTranslations("invoices");
   const { data: session } = useSession();
   const { handleDelete, deleteId, confirmDelete, cancelDelete } = useEntityDelete(deleteInvoice);
-  const { handleToggleStatus } = useEntityToggleStatus((id) => toggleEntityStatus({ entityType: "INVOICE", entityId: id, revalidatePath: "/dashboard/invoices" }));
+  const { handleToggleStatus } = useEntityToggleStatus((id) => toggleEntityStatus({ entityType: "INVOICE", entityId: id, revalidatePath: "/invoices" }));
   const userRole = session?.user?.role;
 
   const statusColors: Record<string, string> = {
@@ -127,7 +127,7 @@ export function InvoiceTable({ invoices }: Props) {
                 </td>
                 <td className="px-4 py-3 text-right">
                   <div className="flex items-center justify-end gap-2">
-                    <ViewButton href={`/dashboard/invoices?mode=view&id=${invoice.id}`} />
+                    <ViewButton href={`/invoices?mode=view&id=${invoice.id}`} />
                     <EntityActions
                       entityType="INVOICE"
                       entityId={invoice.id}

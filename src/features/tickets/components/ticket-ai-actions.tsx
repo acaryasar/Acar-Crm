@@ -83,7 +83,7 @@ export function TicketAiActions({ ticket }: Props) {
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
-              router.push(`/dashboard/whatsapp-demo?ticketId=${ticket.id}`);
+              router.push(`/whatsapp-demo?ticketId=${ticket.id}`);
             }}
             className="
             mt-4

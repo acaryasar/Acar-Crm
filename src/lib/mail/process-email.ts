@@ -35,12 +35,11 @@ export async function processEmail(
     customer =
       await prisma.customer.create({
         data: {
-          companyId: email.companyId,
           email: email.fromEmail,
           firstName: email.fromName ?? "Unknown",
           lastName: "",
         },
-      });
+      } as any);
   }
 
   // TICKET OLUŞTUR
@@ -48,7 +47,6 @@ export async function processEmail(
   const ticket =
     await prisma.ticket.create({
       data: {
-        companyId: email.companyId,
         customerId: customer.id,
         title: ai.title,
         description: email.body,
@@ -57,9 +55,9 @@ export async function processEmail(
         status: "NEW",
         source: "EMAIL",
       },
-    });
+    } as any);
 
-    await createNotification({ companyId: email.companyId, title: "Email Converted To Ticket", message: ticket.title,
+    await createNotification({ title: "Email Converted To Ticket", message: ticket.title,
                                type: "SUCCESS",  entityType: "EMAIL", entityId: email.id,});
     await logActivity({action: "EMAIL_CONVERTED_TO_TICKET", entityType: "TICKET", entityId: ticket.id,});
 
@@ -79,7 +77,7 @@ export async function processEmail(
     };
 
     const orchestrator = new AIOrchestrator();
-    await orchestrator.processMessage(incomingMessage, email.companyId);
+    await orchestrator.processMessage(incomingMessage);
   } catch (error) {
     console.error('Error processing email with AI orchestrator:', error);
     // Hata olsa bile ticket oluşturuldu, devam et

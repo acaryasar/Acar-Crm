@@ -4,7 +4,6 @@ import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 
 interface CreateAppointmentInput {
-  companyId: string;
   customerId: string;
   employeeId?: string;
 
@@ -22,5 +21,5 @@ export async function createAppointment(
     data,
   });
 
-  revalidatePath("/dashboard/appointments");
+  revalidatePath("/appointments");
 }

@@ -16,8 +16,7 @@ export async function GET() {
   if (session.user.role === "ADMIN") {
     // Admin sees all tickets
   } else if (session.user.role === "SUPERVISOR" as any) {
-    // Supervisor sees tickets from their company
-    whereClause.companyId = session.user.companyId;
+    // Supervisor sees all tickets
   } else {
     // Manager/Employee see only their assigned tickets
     whereClause.assignedUserId = session.user.id;
@@ -46,7 +45,6 @@ export async function POST(request: Request) {
 
   const ticket = await prisma.ticket.create({
     data: {
-      companyId: session.user.companyId,
       customerId: body.customerId,
       assignedUserId: body.assignedUserId,
       title: body.title,
@@ -61,7 +59,6 @@ export async function POST(request: Request) {
 
   await logActivity({ action: "TICKET_CREATED", entityType: "TICKET", entityId: ticket.id });
   await createNotification({
-    companyId: session.user.companyId,
     title: "New Ticket",
     message: ticket.title,
     type: "INFO",

@@ -23,5 +23,5 @@ export async function updateUser(userId: string, formData: FormData) {
     },
   });
 
-  revalidatePath("/dashboard/users");
+  revalidatePath("/users");
 }

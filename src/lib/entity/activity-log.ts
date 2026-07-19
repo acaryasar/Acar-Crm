@@ -29,7 +29,6 @@ export async function logActivity({
 
   return prisma.activityLog.create({
     data: {
-      companyId: session.user.companyId as string,
       userId: session.user.id as string,
       action,
       entityType,

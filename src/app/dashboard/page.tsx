@@ -27,24 +27,21 @@ export default async function DashboardPage() {
   
   const userName = session?.user?.name?.split(" ")[0] ?? "there";
   
-  // Admin: sees all data in the system (no company filter)
-  // Supervisor: sees only their company's data
+  // Admin: sees all data in the system (no filter)
+  // Supervisor: sees all data in the system
   // Manager/Employee: sees only their own data
-  const companyFilter = isAdmin(session) ? {} : { companyId: session.user.companyId };
   const assignedUserFilter = isAdminOrSupervisor(session) ? {} : { assignedUserId: session.user.id };
   const employeeFilter = isAdminOrSupervisor(session) ? {} : { employeeId: session.user.id };
   const userFilter = isAdminOrSupervisor(session) ? {} : { id: session.user.id };
 
-  if (!session.user.companyId) { throw new Error(t("companynotfound")); }
-
   const [customerCount, ticketCount, userCount, appointmentCount, recentTickets] =
     await Promise.all([
-      prisma.customer.count({ where: { ...companyFilter, deletedAt: null } }),
-      prisma.ticket.count({ where: { ...companyFilter, ...assignedUserFilter, deletedAt: null } }),
-      prisma.user.count({ where: { ...companyFilter, ...userFilter,  deletedAt: null } }),
-      prisma.appointment.count({ where: { ...companyFilter, ...employeeFilter, deletedAt: null } }),
+      prisma.customer.count({ where: { deletedAt: null } }),
+      prisma.ticket.count({ where: { ...assignedUserFilter, deletedAt: null } }),
+      prisma.user.count({ where: { ...userFilter,  deletedAt: null } }),
+      prisma.appointment.count({ where: { ...employeeFilter, deletedAt: null } }),
       prisma.ticket.findMany({
-        where: { ...companyFilter, ...assignedUserFilter, deletedAt: null },
+        where: { ...assignedUserFilter, deletedAt: null },
         orderBy: { createdAt: "desc" },
         take: 5,
         include: { 
@@ -55,10 +52,10 @@ export default async function DashboardPage() {
     ]);
 
   const kpis = [
-    { label: t("customers"),    value: customerCount,    icon: UserRound, color: "text-indigo-600 bg-indigo-50",   href: routes.dashboard.customers, roles: ["ADMIN", "SUPERVISOR"]},
-    { label: t("tickets"),      value: ticketCount,      icon: Ticket,    color: "text-orange-600 bg-orange-50",   href: routes.dashboard.tickets },
-    { label: t("users"),        value: userCount,        icon: Users,     color: "text-slate-600  bg-slate-100",   href: routes.dashboard.users, roles: ["ADMIN", "SUPERVISOR"]},
-    { label: t("appointments"), value: appointmentCount, icon: Calendar,  color: "text-emerald-600 bg-emerald-50", href: routes.dashboard.appointments },
+    { label: t("customers"),    value: customerCount,    icon: UserRound, color: "text-indigo-600 bg-indigo-50",   href: routes.customers, roles: ["ADMIN", "SUPERVISOR"]},
+    { label: t("tickets"),      value: ticketCount,      icon: Ticket,    color: "text-orange-600 bg-orange-50",   href: routes.tickets },
+    { label: t("users"),        value: userCount,        icon: Users,     color: "text-slate-600  bg-slate-100",   href: routes.users, roles: ["ADMIN", "SUPERVISOR"]},
+    { label: t("appointments"), value: appointmentCount, icon: Calendar,  color: "text-emerald-600 bg-emerald-50", href: routes.appointments },
   ];
 
   return (
@@ -97,7 +94,7 @@ export default async function DashboardPage() {
         <div className="rounded-xl bg-white p-5 shadow-sm border border-slate-100">
           <div className="flex items-center justify-between mb-4">
             <p className="text-sm font-semibold text-slate-700">{t("recentTickets")}</p>
-            <Link href={routes.dashboard.tickets} className="text-xs text-indigo-600 hover:text-indigo-700 font-medium">
+            <Link href={routes.tickets} className="text-xs text-indigo-600 hover:text-indigo-700 font-medium">
               {t("viewAll")}
             </Link>
           </div>

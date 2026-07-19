@@ -7,17 +7,8 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const { message, sessionId, customerEmail, customerName } = body;
 
-    // Company ID'yi belirle
-    const { prisma } = await import('@/lib/prisma');
-    const company = await prisma.company.findFirst({
-      where: { is_active: true }
-    });
-
-    if (!company) {
-      return NextResponse.json({ error: 'No active company found' }, { status: 400 });
-    }
-
     // Web chat session oluştur veya güncelle
+    const { prisma } = await import('@/lib/prisma');
     const session = await prisma.webChatSession.upsert({
       where: { sessionId: sessionId || `session_${Date.now()}` },
       update: {
@@ -25,7 +16,6 @@ export async function POST(req: NextRequest) {
         status: 'ACTIVE'
       },
       create: {
-        companyId: company.id,
         sessionId: sessionId || `session_${Date.now()}`,
         customerEmail,
         customerName,
@@ -51,7 +41,7 @@ export async function POST(req: NextRequest) {
 
     // AI Orchestrator ile işle
     const orchestrator = new AIOrchestrator();
-    await orchestrator.processMessage(incomingMessage, company.id);
+    await orchestrator.processMessage(incomingMessage);
 
     // Basit cevap döndür (gerçek implementasyon orchestrator'dan gelecek)
     return NextResponse.json({

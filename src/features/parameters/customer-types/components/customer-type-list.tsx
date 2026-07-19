@@ -125,7 +125,7 @@ export function CustomerTypeList({ customerTypes }: CustomerTypeListProps) {
             Export
           </Button>
           <Button
-            onClick={() => router.push('/dashboard/parameters/customer-types?mode=create')}
+            onClick={() => router.push('/parameters/customer-types?mode=create')}
             className="gap-2"
           >
             <Plus size={16} />
@@ -174,7 +174,7 @@ export function CustomerTypeList({ customerTypes }: CustomerTypeListProps) {
                       <Button
                         variant="ghost"
                         size="sm"
-                        onClick={() => router.push(`/dashboard/parameters/customer-types?mode=edit&id=${customerType.id}`)}
+                        onClick={() => router.push(`/parameters/customer-types?mode=edit&id=${customerType.id}`)}
                       >
                         <Edit size={16} />
                       </Button>

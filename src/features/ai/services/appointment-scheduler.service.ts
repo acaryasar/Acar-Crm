@@ -6,14 +6,12 @@ export class AppointmentSchedulerService {
    */
   async findAvailableUsers(
     startAt: Date,
-    endAt: Date,
-    companyId: string
+    endAt: Date
   ): Promise<any[]> {
     try {
       // Belirtilen zaman aralığında randevusu olmayan kullanıcıları bul
       const users = await prisma.user.findMany({
         where: {
-          companyId,
           is_active: true,
           appointments: {
             none: {
@@ -82,7 +80,6 @@ export class AppointmentSchedulerService {
   async createAppointment(data: {
     customerId: string;
     employeeId: string;
-    companyId: string;
     startAt: Date;
     endAt: Date;
     title: string;
@@ -93,7 +90,6 @@ export class AppointmentSchedulerService {
         data: {
           customerId: data.customerId,
           employeeId: data.employeeId,
-          companyId: data.companyId,
           startAt: data.startAt,
           endAt: data.endAt,
           title: data.title,

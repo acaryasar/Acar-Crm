@@ -8,7 +8,6 @@ export class NotificationService {
     try {
       await prisma.notification.create({
         data: {
-          companyId: user.companyId,
           userId: user.id,
           title: 'Yeni Randevu',
           message: `Size yeni bir randevu atandı: ${appointment.title}`,
@@ -47,7 +46,6 @@ export class NotificationService {
     try {
       await prisma.notification.create({
         data: {
-          companyId: user.companyId,
           userId: user.id,
           title: 'Acil Ticket',
           message: `Size acil bir ticket atandı: ${ticket.title}`,

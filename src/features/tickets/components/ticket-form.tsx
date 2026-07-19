@@ -37,7 +37,6 @@ interface TicketFormProps {
     }>;
   };
   hideAiSection?: boolean;
-  companyId?: string;
 }
 
 const inputClass =
@@ -48,7 +47,7 @@ const inputClassReadonly =
 
 const labelClass = "block text-sm font-medium text-slate-700 mb-1.5";
 
-export function TicketForm({ mode = "create", customers, ticket, hideAiSection = false, companyId }: TicketFormProps) {
+export function TicketForm({ mode = "create", customers, ticket, hideAiSection = false }: TicketFormProps) {
   const t = useTranslations("tickets");
   const tDialogs = useTranslations("dialogs");
   const router = useRouter();
@@ -78,16 +77,14 @@ export function TicketForm({ mode = "create", customers, ticket, hideAiSection =
 
   // Fetch users for assignment
   useEffect(() => {
-    if (companyId) {
-      fetchUsers();
-    }
+    fetchUsers();
     // Pre-fill appointment data if exists
     if (ticket?.appointments && ticket.appointments.length > 0) {
       const apt = ticket.appointments[0];
       setSelectedDate(new Date(apt.startAt).toISOString().split('T')[0]);
       setSelectedTime(new Date(apt.startAt).toTimeString().slice(0, 5));
     }
-  }, [companyId, ticket]);
+  }, [ticket]);
 
   // Fetch appointments when user and date are selected
   useEffect(() => {
@@ -122,7 +119,7 @@ export function TicketForm({ mode = "create", customers, ticket, hideAiSection =
   };
 
   const handleAssignUser = async () => {
-    if (!selectedUserId || !selectedDate || !selectedTime || !companyId || !ticket) {
+    if (!selectedUserId || !selectedDate || !selectedTime || !ticket) {
       alert("Lütfen tüm atama alanlarını doldurun");
       return;
     }
@@ -141,7 +138,6 @@ export function TicketForm({ mode = "create", customers, ticket, hideAiSection =
         assignedUserId: selectedUserId,
         appointmentStartAt: startAt,
         appointmentEndAt: endAt,
-        companyId,
       });
 
       window.location.reload();
@@ -158,13 +154,12 @@ export function TicketForm({ mode = "create", customers, ticket, hideAiSection =
   };
 
   const confirmCancelAssignment = async () => {
-    if (!companyId || !ticket) return;
+    if (!ticket) return;
 
     try {
       setIsCancelling(true);
       await cancelTicketAssignment({
         ticketId: ticket.id,
-        companyId,
       });
       window.location.reload();
     } catch (error) {
@@ -217,21 +212,19 @@ export function TicketForm({ mode = "create", customers, ticket, hideAiSection =
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!companyId) return;
 
     try {
       setLoading(true);
 
       if (mode === "create") {
         await createTicket({
-          companyId,
           customerId: form.customerId,
           title: form.title,
           description: form.description,
           priority: form.priority as any,
           status: form.status as any,
         });
-        router.push("/dashboard/tickets");
+        router.push("/tickets");
       } else if (mode === "edit" && ticket) {
         await updateTicket({
           ticketId: ticket.id,
@@ -240,7 +233,7 @@ export function TicketForm({ mode = "create", customers, ticket, hideAiSection =
           priority: form.priority as any,
           status: form.status as any,
         });
-        router.push(`/dashboard/tickets?mode=view&id=${ticket.id}`);
+        router.push(`/tickets?mode=view&id=${ticket.id}`);
       }
     } catch (error) {
       console.error("Failed to save ticket:", error);

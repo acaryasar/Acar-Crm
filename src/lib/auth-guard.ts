@@ -42,23 +42,7 @@ export function isAdminOrSupervisor(session: any): boolean {
   return isAdmin(session) || isSupervisor(session);
 }
 
-// Kullanıcının kendi company'sine erişim kontrolü
-export function canAccessCompany(session: any, targetCompanyId: string): boolean {
-  if (isAdmin(session)) {
-    return true; // Admin tüm company'lere erişebilir
-  }
-  return session?.user?.companyId === targetCompanyId;
-}
-
 // Kullanıcının sadece kendi verilerine erişim kontrolü
 export function canAccessOwnDataOnly(session: any): boolean {
   return !isAdmin(session) && !isSupervisor(session);
-}
-
-// Veri erişiminde companyId filtresi için helper
-export function getCompanyIdFilter(session: any): { companyId: string } | {} {
-  if (isAdmin(session)) {
-    return {}; // Admin tüm verileri görebilir
-  }
-  return { companyId: session?.user?.companyId };
 }

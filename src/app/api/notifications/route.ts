@@ -9,12 +9,12 @@ export async function GET() {
     return failure("Unauthorized", 401);
   }
 
-  const whereClause: any = { companyId: session.user.companyId };
+  const whereClause: any = {};
 
   if (session.user.role === "ADMIN") {
-    // Admin sees all notifications for their company
+    // Admin sees all notifications
   } else if (session.user.role === "SUPERVISOR" as any) {
-    // Supervisor sees all notifications for their company
+    // Supervisor sees all notifications
   } else {
     // Manager/Employee see only their own notifications
     whereClause.userId = session.user.id;

@@ -10,7 +10,6 @@ import { cancelTicketAssignment } from "../actions/assignUser-ticket";
 interface Props {
   ticketId: string;
   customerId: string;
-  companyId: string;
   status: string;
   assignedUser?: {
     id: string;
@@ -28,7 +27,6 @@ interface Props {
 export function TicketAssignmentManager({
   ticketId,
   customerId,
-  companyId,
   status,
   assignedUser,
   appointment,
@@ -54,7 +52,6 @@ export function TicketAssignmentManager({
     try {
       await cancelTicketAssignment({
         ticketId,
-        companyId,
       });
       window.location.reload();
     } catch (error) {
@@ -72,13 +69,11 @@ export function TicketAssignmentManager({
         <TicketAssignmentButton
           ticketId={ticketId}
           customerId={customerId}
-          companyId={companyId}
           status={status}
         />
         <TicketAssignmentDialog
           ticketId={ticketId}
           customerId={customerId}
-          companyId={companyId}
           isOpen={isAssignmentDialogOpen}
           onClose={() => setIsAssignmentDialogOpen(false)}
           onSuccess={handleAssignmentSuccess}
@@ -102,7 +97,6 @@ export function TicketAssignmentManager({
         <TicketAssignmentEditDialog
           ticketId={ticketId}
           customerId={customerId}
-          companyId={companyId}
           currentAssignedUserId={assignedUser.id}
           currentAppointment={appointment || undefined}
           isOpen={isEditDialogOpen}

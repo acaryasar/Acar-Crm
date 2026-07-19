@@ -77,7 +77,7 @@ export function UserForm({ mode = "create", user }: UserFormProps) {
     }
 
     setLoading(false);
-    router.push("/dashboard/users");
+    router.push("/users");
   }
 
   return (
@@ -128,7 +128,7 @@ export function UserForm({ mode = "create", user }: UserFormProps) {
               <input 
                 name="email" 
                 type="email" 
-                placeholder="john@company.com" 
+                placeholder="john@companny.com" 
                 defaultValue={user?.email}
                 className={isReadonly ? inputClassReadonly : inputClass} 
                 readOnly={isReadonly}

@@ -5,12 +5,11 @@ export class CustomerResolutionService {
   /**
    * Mevcut müşteriyi bul
    */
-  async findCustomer(identifier: string, companyId: string): Promise<any> {
+  async findCustomer(identifier: string): Promise<any> {
     try {
       // Telefon veya email ile ara
       const customer = await prisma.customer.findFirst({
         where: {
-          companyId,
           OR: [
             { phone: identifier },
             { email: identifier }
@@ -28,11 +27,10 @@ export class CustomerResolutionService {
   /**
    * Yeni müşteri oluştur
    */
-  async createCustomer(info: CustomerInfo, companyId: string): Promise<any> {
+  async createCustomer(info: CustomerInfo): Promise<any> {
     try {
       const customer = await prisma.customer.create({
         data: {
-          companyId,
           firstName: info.firstName || '',
           lastName: info.lastName || '',
           email: info.email,

@@ -26,46 +26,8 @@ const canDelete = (userRole?: UserRole): boolean => {
 };
 
 export const ENTITY_CONFIG: Record<EntityType, EntityConfig> = {
-  COMPANY: {
-    route: "/dashboard/companies",
-    hasStatus: true,
-    canDelete: true,
-    canEdit: true,
-    canView: true,
-    canShowActivityLog: true,
-    getActions: (entityId, isActive, onDelete, onToggleStatus, t, userRole) => {
-      const actions: ActionItem[] = [
-        {
-          label: t("edit"),
-          icon: <Pencil size={15} />,
-          href: `/dashboard/companies?mode=edit&id=${entityId}`,
-        },
-        {
-          label: isActive ? t("deactivateTitle") : t("activateTitle"),
-          icon: <Lock size={15} />,
-          onClick: () => onToggleStatus(entityId),
-        },
-        {
-          label: t("activityLog"),
-          icon: <History size={15} />,
-          href: `/dashboard/activity-log?entityType=COMPANY&entityId=${entityId}`,
-        },
-      ];
-
-      if (canDelete(userRole)) {
-        actions.push({
-          label: t("delete"),
-          icon: <Trash2 size={15} />,
-          destructive: true,
-          onClick: () => onDelete(entityId),
-        });
-      }
-
-      return actions;
-    },
-  },
   CUSTOMER: {
-    route: "/dashboard/customers",
+    route: "/customers",
     hasStatus: true,
     canDelete: true,
     canEdit: true,
@@ -76,7 +38,7 @@ export const ENTITY_CONFIG: Record<EntityType, EntityConfig> = {
         {
           label: t("edit"),
           icon: <Pencil size={15} />,
-          href: `/dashboard/customers?mode=edit&id=${entityId}`,
+          href: `/customers?mode=edit&id=${entityId}`,
         },
         {
           label: isActive ? t("deactivateTitle") : t("activateTitle"),
@@ -86,7 +48,7 @@ export const ENTITY_CONFIG: Record<EntityType, EntityConfig> = {
         {
           label: t("activityLog"),
           icon: <History size={15} />,
-          href: `/dashboard/activity-log?entityType=CUSTOMER&entityId=${entityId}`,
+          href: `/activity-log?entityType=CUSTOMER&entityId=${entityId}`,
         },
       ];
 
@@ -103,7 +65,7 @@ export const ENTITY_CONFIG: Record<EntityType, EntityConfig> = {
     },
   },
   USER: {
-    route: "/dashboard/users",
+    route: "/users",
     hasStatus: true,
     canDelete: true,
     canEdit: true,
@@ -114,7 +76,7 @@ export const ENTITY_CONFIG: Record<EntityType, EntityConfig> = {
         {
           label: t("edit"),
           icon: <Pencil size={15} />,
-          href: `/dashboard/users?mode=edit&id=${entityId}`,
+          href: `/users?mode=edit&id=${entityId}`,
         },
         {
           label: isActive ? t("deactivateTitle") : t("activateTitle"),
@@ -124,7 +86,7 @@ export const ENTITY_CONFIG: Record<EntityType, EntityConfig> = {
         {
           label: t("activityLog"),
           icon: <History size={15} />,
-          href: `/dashboard/activity-log?entityType=USER&entityId=${entityId}`,
+          href: `/activity-log?entityType=USER&entityId=${entityId}`,
         },
       ];
 
@@ -141,7 +103,7 @@ export const ENTITY_CONFIG: Record<EntityType, EntityConfig> = {
     },
   },
   TICKET: {
-    route: "/dashboard/tickets",
+    route: "/tickets",
     hasStatus: false,
     canDelete: true,
     canEdit: true,
@@ -152,12 +114,12 @@ export const ENTITY_CONFIG: Record<EntityType, EntityConfig> = {
         {
           label: t("edit"),
           icon: <Pencil size={15} />,
-          href: `/dashboard/tickets?mode=edit&id=${entityId}`,
+          href: `/tickets?mode=edit&id=${entityId}`,
         },
         {
           label: t("activityLog"),
           icon: <History size={15} />,
-          href: `/dashboard/activity-log?entityType=TICKET&entityId=${entityId}`,
+          href: `/activity-log?entityType=TICKET&entityId=${entityId}`,
         },
       ];
 
@@ -174,7 +136,7 @@ export const ENTITY_CONFIG: Record<EntityType, EntityConfig> = {
     },
   },
   APPOINTMENT: {
-    route: "/dashboard/appointments",
+    route: "/appointments",
     hasStatus: false,
     canDelete: true,
     canEdit: true,
@@ -185,12 +147,12 @@ export const ENTITY_CONFIG: Record<EntityType, EntityConfig> = {
         {
           label: t("edit"),
           icon: <Pencil size={15} />,
-          href: `/dashboard/appointments/${entityId}/edit`,
+          href: `/appointments/${entityId}/edit`,
         },
         {
           label: t("activityLog"),
           icon: <History size={15} />,
-          href: `/dashboard/activity-log?entityType=APPOINTMENT&entityId=${entityId}`,
+          href: `/activity-log?entityType=APPOINTMENT&entityId=${entityId}`,
         },
       ];
 
@@ -207,7 +169,7 @@ export const ENTITY_CONFIG: Record<EntityType, EntityConfig> = {
     },
   },
   QUOTE: {
-    route: "/dashboard/quotes",
+    route: "/quotes",
     hasStatus: true,
     canDelete: true,
     canEdit: true,
@@ -218,7 +180,7 @@ export const ENTITY_CONFIG: Record<EntityType, EntityConfig> = {
         {
           label: t("edit"),
           icon: <Pencil size={15} />,
-          href: `/dashboard/quotes/${entityId}/edit`,
+          href: `/quotes/${entityId}/edit`,
         },
         {
           label: isActive ? t("deactivateTitle") : t("activateTitle"),
@@ -228,7 +190,7 @@ export const ENTITY_CONFIG: Record<EntityType, EntityConfig> = {
         {
           label: t("activityLog"),
           icon: <History size={15} />,
-          href: `/dashboard/activity-log?entityType=QUOTE&entityId=${entityId}`,
+          href: `/activity-log?entityType=QUOTE&entityId=${entityId}`,
         },
       ];
 
@@ -245,7 +207,7 @@ export const ENTITY_CONFIG: Record<EntityType, EntityConfig> = {
     },
   },
   INVOICE: {
-    route: "/dashboard/invoices",
+    route: "/invoices",
     hasStatus: false,
     canDelete: true,
     canEdit: true,
@@ -256,12 +218,12 @@ export const ENTITY_CONFIG: Record<EntityType, EntityConfig> = {
         {
           label: t("edit"),
           icon: <Pencil size={15} />,
-          href: `/dashboard/invoices?mode=edit&id=${entityId}`,
+          href: `/invoices?mode=edit&id=${entityId}`,
         },
         {
           label: t("activityLog"),
           icon: <History size={15} />,
-          href: `/dashboard/activity-log?entityType=INVOICE&entityId=${entityId}`,
+          href: `/activity-log?entityType=INVOICE&entityId=${entityId}`,
         },
       ];
 
@@ -278,7 +240,7 @@ export const ENTITY_CONFIG: Record<EntityType, EntityConfig> = {
     },
   },
   COMMISSION_RULE: {
-    route: "/dashboard/commission-rules",
+    route: "/commission-rules",
     hasStatus: true,
     canDelete: true,
     canEdit: true,
@@ -289,7 +251,7 @@ export const ENTITY_CONFIG: Record<EntityType, EntityConfig> = {
         {
           label: t("edit"),
           icon: <Pencil size={15} />,
-          href: `/dashboard/commission-rules?mode=edit&id=${entityId}`,
+          href: `/commission-rules?mode=edit&id=${entityId}`,
         },
         {
           label: isActive ? t("deactivateTitle") : t("activateTitle"),

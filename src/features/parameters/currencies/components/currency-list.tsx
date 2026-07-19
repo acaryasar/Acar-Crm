@@ -129,7 +129,7 @@ export function CurrencyList({ currencies }: CurrencyListProps) {
             Export
           </Button>
           <Button
-            onClick={() => router.push('/dashboard/parameters/currencies?mode=create')}
+            onClick={() => router.push('/parameters/currencies?mode=create')}
             className="gap-2"
           >
             <Plus size={16} />
@@ -180,7 +180,7 @@ export function CurrencyList({ currencies }: CurrencyListProps) {
                       <Button
                         variant="ghost"
                         size="sm"
-                        onClick={() => router.push(`/dashboard/parameters/currencies?mode=edit&id=${currency.id}`)}
+                        onClick={() => router.push(`/parameters/currencies?mode=edit&id=${currency.id}`)}
                       >
                         <Edit size={16} />
                       </Button>

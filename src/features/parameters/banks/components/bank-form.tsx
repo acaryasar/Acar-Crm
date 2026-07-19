@@ -82,7 +82,7 @@ export function BankForm({ mode, bank }: BankFormProps) {
       });
 
       if (response.ok) {
-        router.push('/dashboard/parameters/banks');
+        router.push('/parameters/banks');
         router.refresh();
       } else {
         const error = await response.json();
@@ -102,7 +102,7 @@ export function BankForm({ mode, bank }: BankFormProps) {
       <div className="flex items-center justify-between mb-6 shrink-0">
         <div className="flex items-center gap-3">
           <Link
-            href="/dashboard/parameters/banks"
+            href="/parameters/banks"
             className="inline-flex items-center justify-center gap-2 text-slate-600 hover:text-slate-800 transition-colors"
           >
             <ArrowLeft size={20} />
@@ -123,7 +123,7 @@ export function BankForm({ mode, bank }: BankFormProps) {
         <div className="flex items-center gap-3">
           {isViewMode && bank && (
             <Link
-              href={`/dashboard/parameters/banks?mode=edit&id=${bank.id}`}
+              href={`/parameters/banks?mode=edit&id=${bank.id}`}
               className="inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-4 py-2.5 rounded-xl transition-colors shadow-sm"
             >
               <Save size={16} />
@@ -133,7 +133,7 @@ export function BankForm({ mode, bank }: BankFormProps) {
           {!isViewMode && (
             <>
               <Link
-                href="/dashboard/parameters/banks"
+                href="/parameters/banks"
                 className="inline-flex items-center justify-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-medium px-4 py-2.5 rounded-xl transition-colors shadow-sm"
               >
                 <X size={16} />

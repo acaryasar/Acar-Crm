@@ -30,5 +30,5 @@ export async function updateCustomer(data: UpdateCustomerInput) {
     },
   });
 
-  revalidatePath("/dashboard/customers");
+  revalidatePath("/customers");
 }

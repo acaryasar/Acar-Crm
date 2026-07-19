@@ -12,10 +12,13 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: "Acar CRM",
-    template: "%s | Acar CRM",
+    default: "NDT Servis",
+    template: "%s NDT Servis",
   },
-  description: "AI-powered business management system",
+  description: "NDT Servis Management System",
+  icons: {
+    icon: "https://www.ndtservis.com/theme/ndt-servis-logo.svg"
+  },
 };
 
 export default function RootLayout({

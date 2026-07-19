@@ -1,103 +1,71 @@
-datasource db {
-  provider = "sqlite"
-  url      = "file:./dev.db"
-}
-
 generator client {
   provider      = "prisma-client-js"
   binaryTargets = ["native", "linux-musl-openssl-3.0.x", "debian-openssl-3.0.x"]
 }
 
-enum UserRole {
-  ADMIN
-  SUPERVISOR
-  MANAGER
-  EMPLOYEE
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
 }
 
-
-/**
- * User
- */
-
 model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  password  String
-  firstName String
-  lastName  String
-  role      UserRole @default(EMPLOYEE)
+  id                         String         @id @default(cuid())
+  email                      String         @unique
+  password                   String
+  firstName                  String
+  lastName                   String
+  role                       UserRole       @default(EMPLOYEE)
+  phone                      String?
+  nationalId                 String?
+  dateOfBirth                DateTime?
+  gender                     String?
+  profilePicture             String?
+  username                   String?
+  changePasswordOnFirstLogin Boolean        @default(false)
+  accountStatus              Boolean        @default(true)
+  accountEndDate             DateTime?
+  department                 String?
+  position                   String?
+  workplace                  String?
+  manager                    String?
+  startDate                  DateTime?
+  description                String?
+  locale                     Locale         @default(TR)
+  createdAt                  DateTime       @default(now())
+  updatedAt                  DateTime       @updatedAt
+  is_active                  Boolean        @default(true)
+  deletedAt                  DateTime?
+  activityLogs               ActivityLog[]
+  appointments               Appointment[]
+  notifications              Notification[]
+  assignedTickets            Ticket[]       @relation("AssignedTickets")
 
-  // Personal Information
-  phone        String?
-  nationalId   String?
-  dateOfBirth  DateTime?
-  gender       String?
-  profilePicture String?
-
-  // Account Information
-  username                 String?
-  changePasswordOnFirstLogin Boolean @default(false)
-  accountStatus            Boolean @default(true)
-  accountEndDate           DateTime?
-
-  // Organization Information
-  department  String?
-  position    String?
-  workplace   String?
-  manager     String?
-  startDate   DateTime?
-  description String?
-
-  assignedTickets Ticket[]        @relation("AssignedTickets")
-  appointments    Appointment[]
-  activityLogs    ActivityLog[]
-  notifications   Notification[]
-
-  locale Locale @default(TR)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  is_active  Boolean   @default(true)
-  deletedAt DateTime? 
   @@index([deletedAt])
 }
 
 model Customer {
-  id String @id @default(cuid())
-
-  firstName String
-  lastName  String
-
-  email String?
-  phone String?
-
-  street     String?
-  city       String?
-  postalCode String?
-
-  // Vergi bilgileri
-  taxOffice String?
-  taxNumber String?
-
-  // Müşteri detayları
+  id                String        @id @default(cuid())
+  firstName         String
+  lastName          String
+  email             String?
+  phone             String?
+  street            String?
+  city              String?
+  postalCode        String?
+  taxOffice         String?
+  taxNumber         String?
   responsiblePerson String?
-  customerGroup      String?
-  sector             String?
-
-  notes String?
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  tickets      Ticket[]
-  appointments Appointment[]
-  orders       Order[]
-  invoices     Invoice[]
-
-  is_active  Boolean   @default(true)
-  deletedAt DateTime? 
+  customerGroup     String?
+  sector            String?
+  notes             String?
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+  is_active         Boolean       @default(true)
+  deletedAt         DateTime?
+  appointments      Appointment[]
+  invoices          Invoice[]
+  orders            Order[]
+  tickets           Ticket[]
 
   @@index([deletedAt])
   @@index([lastName])
@@ -106,136 +74,72 @@ model Customer {
 }
 
 model Ticket {
-  id String @id @default(cuid())
-
-  customerId String
-  customer   Customer @relation(fields: [customerId], references: [id])
-
-  assignedUserId String?
-  assignedUser   User?   @relation("AssignedTickets", fields: [assignedUserId], references: [id])
-
-  title       String
-  description String?
-
-  category TicketCategory
-  priority TicketPriority
-  status   TicketStatus   @default(NEW)
-  source   TicketSource
-
-  emails EmailInbox[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  // AI
-  aiSummary        String?
-  aiConfidence     Float?
-  aiCategory       String?
-  aiSuggestedTitle String?
-  aiExtractedData  Json?
-  aiProcessedAt    DateTime?
-
-  // AI Conversation Log
+  id                String             @id @default(cuid())
+  customerId        String
+  assignedUserId    String?
+  title             String
+  description       String?
+  category          TicketCategory
+  priority          TicketPriority
+  status            TicketStatus       @default(NEW)
+  source            TicketSource
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+  aiSummary         String?
+  aiConfidence      Float?
+  aiCategory        String?
+  aiSuggestedTitle  String?
+  aiExtractedData   Json?
+  aiProcessedAt     DateTime?
+  is_active         Boolean            @default(true)
+  deletedAt         DateTime?
   aiConversationLog AIConversationLog?
-
-  // Channel specific references
-  whatsappMessages WhatsAppMessage[]
+  emails            EmailInbox[]
   phoneCalls        PhoneCall[]
+  assignedUser      User?              @relation("AssignedTickets", fields: [assignedUserId], references: [id])
+  customer          Customer           @relation(fields: [customerId], references: [id])
   webChatSessions   WebChatSession[]
+  whatsappMessages  WhatsAppMessage[]
 
-  is_active  Boolean   @default(true)
-  deletedAt DateTime?
   @@index([deletedAt])
-
   @@index([customerId])
   @@index([assignedUserId])
   @@index([status])
   @@index([priority])
 }
 
-enum TicketStatus {
-  NEW
-  ASSIGNED
-  IN_PROGRESS
-  COMPLETED
-  CANCELLED
-  APPOINTMENT_CONFIRMED
-  APPOINTMENT_CANCELLED
-}
-
-enum TicketPriority {
-  LOW
-  MEDIUM
-  HIGH
-  URGENT
-}
-
-enum TicketCategory {
-  HEATING
-  PLUMBING
-  ELECTRICITY
-  PAINTING
-  OTHER
-}
-
-enum TicketSource {
-  WEB_CHAT
-  PHONE
-  WHATSAPP
-  EMAIL
-}
-
 model Appointment {
-  id String @id @default(cuid())
-
-  customerId String
-  customer   Customer @relation(fields: [customerId], references: [id])
-
-  employeeId String?
-  employee   User?   @relation(fields: [employeeId], references: [id])
-
+  id          String            @id @default(cuid())
+  customerId  String
+  employeeId  String?
   title       String
   description String?
+  status      AppointmentStatus @default(PLANNED)
+  startAt     DateTime
+  endAt       DateTime
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+  is_active   Boolean           @default(true)
+  deletedAt   DateTime?
+  employee    User?             @relation(fields: [employeeId], references: [id])
+  customer    Customer          @relation(fields: [customerId], references: [id])
 
-  status AppointmentStatus @default(PLANNED)
-
-  startAt DateTime
-  endAt   DateTime
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  is_active  Boolean   @default(true)
-  deletedAt DateTime? 
   @@index([deletedAt])
-
   @@index([customerId])
   @@index([employeeId])
   @@index([startAt])
 }
 
-enum AppointmentStatus {
-  PLANNED
-  COMPLETED
-  CANCELLED
-}
-
 model ActivityLog {
-  id String @id @default(cuid())
-
-  userId String?
-  user   User?   @relation(fields: [userId], references: [id])
-
-  action String
-
+  id         String   @id @default(cuid())
+  userId     String?
+  action     String
   entityType String
   entityId   String?
-
-  metadata Json?
-
-  ipAddress String?
-
-  createdAt DateTime @default(now())
+  metadata   Json?
+  ipAddress  String?
+  createdAt  DateTime @default(now())
+  user       User?    @relation(fields: [userId], references: [id])
 
   @@index([userId])
   @@index([entityType])
@@ -243,246 +147,156 @@ model ActivityLog {
 }
 
 model EmailInbox {
-  id String @id @default(cuid())
-
-  messageId String @unique
-
-  fromEmail String
-  fromName  String?
-
-  subject String
-
-  body String
-
-  processed Boolean @default(false)
-
+  id              String   @id @default(cuid())
+  messageId       String   @unique
+  fromEmail       String
+  fromName        String?
+  subject         String
+  body            String
+  processed       Boolean  @default(false)
   processingError String?
-
-  ticketId String?
-  ticket   Ticket? @relation(fields: [ticketId], references: [id])
-
-  createdAt DateTime @default(now())
+  ticketId        String?
+  createdAt       DateTime @default(now())
+  ticket          Ticket?  @relation(fields: [ticketId], references: [id])
 
   @@index([processed])
   @@index([createdAt])
 }
 
 model Notification {
-  id String @id @default(cuid())
-
-  userId String?
-  user   User?   @relation(fields: [userId], references: [id])
-
-  title   String
-  message String?
-
-  type NotificationType
-
-  isRead Boolean @default(false)
-
+  id         String           @id @default(cuid())
+  userId     String?
+  title      String
+  message    String?
+  type       NotificationType
+  isRead     Boolean          @default(false)
   entityType String?
   entityId   String?
-
-  createdAt DateTime @default(now())
+  createdAt  DateTime         @default(now())
+  user       User?            @relation(fields: [userId], references: [id])
 
   @@index([userId])
   @@index([isRead])
   @@index([createdAt])
 }
 
-enum NotificationType {
-  INFO
-  SUCCESS
-  WARNING
-  ERROR
-}
-
-enum Locale {
-  EN
-  DE
-  FR
-  RU
-  TR
-}
-
-// AI Conversation Log - Ticket ile ilişkilendirilmiş konuşmalar
 model AIConversationLog {
-  id String @id @default(cuid())
-
-  ticketId String? @unique
-  ticket   Ticket? @relation(fields: [ticketId], references: [id])
-
-  channelType TicketSource
-
-  // Konuşma detayları
-  conversationType ConversationType
-  startTime DateTime
-  endTime DateTime?
-
-  // Medya referansları
-  audioRecordingUrl String?   // Telefon için ses kaydı
-  chatLog Json?              // Konuşma geçmişi
-  originalEmailId String?    // Email için referans
-
-  // AI işleme sonuçları
-  aiIntent String?
-  aiConfidence Float?
+  id                  String            @id @default(cuid())
+  ticketId            String?           @unique
+  channelType         TicketSource
+  conversationType    ConversationType
+  startTime           DateTime
+  endTime             DateTime?
+  audioRecordingUrl   String?
+  chatLog             Json?
+  originalEmailId     String?
+  aiIntent            String?
+  aiConfidence        Float?
   aiExtractedEntities Json?
-
-  // Channel specific relations
-  whatsappMessages WhatsAppMessage[]
-  phoneCalls        PhoneCall[]
-  webChatSessions   WebChatSession[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt           DateTime          @default(now())
+  updatedAt           DateTime          @updatedAt
+  ticket              Ticket?           @relation(fields: [ticketId], references: [id])
+  phoneCalls          PhoneCall[]
+  webChatSessions     WebChatSession[]
+  whatsappMessages    WhatsAppMessage[]
 
   @@index([ticketId])
   @@index([channelType])
   @@index([createdAt])
 }
 
-enum ConversationType {
-  INITIAL_INQUIRY
-  INFORMATION_GATHERING
-  APPOINTMENT_SCHEDULING
-  ISSUE_RESOLUTION
-  FOLLOW_UP
-}
-
-// WhatsApp Message
 model WhatsAppMessage {
-  id String @id @default(cuid())
-
+  id                String             @id @default(cuid())
   conversationLogId String?
+  ticketId          String?
+  phoneNumber       String
+  messageFrom       String
+  content           String
+  mediaUrl          String?
+  mediaType         String?
+  whatsappMessageId String             @unique
+  createdAt         DateTime           @default(now())
+  ticket            Ticket?            @relation(fields: [ticketId], references: [id])
   conversationLog   AIConversationLog? @relation(fields: [conversationLogId], references: [id])
-
-  ticketId String?
-  ticket   Ticket? @relation(fields: [ticketId], references: [id])
-
-  phoneNumber String
-  messageFrom String  // 'customer' or 'assistant'
-  content String
-
-  mediaUrl String?
-  mediaType String?
-
-  whatsappMessageId String @unique
-
-  createdAt DateTime @default(now())
 
   @@index([ticketId])
   @@index([phoneNumber])
   @@index([createdAt])
 }
 
-// Phone Call
 model PhoneCall {
-  id String @id @default(cuid())
-
+  id                String             @id @default(cuid())
   conversationLogId String?
+  ticketId          String?
+  phoneNumber       String
+  direction         CallDirection
+  duration          Int?
+  recordingUrl      String?
+  transcription     String?
+  callStatus        CallStatus
+  createdAt         DateTime           @default(now())
+  ticket            Ticket?            @relation(fields: [ticketId], references: [id])
   conversationLog   AIConversationLog? @relation(fields: [conversationLogId], references: [id])
-
-  ticketId String?
-  ticket   Ticket? @relation(fields: [ticketId], references: [id])
-
-  phoneNumber String
-  direction CallDirection
-  duration Int?
-
-  recordingUrl String?
-  transcription String?
-
-  callStatus CallStatus
-
-  createdAt DateTime @default(now())
 
   @@index([ticketId])
   @@index([phoneNumber])
   @@index([createdAt])
 }
 
-enum CallDirection {
-  INBOUND
-  OUTBOUND
-}
-
-enum CallStatus {
-  COMPLETED
-  MISSED
-  CANCELLED
-}
-
-// Web Chat Session
 model WebChatSession {
-  id String @id @default(cuid())
-
+  id                String             @id @default(cuid())
   conversationLogId String?
+  ticketId          String?
+  sessionId         String             @unique
+  customerEmail     String?
+  customerName      String?
+  ipAddress         String?
+  userAgent         String?
+  status            ChatStatus
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+  ticket            Ticket?            @relation(fields: [ticketId], references: [id])
   conversationLog   AIConversationLog? @relation(fields: [conversationLogId], references: [id])
-
-  ticketId String?
-  ticket   Ticket? @relation(fields: [ticketId], references: [id])
-
-  sessionId String @unique
-  customerEmail String?
-  customerName String?
-
-  ipAddress String?
-  userAgent String?
-
-  status ChatStatus
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 
   @@index([ticketId])
   @@index([sessionId])
   @@index([createdAt])
 }
 
-enum ChatStatus {
-  ACTIVE
-  CLOSED
-  TRANSFERRED
-}
-
-// Parameter Tables
-
 model Bank {
-  id        String    @id @default(cuid())
-  name      String
-  address   String
-  email     String
-  phoneNumber String
-  isDeleted Boolean   @default(false)
-  deletedAt DateTime?
-  deletedBy String?
-  createdAt DateTime  @default(now())
-  createdBy String?
-  updatedAt DateTime  @updatedAt
-  updatedBy String?
-
+  id           String        @id @default(cuid())
+  name         String
+  address      String
+  email        String
+  phoneNumber  String
+  isDeleted    Boolean       @default(false)
+  deletedAt    DateTime?
+  deletedBy    String?
+  createdAt    DateTime      @default(now())
+  createdBy    String?
+  updatedAt    DateTime      @updatedAt
+  updatedBy    String?
   bankAccounts BankAccount[]
 
   @@index([deletedAt])
 }
 
 model BankAccount {
-  id          String   @id @default(cuid())
-  bankId      String
-  bank        Bank     @relation(fields: [bankId], references: [id])
-  currencyId  String
-  currency    Currency @relation(fields: [currencyId], references: [id])
+  id           String    @id @default(cuid())
+  bankId       String
+  currencyId   String
   currencyCode String
-  iban        String
-  swiftNumber String
-  isDeleted   Boolean  @default(false)
-  deletedAt   DateTime?
-  deletedBy   String?
-  createdAt   DateTime @default(now())
-  createdBy   String?
-  updatedAt   DateTime @updatedAt
-  updatedBy   String?
+  iban         String
+  swiftNumber  String
+  isDeleted    Boolean   @default(false)
+  deletedAt    DateTime?
+  deletedBy    String?
+  createdAt    DateTime  @default(now())
+  createdBy    String?
+  updatedAt    DateTime  @updatedAt
+  updatedBy    String?
+  currency     Currency  @relation(fields: [currencyId], references: [id])
+  bank         Bank      @relation(fields: [bankId], references: [id])
 
   @@index([deletedAt])
   @@index([bankId])
@@ -508,38 +322,38 @@ model CustomerAuthority {
 }
 
 model Employee {
-  id          String    @id @default(cuid())
-  name        String
-  email       String
-  phoneNumber String
-  address     String?
+  id           String      @id @default(cuid())
+  name         String
+  email        String
+  phoneNumber  String
+  address      String?
   departmentId String?
+  isDeleted    Boolean     @default(false)
+  deletedAt    DateTime?
+  deletedBy    String?
+  createdAt    DateTime    @default(now())
+  createdBy    String?
+  updatedAt    DateTime    @updatedAt
+  updatedBy    String?
   department   Department? @relation(fields: [departmentId], references: [id])
-  isDeleted   Boolean   @default(false)
-  deletedAt   DateTime?
-  deletedBy   String?
-  createdAt   DateTime  @default(now())
-  createdBy   String?
-  updatedAt   DateTime  @updatedAt
-  updatedBy   String?
 
   @@index([deletedAt])
   @@index([departmentId])
 }
 
 model TaxOffice {
-  id                 String   @id @default(cuid())
+  id                 String    @id @default(cuid())
   plateCode          String
   name               String
   districtName       String
-  muhasebeBirimiKodu String   @unique
+  muhasebeBirimiKodu String    @unique
   taxOfficeName      String
-  isDeleted          Boolean  @default(false)
+  isDeleted          Boolean   @default(false)
   deletedAt          DateTime?
   deletedBy          String?
-  createdAt          DateTime @default(now())
+  createdAt          DateTime  @default(now())
   createdBy          String?
-  updatedAt          DateTime @updatedAt
+  updatedAt          DateTime  @updatedAt
   updatedBy          String?
 
   @@index([deletedAt])
@@ -548,17 +362,16 @@ model TaxOffice {
 }
 
 model Department {
-  id        String    @id @default(cuid())
+  id        String     @id @default(cuid())
   name      String
-  isActive  Boolean   @default(true)
-  isDeleted Boolean   @default(false)
+  isActive  Boolean    @default(true)
+  isDeleted Boolean    @default(false)
   deletedAt DateTime?
   deletedBy String?
-  createdAt DateTime  @default(now())
+  createdAt DateTime   @default(now())
   createdBy String?
-  updatedAt DateTime  @updatedAt
+  updatedAt DateTime   @updatedAt
   updatedBy String?
-
   employees Employee[]
 
   @@index([deletedAt])
@@ -613,38 +426,21 @@ model SaleType {
 }
 
 model Currency {
-  id        String    @id @default(cuid())
-  code      String    @unique
-  name      String
-  symbol    String
-  isActive  Boolean   @default(true)
-  isDeleted Boolean   @default(false)
-  deletedAt DateTime?
-  deletedBy String?
-  createdAt DateTime  @default(now())
-  createdBy String?
-  updatedAt DateTime  @updatedAt
-  updatedBy String?
-
+  id           String        @id @default(cuid())
+  code         String        @unique
+  name         String
+  symbol       String
+  isActive     Boolean       @default(true)
+  isDeleted    Boolean       @default(false)
+  deletedAt    DateTime?
+  deletedBy    String?
+  createdAt    DateTime      @default(now())
+  createdBy    String?
+  updatedAt    DateTime      @updatedAt
+  updatedBy    String?
   bankAccounts BankAccount[]
 
   @@index([deletedAt])
-}
-
-// ============================================
-// ÜRÜN YÖNETİMİ (PRODUCT MANAGEMENT)
-// ============================================
-
-enum ProductUnit {
-  PIECE     // Adet
-  KG        // Kilogram
-  M         // Metre
-  M2        // Metrekare
-  M3        // Metreküp
-  LT        // Litre
-  SET       // Set
-  BOX       // Kutu
-  PACKAGE   // Paket
 }
 
 model ProductCategory {
@@ -659,145 +455,88 @@ model ProductCategory {
   createdBy   String?
   updatedAt   DateTime  @updatedAt
   updatedBy   String?
-
-  products Product[]
+  products    Product[]
 
   @@index([deletedAt])
 }
 
 model Product {
-  id          String         @id @default(cuid())
-  code        String   @unique
-  name        String
-  description String?
-  categoryId  String?
-  category    ProductCategory? @relation(fields: [categoryId], references: [id])
-  unit        ProductUnit    @default(PIECE)
-  
-  // Fiyat bilgileri
-  purchasePrice String?  // Decimal as String for SQLite
-  salePrice     String   // Decimal as String for SQLite
-  taxRate       String   @default("0")  // Decimal as String for SQLite
-  
-  // Stok bilgileri
-  currentStock  Int           @default(0)
-  minStock      Int           @default(0)
-  maxStock      Int?
-  
-  // Ürün özellikleri
-  barcode       String?
-  imageUrl      String?
-  
-  isActive    Boolean   @default(true)
-  isDeleted   Boolean   @default(false)
-  deletedAt   DateTime?
-  deletedBy   String?
-  createdAt   DateTime  @default(now())
-  createdBy   String?
-  updatedAt   DateTime  @updatedAt
-  updatedBy   String?
-
-  stockMovements StockMovement[]
-  invoiceItems  InvoiceItem[]
+  id             String           @id @default(cuid())
+  code           String           @unique
+  name           String
+  description    String?
+  categoryId     String?
+  unit           ProductUnit      @default(PIECE)
+  purchasePrice  String?
+  salePrice      String
+  taxRate        String           @default("0")
+  currentStock   Int              @default(0)
+  minStock       Int              @default(0)
+  maxStock       Int?
+  barcode        String?
+  imageUrl       String?
+  isActive       Boolean          @default(true)
+  isDeleted      Boolean          @default(false)
+  deletedAt      DateTime?
+  deletedBy      String?
+  createdAt      DateTime         @default(now())
+  createdBy      String?
+  updatedAt      DateTime         @updatedAt
+  updatedBy      String?
+  invoiceItems   InvoiceItem[]
   orderItems     OrderItem[]
+  category       ProductCategory? @relation(fields: [categoryId], references: [id])
+  stockMovements StockMovement[]
 
   @@index([categoryId])
   @@index([deletedAt])
 }
 
-// ============================================
-// STOK TAKİBİ (STOCK MANAGEMENT)
-// ============================================
-
-enum StockMovementType {
-  IN        // Giriş
-  OUT       // Çıkış
-  TRANSFER  // Transfer
-  ADJUSTMENT // Düzeltme
-}
-
 model StockMovement {
-  id          String            @id @default(cuid())
-  productId   String
-  product     Product           @relation(fields: [productId], references: [id])
-  type        StockMovementType
-  quantity    Int
-  
-  // İşlem öncesi ve sonrası stok
-  stockBefore Int
-  stockAfter  Int
-  
-  // Referans bilgileri
-  referenceType String?  // ORDER, PURCHASE, MANUAL, etc.
+  id            String            @id @default(cuid())
+  productId     String
+  type          StockMovementType
+  quantity      Int
+  stockBefore   Int
+  stockAfter    Int
+  referenceType String?
   referenceId   String?
-  
-  notes       String?
-  
-  createdAt   DateTime  @default(now())
-  createdBy   String?
+  notes         String?
+  createdAt     DateTime          @default(now())
+  createdBy     String?
+  product       Product           @relation(fields: [productId], references: [id])
 
   @@index([productId])
   @@index([createdAt])
 }
 
-// ============================================
-// SATIŞ / SİPARİŞ (ORDERS/SALES)
-// ============================================
-
-enum OrderStatus {
-  DRAFT           // Taslak
-  PENDING         // Beklemede
-  CONFIRMED       // Onaylandı
-  PROCESSING      // İşleniyor
-  SHIPPED         // Kargoya verildi
-  DELIVERED       // Teslim edildi
-  COMPLETED       // Tamamlandı
-  CANCELLED       // İptal edildi
-}
-
-enum PaymentStatus {
-  UNPAID          // Ödenmedi
-  PARTIAL         // Kısmi ödendi
-  PAID            // Ödendi
-  REFUNDED        // İade edildi
-}
-
 model Order {
-  id            String        @id @default(cuid())
-  orderNumber   String   @unique
-  
-  customerId    String
-  customer      Customer      @relation(fields: [customerId], references: [id])
-  
-  // Sipariş bilgileri
-  orderDate     DateTime      @default(now())
-  deliveryDate  DateTime?
-  status        OrderStatus   @default(DRAFT)
-  paymentStatus PaymentStatus @default(UNPAID)
-  
-  // Tutar bilgileri (Decimal as String for SQLite)
-  subtotal       String
-  taxAmount      String  @default("0")
-  discountAmount String  @default("0")
-  shippingCost   String  @default("0")
-  totalAmount    String
-  
-  // Adres ve notlar
+  id              String        @id @default(cuid())
+  orderNumber     String        @unique
+  customerId      String
+  orderDate       DateTime      @default(now())
+  deliveryDate    DateTime?
+  status          OrderStatus   @default(DRAFT)
+  paymentStatus   PaymentStatus @default(UNPAID)
+  subtotal        String
+  taxAmount       String        @default("0")
+  discountAmount  String        @default("0")
+  shippingCost    String        @default("0")
+  totalAmount     String
   shippingAddress String?
   billingAddress  String?
   notes           String?
-  
-  isActive    Boolean   @default(true)
-  isDeleted   Boolean   @default(false)
-  deletedAt   DateTime?
-  deletedBy   String?
-  createdAt   DateTime  @default(now())
-  createdBy   String?
-  updatedAt   DateTime  @updatedAt
-  updatedBy   String?
-
-  orderItems OrderItem[]
-  invoices    Invoice[]
+  isActive        Boolean       @default(true)
+  isDeleted       Boolean       @default(false)
+  deletedAt       DateTime?
+  deletedBy       String?
+  createdAt       DateTime      @default(now())
+  createdBy       String?
+  updatedAt       DateTime      @updatedAt
+  updatedBy       String?
+  invoices        Invoice[]
+  customer        Customer      @relation(fields: [customerId], references: [id])
+  orderItems      OrderItem[]
 
   @@index([customerId])
   @@index([orderDate])
@@ -808,88 +547,55 @@ model Order {
 model OrderItem {
   id          String   @id @default(cuid())
   orderId     String
-  order       Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  
   productId   String
-  product     Product  @relation(fields: [productId], references: [id])
-  
   quantity    Int
-  unitPrice   String  // Decimal as String for SQLite
-  taxRate     String  @default("0")  // Decimal as String for SQLite
-  discount    String  @default("0")  // Decimal as String for SQLite
-  
-  // Hesaplanan tutarlar (Decimal as String for SQLite)
-  subtotal    String  // quantity * unitPrice
+  unitPrice   String
+  taxRate     String   @default("0")
+  discount    String   @default("0")
+  subtotal    String
   taxAmount   String
   totalAmount String
-  
   notes       String?
-  
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  product     Product  @relation(fields: [productId], references: [id])
+  order       Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
 
   @@index([orderId])
   @@index([productId])
 }
 
-// ============================================
-// FATURALAR (INVOICES)
-// ============================================
-
-enum InvoiceStatus {
-  DRAFT           // Taslak
-  SENT            // Gönderildi
-  PARTIAL         // Kısmi Ödendi
-  PAID            // Ödendi
-  OVERDUE         // Vadesi Geçmiş
-  CANCELLED       // İptal Edildi
-}
-
 model Invoice {
-  id            String        @id @default(cuid())
-  invoiceNumber String   @unique
-  
-  customerId    String
-  customer      Customer      @relation(fields: [customerId], references: [id])
-  
-  orderId       String?
-  order         Order?        @relation(fields: [orderId], references: [id])
-  
-  // Fatura bilgileri
-  invoiceDate   DateTime      @default(now())
-  dueDate       DateTime?
-  status        InvoiceStatus @default(DRAFT)
-  
-  // Tutar bilgileri (Decimal as String for SQLite)
-  subtotal       String
-  taxAmount      String  @default("0")
-  discountAmount String  @default("0")
-  totalAmount    String
-  
-  // Ödeme bilgileri
-  paidAmount     String  @default("0")
+  id              String        @id @default(cuid())
+  invoiceNumber   String        @unique
+  customerId      String
+  orderId         String?
+  invoiceDate     DateTime      @default(now())
+  dueDate         DateTime?
+  status          InvoiceStatus @default(DRAFT)
+  subtotal        String
+  taxAmount       String        @default("0")
+  discountAmount  String        @default("0")
+  totalAmount     String
+  paidAmount      String        @default("0")
   remainingAmount String
-  
-  // Adres ve notlar
-  billingAddress String?
+  billingAddress  String?
   shippingAddress String?
   notes           String?
-  
-  // Email gönderim bilgileri
-  emailSent      Boolean @default(false)
-  emailSentAt    DateTime?
-  
-  isActive    Boolean   @default(true)
-  isDeleted   Boolean   @default(false)
-  deletedAt   DateTime?
-  deletedBy   String?
-  createdAt   DateTime  @default(now())
-  createdBy   String?
-  updatedAt   DateTime  @updatedAt
-  updatedBy   String?
-
-  invoiceItems InvoiceItem[]
-  payments     Payment[]
+  emailSent       Boolean       @default(false)
+  emailSentAt     DateTime?
+  isActive        Boolean       @default(true)
+  isDeleted       Boolean       @default(false)
+  deletedAt       DateTime?
+  deletedBy       String?
+  createdAt       DateTime      @default(now())
+  createdBy       String?
+  updatedAt       DateTime      @updatedAt
+  updatedBy       String?
+  order           Order?        @relation(fields: [orderId], references: [id])
+  customer        Customer      @relation(fields: [customerId], references: [id])
+  invoiceItems    InvoiceItem[]
+  payments        Payment[]
 
   @@index([customerId])
   @@index([orderId])
@@ -901,118 +607,229 @@ model Invoice {
 model InvoiceItem {
   id          String   @id @default(cuid())
   invoiceId   String
-  invoice     Invoice  @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
-  
   productId   String
-  product     Product  @relation(fields: [productId], references: [id])
-  
   description String
   quantity    Int
-  unitPrice   String  // Decimal as String for SQLite
-  taxRate     String  @default("0")  // Decimal as String for SQLite
-  discount    String  @default("0")  // Decimal as String for SQLite
-  
-  // Hesaplanan tutarlar (Decimal as String for SQLite)
-  subtotal    String  // quantity * unitPrice
+  unitPrice   String
+  taxRate     String   @default("0")
+  discount    String   @default("0")
+  subtotal    String
   taxAmount   String
   totalAmount String
-  
   notes       String?
-  
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  product     Product  @relation(fields: [productId], references: [id])
+  invoice     Invoice  @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
 
   @@index([invoiceId])
   @@index([productId])
 }
 
 model Payment {
-  id          String   @id @default(cuid())
-  invoiceId   String
-  invoice     Invoice  @relation(fields: [invoiceId], references: [id])
-  
-  paymentDate DateTime @default(now())
-  amount      String
-  paymentMethod String // CASH, BANK_TRANSFER, CREDIT_CARD, CHECK
-  reference   String?
-  notes       String?
-  
-  isActive    Boolean   @default(true)
-  isDeleted   Boolean   @default(false)
-  deletedAt   DateTime?
-  deletedBy   String?
-  createdAt   DateTime  @default(now())
-  createdBy   String?
-  updatedAt   DateTime  @updatedAt
-  updatedBy   String?
+  id            String    @id @default(cuid())
+  invoiceId     String
+  paymentDate   DateTime  @default(now())
+  amount        String
+  paymentMethod String
+  reference     String?
+  notes         String?
+  isActive      Boolean   @default(true)
+  isDeleted     Boolean   @default(false)
+  deletedAt     DateTime?
+  deletedBy     String?
+  createdAt     DateTime  @default(now())
+  createdBy     String?
+  updatedAt     DateTime  @updatedAt
+  updatedBy     String?
+  invoice       Invoice   @relation(fields: [invoiceId], references: [id])
 
   @@index([invoiceId])
   @@index([paymentDate])
   @@index([deletedAt])
 }
 
-// ============================================
-// PRIM KURALLARI (COMMISSION RULES)
-// ============================================
-
-enum CommissionType {
-  PERCENTAGE  // Yüzde
-  FIXED       // Sabit
-  TIERED      // Kademeli
-}
-
-enum CalculationPeriod {
-  DAILY       // Günlük
-  WEEKLY      // Haftalık
-  MONTHLY     // Aylık
-  QUARTERLY   // Çeyreklik
-  YEARLY      // Yıllık
-}
-
 model CommissionRule {
-  id              String         @id @default(cuid())
-  name            String
-  description     String?
-  
-  commissionType  CommissionType @default(PERCENTAGE)
-  commissionRate  String         @default("0")  // Decimal as String for SQLite
-  fixedAmount     String         @default("0")  // Decimal as String for SQLite
-  
+  id                String            @id @default(cuid())
+  name              String
+  description       String?
+  commissionType    CommissionType    @default(PERCENTAGE)
+  commissionRate    String            @default("0")
+  fixedAmount       String            @default("0")
   productCategoryId String?
-  salesTarget     String         @default("0")  // Decimal as String for SQLite
+  salesTarget       String            @default("0")
   calculationPeriod CalculationPeriod @default(MONTHLY)
-  
-  effectiveDate   DateTime       @default(now())
-  expiryDate      DateTime?
-  
-  isActive        Boolean        @default(true)
-  isDeleted       Boolean        @default(false)
-  deletedAt       DateTime?
-  deletedBy       String?
-  
-  createdAt       DateTime       @default(now())
-  createdBy       String?
-  updatedAt       DateTime       @updatedAt
-  updatedBy       String?
-
-  tiers           CommissionTier[]
+  effectiveDate     DateTime          @default(now())
+  expiryDate        DateTime?
+  isActive          Boolean           @default(true)
+  isDeleted         Boolean           @default(false)
+  deletedAt         DateTime?
+  deletedBy         String?
+  createdAt         DateTime          @default(now())
+  createdBy         String?
+  updatedAt         DateTime          @updatedAt
+  updatedBy         String?
+  tiers             CommissionTier[]
 
   @@index([deletedAt])
   @@index([effectiveDate])
 }
 
 model CommissionTier {
-  id              String         @id @default(cuid())
+  id               String         @id @default(cuid())
   commissionRuleId String
-  commissionRule  CommissionRule @relation(fields: [commissionRuleId], references: [id], onDelete: Cascade)
-  
-  minValue        String         @default("0")  // Decimal as String for SQLite
-  maxValue        String?        // Decimal as String for SQLite (null for unlimited)
-  commissionRate  String         // Decimal as String for SQLite
-  order           Int            // Sıralama için
-  
-  createdAt       DateTime       @default(now())
-  updatedAt       DateTime       @updatedAt
+  minValue         String         @default("0")
+  maxValue         String?
+  commissionRate   String
+  order            Int
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+  commissionRule   CommissionRule @relation(fields: [commissionRuleId], references: [id], onDelete: Cascade)
 
   @@index([commissionRuleId])
+}
+
+enum UserRole {
+  ADMIN
+  SUPERVISOR
+  MANAGER
+  EMPLOYEE
+}
+
+enum TicketStatus {
+  NEW
+  ASSIGNED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+  APPOINTMENT_CONFIRMED
+  APPOINTMENT_CANCELLED
+}
+
+enum TicketPriority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+enum TicketCategory {
+  HEATING
+  PLUMBING
+  ELECTRICITY
+  PAINTING
+  OTHER
+}
+
+enum TicketSource {
+  WEB_CHAT
+  PHONE
+  WHATSAPP
+  EMAIL
+}
+
+enum AppointmentStatus {
+  PLANNED
+  COMPLETED
+  CANCELLED
+}
+
+enum NotificationType {
+  INFO
+  SUCCESS
+  WARNING
+  ERROR
+}
+
+enum Locale {
+  EN
+  DE
+  FR
+  RU
+  TR
+}
+
+enum ConversationType {
+  INITIAL_INQUIRY
+  INFORMATION_GATHERING
+  APPOINTMENT_SCHEDULING
+  ISSUE_RESOLUTION
+  FOLLOW_UP
+}
+
+enum CallDirection {
+  INBOUND
+  OUTBOUND
+}
+
+enum CallStatus {
+  COMPLETED
+  MISSED
+  CANCELLED
+}
+
+enum ChatStatus {
+  ACTIVE
+  CLOSED
+  TRANSFERRED
+}
+
+enum ProductUnit {
+  PIECE
+  KG
+  M
+  M2
+  M3
+  LT
+  SET
+  BOX
+  PACKAGE
+}
+
+enum StockMovementType {
+  IN
+  OUT
+  TRANSFER
+  ADJUSTMENT
+}
+
+enum OrderStatus {
+  DRAFT
+  PENDING
+  CONFIRMED
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  COMPLETED
+  CANCELLED
+}
+
+enum PaymentStatus {
+  UNPAID
+  PARTIAL
+  PAID
+  REFUNDED
+}
+
+enum InvoiceStatus {
+  DRAFT
+  SENT
+  PARTIAL
+  PAID
+  OVERDUE
+  CANCELLED
+}
+
+enum CommissionType {
+  PERCENTAGE
+  FIXED
+  TIERED
+}
+
+enum CalculationPeriod {
+  DAILY
+  WEEKLY
+  MONTHLY
+  QUARTERLY
+  YEARLY
 }

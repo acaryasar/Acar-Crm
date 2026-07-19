@@ -19,6 +19,11 @@ import { RegionalSalesDistribution } from "@/features/dashboard/components/regio
 import { CollectionPerformance } from "@/features/dashboard/components/collection-performance";
 import { OrderStatusChart } from "@/features/dashboard/components/order-status-chart";
 import { ActivitiesReminders } from "@/features/dashboard/components/activities-reminders";
+import { EmployeeKPICards } from "@/features/dashboard/components/employee-kpi-cards";
+import { EmployeeSalesChart } from "@/features/dashboard/components/employee-sales-chart";
+import { EmployeeTargetAchievement } from "@/features/dashboard/components/employee-target-achievement";
+import { EmployeeRecentTickets } from "@/features/dashboard/components/employee-recent-tickets";
+import { EmployeeTasks } from "@/features/dashboard/components/employee-tasks";
 
 export async function generateMetadata(): Promise<Metadata> {
   const cookieStore = await cookies();
@@ -125,109 +130,30 @@ export default async function DashboardPage() {
         </>
       ) : (
         <>
-          {/* Manager/Employee Dashboard - Original Simple View */}
-          {/* KPI Cards */}
-          <div className="grid gap-4 md:grid-cols-4" >
-            {kpis.map(({ label, value, icon: Icon, color, href }) => (
-              <Link key={label} href={href} className="rounded-xl bg-white px-5 py-4 shadow-sm border border-slate-100 flex items-center gap-4 hover:border-slate-300 transition-colors group">
-                <div className={`h-10 w-10 rounded-xl flex items-center justify-center shrink-0 ${color}`}>
-                  <Icon size={18} />
-                </div>
-                <div>
-                  <p className="text-xs font-medium text-slate-500 uppercase tracking-wide">{label}</p>
-                  <p className="text-2xl font-bold text-slate-800 group-hover:text-blue-600 transition-colors">{value}</p>
-                </div>
-              </Link>
-            ))}
+          {/* Manager/Employee Dashboard - New Design */}
+          <EmployeeKPICards />
+
+          {/* Middle Section - Charts and Target */}
+          <div className="grid gap-4 lg:grid-cols-3">
+            <div className="lg:col-span-2">
+              <EmployeeSalesChart />
+            </div>
+            <div>
+              <EmployeeTargetAchievement />
+            </div>
           </div>
 
-          <div className="grid gap-4 lg:grid-cols-2">
-
-            <MonthlyCalendar />
-
-            {/* Recent Tickets */}
-            <div className="rounded-xl bg-white p-5 shadow-sm border border-slate-100">
-              <div className="flex items-center justify-between mb-4">
-                <p className="text-sm font-semibold text-slate-700">{t("recentTickets")}</p>
-                <Link href={routes.tickets} className="text-xs text-indigo-600 hover:text-indigo-700 font-medium">
-                  {t("viewAll")}
-                </Link>
-              </div>
-              {recentTickets.length === 0 ? (
-                <div className="flex flex-col items-center justify-center py-8">
-                  <Ticket size={32} className="text-slate-300 mb-2" />
-                  <p className="text-sm text-slate-400">{t("noTicketsYet")}</p>
-                </div>
-              ) : (
-                <div className="space-y-0.5">
-                  {recentTickets.map((ticket: any) => {
-                    const statusColors: Record<string, string> = {
-                      NEW: "bg-slate-100 text-slate-600",
-                      ASSIGNED: "bg-blue-100 text-blue-700",
-                      IN_PROGRESS: "bg-amber-100 text-amber-700",
-                      APPOINTMENT_CONFIRMED: "bg-green-100 text-green-700",
-                      APPOINTMENT_CANCELLED: "bg-red-100 text-red-700",
-                      COMPLETED: "bg-emerald-100 text-emerald-700",
-                      CANCELLED: "bg-red-100 text-red-700"
-                    };
-
-                    const priorityColors: Record<string, string> = {
-                      LOW: "text-slate-400",
-                      MEDIUM: "text-amber-500",
-                      HIGH: "text-orange-500",
-                      URGENT: "text-red-500"
-                    };
-
-                    const tTickets = messages[locale].tickets as any;
-                    const statusLabel = tTickets.statuses?.[ticket.status] || ticket.status;
-                    const priorityLabel = tTickets.priorities?.[ticket.priority] || ticket.priority;
-
-                    return (
-                      <Link
-                        key={ticket.id}
-                        href={`/tickets?mode=view&id=${ticket.id}`}
-                        className="flex items-center gap-3 p-3 rounded-lg hover:bg-slate-50 transition-colors group border border-transparent hover:border-slate-100"
-                      >
-                        <div className="h-2 w-2 rounded-full shrink-0" style={{
-                          backgroundColor: ticket.priority === 'URGENT' ? '#ef4444' : 
-                                         ticket.priority === 'HIGH' ? '#f97316' : 
-                                         ticket.priority === 'MEDIUM' ? '#f59e0b' : '#94a3b8'
-                        }} />
-                        <div className="min-w-0 flex-1">
-                          <div className="flex items-center gap-2 mb-1">
-                            <p className="text-sm font-medium text-slate-700 truncate group-hover:text-indigo-600 transition-colors">
-                              {ticket.title}
-                            </p>
-                            <span className={`text-xs px-2 py-0.5 rounded-full font-medium shrink-0 ${statusColors[ticket.status] || statusColors.NEW}`}>
-                              {statusLabel}
-                            </span>
-                          </div>
-                          <div className="flex items-center gap-2 text-xs text-slate-400">
-                            {ticket.customer && (
-                              <span className="flex items-center gap-1">
-                                <UserRound size={12} />
-                                {ticket.customer.firstName} {ticket.customer.lastName}
-                              </span>
-                            )}
-                            {ticket.assignedUser && (
-                              <span className="flex items-center gap-1">
-                                <Users size={12} />
-                                {ticket.assignedUser.firstName} {ticket.assignedUser.lastName}
-                              </span>
-                            )}
-                            <span className="flex items-center gap-1">
-                              <Calendar size={12} />
-                              {new Date(ticket.createdAt).toLocaleDateString()}
-                            </span>
-                          </div>
-                        </div>
-                      </Link>
-                    );
-                  })}
-                </div>
-              )}
+          {/* Bottom Section - Tickets, Tasks, Calendar */}
+          <div className="grid gap-4 lg:grid-cols-3">
+            <div className="lg:col-span-1">
+              <EmployeeRecentTickets />
             </div>
-
+            <div className="lg:col-span-1">
+              <EmployeeTasks />
+            </div>
+            <div className="lg:col-span-1">
+              <MonthlyCalendar />
+            </div>
           </div>
         </>
       )}

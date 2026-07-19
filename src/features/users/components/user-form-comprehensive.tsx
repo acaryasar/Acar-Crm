@@ -474,45 +474,6 @@ export function UserFormComprehensive({ mode = "create", user }: UserFormProps) 
                 />
               </div>
 
-              {mode !== "view" && (
-                <>
-                  <div>
-                    <label className={labelClass}>Şifre</label>
-                    <input 
-                      name="password" 
-                      type="password" 
-                      placeholder="••••••••"
-                      value={formData.password}
-                      onChange={(e) => handleInputChange("password", e.target.value)}
-                      className={inputClass} 
-                      required={mode === "create"}
-                    />
-                  </div>
-                  <div>
-                    <label className={labelClass}>Şifre (Tekrar)</label>
-                    <input 
-                      name="confirmPassword" 
-                      type="password" 
-                      placeholder="••••••••"
-                      value={formData.confirmPassword}
-                      onChange={(e) => handleInputChange("confirmPassword", e.target.value)}
-                      className={inputClass} 
-                      required={mode === "create"}
-                    />
-                  </div>
-
-                  <label className="flex items-center gap-2 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      checked={formData.changePasswordOnFirstLogin}
-                      onChange={(e) => handleInputChange("changePasswordOnFirstLogin", e.target.checked)}
-                      className="w-4 h-4 text-indigo-600 rounded"
-                    />
-                    <span className="text-sm text-slate-700">İlk girişte şifre değiştirilsin</span>
-                  </label>
-                </>
-              )}
-
               <div>
                 <label className={labelClass}>Hesap Durumu</label>
                 <div className="flex items-center gap-2">
@@ -550,56 +511,19 @@ export function UserFormComprehensive({ mode = "create", user }: UserFormProps) 
 
             <div>
               <label className={labelClass}>Rol</label>
-              <div className="border border-slate-200 rounded-xl p-3 min-h-[60px]">
-                <div className="flex flex-wrap gap-2">
-                  {formData.roles.map(roleId => {
-                    const role = availableRoles.find(r => r.id === roleId);
-                    return (
-                      <span
-                        key={roleId}
-                        className={`inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-sm font-medium ${roleColors[roleId]} ${isReadonly ? '' : 'pr-1'}`}
-                      >
-                        {role?.label}
-                        {!isReadonly && (
-                          <button
-                            type="button"
-                            onClick={() => handleRoleRemove(roleId)}
-                            className="ml-1 hover:opacity-70"
-                          >
-                            <X size={12} />
-                          </button>
-                        )}
-                      </span>
-                    );
-                  })}
-                  {!isReadonly && formData.roles.length === 0 && (
-                    <span className="text-sm text-slate-400">Rol seçmek için tıklayın</span>
-                  )}
-                </div>
-              </div>
+              <select 
+                name="role" 
+                value={formData.roles[0] || ""}
+                onChange={(e) => handleInputChange("roles", e.target.value ? [e.target.value] : [])}
+                className={isReadonly ? inputClass + " bg-slate-100" : inputClass} 
+                disabled={isReadonly}
+              >
+                <option value="">Seçiniz</option>
+                {availableRoles.map(role => (
+                  <option key={role.id} value={role.id}>{role.label}</option>
+                ))}
+              </select>
             </div>
-
-            {!isReadonly && (
-              <div className="border border-slate-200 rounded-xl p-3">
-                <p className="text-xs text-slate-500 mb-2">Mevcut roller:</p>
-                <div className="flex flex-wrap gap-2">
-                  {availableRoles.map(role => (
-                    <button
-                      key={role.id}
-                      type="button"
-                      onClick={() => handleRoleToggle(role.id)}
-                      className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
-                        formData.roles.includes(role.id)
-                          ? roleColors[role.id]
-                          : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-                      }`}
-                    >
-                      {role.label}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
 
             <p className="text-xs text-slate-500">Rol ve yetki detaylarını kaydettikten sonra düzenleyebilirsiniz.</p>
 

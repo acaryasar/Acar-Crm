@@ -55,6 +55,12 @@
     "employeesDescription": "Manage employees",
     "activityLogs": "Activity Logs",
     "activityLogsDescription": "View system activity logs",
+    "reports": "Reports",
+    "reportsDescription": "View reports",
+    "salesOrderReport": "Sales / Order Report",
+    "salesOrderReportDescription": "View sales and order reports",
+    "salesPersonnelDetailReport": "Sales Personnel Detail Report",
+    "salesPersonnelDetailReportDescription": "View sales personnel detail reports",
     "products": "Products",
     "productsDescription": "Product management",
     "stock": "Stock",
@@ -600,5 +606,13 @@
     "october": "October",
     "november": "November",
     "december": "December"
+  },
+
+  "salesOrderReport": {
+    "title": "Sales / Order Report"
+  },
+
+  "salesPersonnelDetailReport": {
+    "title": "Sales Personnel Detail Report"
   }
 }

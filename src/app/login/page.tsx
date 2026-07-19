@@ -1,5 +1,4 @@
 import { LoginForm } from "@/features/auth/components/login-form";
-import { Wrench } from "lucide-react";
 
 export default function LoginPage() {
   return (
@@ -15,11 +14,15 @@ export default function LoginPage() {
 
         {/* Logo */}
         <div className="text-center mb-8">
-          <div className="inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-500 to-violet-600 shadow-lg shadow-indigo-500/30 mb-4">
-            <Wrench size={28} className="text-white" />
+          <div className="inline-flex w-80 items-center justify-center mb-4">
+            <img 
+              src="https://www.ndtservis.com/theme/ndt-servis-logo.svg" 
+              alt="NDT Servis Logo" 
+              className="h-full w-full object-contain"
+            />
           </div>
-          <h1 className="text-2xl font-bold text-white">Handwerk Assist</h1>
-          <p className="text-slate-400 text-sm mt-1">Ihre Handwerksverwaltung</p>
+          <h1 className="text-2xl font-bold text-white">NDT Servis CRM</h1>
+          <p className="text-slate-400 text-sm mt-1">Tahribatsız Muayene</p>
         </div>
 
         {/* Card */}
@@ -33,7 +36,7 @@ export default function LoginPage() {
         </div>
 
         <p className="text-center text-slate-600 text-xs mt-6">
-          © 2026 Handwerk Assist. All rights reserved.
+          © 2026 Acar Software. All rights reserved.
         </p>
       </div>
     </div>

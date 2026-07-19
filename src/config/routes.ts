@@ -54,6 +54,12 @@ export const routes = {
     emailDemo: "/email-demo",
     webChatDemo: "/web-chat-demo",
   },
+
+  // Reports
+  reports: {
+    salesOrderReport: "/reports/sales-order-report",
+    salesPersonnelDetailReport: "/reports/sales-personnel-detail-report",
+  },
 } as const;
 
 // Route metadata tanımları
@@ -102,6 +108,12 @@ export const routeMetadata: Record<string, { titleKey: string; descriptionKey?: 
   },
   [routes.parameters.base]: {
     titleKey: "parameters",
+  },
+  [routes.reports.salesOrderReport]: {
+    titleKey: "salesOrderReport",
+  },
+  [routes.reports.salesPersonnelDetailReport]: {
+    titleKey: "salesPersonnelDetailReport",
   },
 };
 

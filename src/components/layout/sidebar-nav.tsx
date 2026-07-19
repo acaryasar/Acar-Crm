@@ -118,6 +118,24 @@ const items: NavItem[] = [
 
   },
 
+  {
+
+    label: "reports",
+
+    icon: BarChart3,
+
+    roles: ["ADMIN", "SUPERVISOR"],
+
+    children: [
+
+      { label: "salesOrderReport", href: "/reports/sales-order-report", icon: FileText },
+
+      { label: "salesPersonnelDetailReport", href: "/reports/sales-personnel-detail-report", icon: FileText },
+
+    ]
+
+  },
+
   { label: "tickets",      href: "/tickets",                icon: Ticket },
 
   { label: "appointments", href: "/appointments",            icon: Calendar },
@@ -172,7 +190,7 @@ export function SidebarNav({ role }: { role?: string }) {
 
   const t = useTranslations("sidebar");
 
-  const [openMenus, setOpenMenus] = useState<Record<string, boolean>>({ ai: true, parameters: true, commission: true });
+  const [openMenus, setOpenMenus] = useState<Record<string, boolean>>({ ai: true, parameters: true, commission: true, reports: true });
 
 
 

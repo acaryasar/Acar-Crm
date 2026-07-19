@@ -70,7 +70,13 @@
     "employees": "Çalışanlar",
     "employeesDescription": "Çalışanları yönetin",
     "activityLogs": "Aktivite Logları",
-    "activityLogsDescription": "Sistem aktivite loglarını görüntüleyin"
+    "activityLogsDescription": "Sistem aktivite loglarını görüntüleyin",
+    "reports": "Raporlar",
+    "reportsDescription": "Raporları görüntüleyin",
+    "salesOrderReport": "Satış / Sipariş Raporu",
+    "salesOrderReportDescription": "Satış ve sipariş raporlarını görüntüleyin",
+    "salesPersonnelDetailReport": "Satış Personeli Detay Raporu",
+    "salesPersonnelDetailReportDescription": "Satış personeli detay raporlarını görüntüleyin"
   },
 
   "products": {
@@ -612,5 +618,13 @@
     "october": "Ekim",
     "november": "Kasım",
     "december": "Aralık"
+  },
+
+  "salesOrderReport": {
+    "title": "Satış / Sipariş Raporu"
+  },
+
+  "salesPersonnelDetailReport": {
+    "title": "Satış Personeli Detay Raporu"
   }
 }

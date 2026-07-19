@@ -9,7 +9,7 @@ export async function Sidebar() {
       <div className="px-4 py-5 border-b border-slate-800 shrink-0">
         <div className="flex flex-col items-center gap-2">
           <img
-            src="/images/ndt-servis-logo.svg"
+            src="https://www.ndtservis.com/theme/ndt-servis-logo.svg"
             alt="NDT Servis Logo"
             className="h-8 w-auto object-contain"
           />

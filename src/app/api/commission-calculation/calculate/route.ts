@@ -119,7 +119,7 @@ export async function POST(req: NextRequest) {
         // Fetch customers where this user is the responsible person
         const responsibleCustomers = await prisma.customer.findMany({
           where: {
-            responsiblePerson: user.id,
+            responsiblePerson: `${user.firstName} ${user.lastName}`,
             deletedAt: null,
           } as any,
           select: {
@@ -231,10 +231,20 @@ export async function POST(req: NextRequest) {
       });
     }
 
+    // Fetch the selected user to get their name
+    const selectedUser = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { firstName: true, lastName: true },
+    });
+
+    if (!selectedUser) {
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
+    }
+
     // Fetch customers where the selected user is the responsible person
     const responsibleCustomers = await prisma.customer.findMany({
       where: {
-        responsiblePerson: userId,
+        responsiblePerson: `${selectedUser.firstName} ${selectedUser.lastName}`,
         deletedAt: null,
       } as any,
       select: {

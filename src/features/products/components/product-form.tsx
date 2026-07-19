@@ -163,9 +163,13 @@ export function ProductForm({ mode = "create", product }: ProductFormProps) {
                   disabled={isReadonly}
                 >
                   <option value="">Kategori Seçiniz</option>
-                  <option value="cat1">Elektronik</option>
-                  <option value="cat2">Mobilya</option>
-                  <option value="cat3">Gıda</option>
+                  <option value="cat1">Analitik Cihazlar</option>
+                  <option value="cat2">Radyografi Test Ürünleri</option>
+                  <option value="cat3">Ultrasonik Test Ürünleri</option>
+                  <option value="cat4">Penetrant Test Ürünleri</option>
+                  <option value="cat5">Sertlik Ölçüm Cihazları</option>
+                  <option value="cat6">Eğitim ve Sertifikasyon</option>
+                  <option value="cat7">Manyetik Parçacık Test Ürünleri</option>
                 </select>
               </div>
               <div>

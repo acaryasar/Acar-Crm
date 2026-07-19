@@ -88,7 +88,7 @@ export async function PUT(
       },
     });
 
-    revalidatePath("/dashboard/commission-rules");
+    revalidatePath("/commission-rules");
 
     return NextResponse.json({ data: rule });
   } catch (error) {
@@ -118,7 +118,7 @@ export async function DELETE(
       },
     });
 
-    revalidatePath("/dashboard/commission-rules");
+    revalidatePath("/commission-rules");
 
     return NextResponse.json({ success: true });
   } catch (error) {

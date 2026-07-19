@@ -14,9 +14,9 @@ export function CommissionRulesSearch() {
 
   useEffect(() => {
     if (debounced) {
-      router.push(`/dashboard/commission-rules?search=${debounced}`);
+      router.push(`/commission-rules?search=${debounced}`);
     } else {
-      router.push("/dashboard/commission-rules");
+      router.push("/commission-rules");
     }
   }, [debounced, router]);
 

@@ -19,7 +19,7 @@ export function CommissionRulesTable({ rules }: Props) {
   const t = useTranslations("commission");
   const { data: session } = useSession();
   const { handleDelete, deleteId, confirmDelete, cancelDelete } = useEntityDelete(deleteCommissionRule);
-  const { handleToggleStatus } = useEntityToggleStatus((id) => toggleEntityStatus({ entityType: "COMMISSION_RULE", entityId: id, revalidatePath: "/dashboard/commission-rules" }));
+  const { handleToggleStatus } = useEntityToggleStatus((id) => toggleEntityStatus({ entityType: "COMMISSION_RULE", entityId: id, revalidatePath: "/commission-rules" }));
   const userRole = session?.user?.role;
 
   if (!rules.length) {
@@ -115,7 +115,7 @@ export function CommissionRulesTable({ rules }: Props) {
               </td>
               <td className="px-4 py-3 text-right">
                 <div className="flex items-center justify-end gap-2">
-                  <ViewButton href={`/dashboard/commission-rules?mode=view&id=${rule.id}`} />
+                  <ViewButton href={`/commission-rules?mode=view&id=${rule.id}`} />
                   <EntityActions
                     entityType="COMMISSION_RULE"
                     entityId={rule.id}

@@ -130,7 +130,7 @@ export default async function DashboardPage() {
                 return (
                   <Link
                     key={ticket.id}
-                    href={`/dashboard/tickets?mode=view&id=${ticket.id}`}
+                    href={`/tickets?mode=view&id=${ticket.id}`}
                     className="flex items-center gap-3 p-3 rounded-lg hover:bg-slate-50 transition-colors group border border-transparent hover:border-slate-100"
                   >
                     <div className="h-2 w-2 rounded-full shrink-0" style={{

@@ -161,7 +161,7 @@ export function OrderForm({ mode, order }: Props) {
       });
       
       setLoading(false);
-      router.push("/dashboard/orders");
+      router.push("/orders");
     } catch (error) {
       console.error("Error:", error);
       setLoading(false);

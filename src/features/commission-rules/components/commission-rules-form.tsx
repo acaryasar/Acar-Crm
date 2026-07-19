@@ -102,7 +102,7 @@ export function CommissionRulesForm({ mode, rule }: Props) {
         throw new Error("Failed to save commission rule");
       }
 
-      window.location.href = "/dashboard/commission-rules";
+      window.location.href = "/commission-rules";
     } catch (error) {
       console.error("Error saving commission rule:", error);
       alert("Kaydetme başarısız oldu");

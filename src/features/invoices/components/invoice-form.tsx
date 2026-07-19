@@ -193,7 +193,7 @@ export function InvoiceForm({ mode, invoice, selectedCustomer }: Props) {
       });
       
       setLoading(false);
-      router.push("/dashboard/invoices");
+      router.push("/invoices");
     } catch (error) {
       console.error("Error:", error);
       setLoading(false);

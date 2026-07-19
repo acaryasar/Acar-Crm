@@ -84,7 +84,7 @@ export function SalesTypeForm({ mode, salesType }: SalesTypeFormProps) {
       <div className="flex items-center justify-between mb-6 shrink-0">
         <div className="flex items-center gap-3">
           <Link
-            href="/dashboard/parameters/sales-types"
+            href="/parameters/sales-types"
             className="inline-flex items-center justify-center gap-2 text-slate-600 hover:text-slate-800 transition-colors"
           >
             <ArrowLeft size={20} />

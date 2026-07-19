@@ -125,7 +125,7 @@ export function WhatsAppDemoChat({ ticketId }: WhatsAppDemoChatProps) {
         <div className="flex items-center gap-3">
           {isReadonly && (
             <Link
-              href="/dashboard/tickets"
+              href="/tickets"
               className="text-white/80 hover:text-white transition-colors"
               title="Geri Dön"
             >

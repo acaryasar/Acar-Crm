@@ -89,7 +89,7 @@ export default async function NotificationsPage() {
                         data: { isRead: true },
                       });
                       const { revalidatePath } = await import("next/cache");
-                      revalidatePath("/dashboard/notifications");
+                      revalidatePath("/notifications");
                     }}
                   >
                     <button

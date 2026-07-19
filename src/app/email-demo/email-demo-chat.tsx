@@ -124,7 +124,7 @@ export function EmailDemoChat({ ticketId }: EmailDemoChatProps) {
       <div className="bg-purple-600 px-4 py-3 flex items-center justify-between">
         <div className="flex items-center gap-3">
           {isReadonly && (
-            <Link href="/dashboard/tickets" className="text-white/80 hover:text-white transition-colors" title="Geri Dön">
+            <Link href="/tickets" className="text-white/80 hover:text-white transition-colors" title="Geri Dön">
               <ArrowLeft className="w-5 h-5" />
             </Link>
           )}

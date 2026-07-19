@@ -42,7 +42,6 @@ interface NavItem {
 const items: NavItem[] = [
   { label: "dashboard",    href: "/dashboard",              icon: LayoutDashboard, exact: true },
   { label: "inbox",        href: "/inbox",                  icon: Mail },
-  { label: "companies",    href: "/companies",              icon: Building2, roles: ["ADMIN"] },
   { label: "customers",    href: "/customers",              icon: UserRound, roles: ["ADMIN", "SUPERVISOR"]},
   { label: "products",     href: "/products",               icon: Package, roles: ["ADMIN", "SUPERVISOR", "MANAGER"] },
   { label: "stock",        href: "/stock",                  icon: BarChart3, roles: ["ADMIN", "SUPERVISOR", "MANAGER"] },

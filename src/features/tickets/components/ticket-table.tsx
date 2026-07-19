@@ -96,7 +96,7 @@ export function TicketTable({ tickets }: { tickets: Ticket[] }) {
 
                 <td className="px-6 py-4">
                   <div className="flex items-center justify-end gap-2">
-                    <ViewButton href={`/dashboard/tickets/${ticket.id}`} />
+                    <ViewButton href={`/tickets/${ticket.id}`} />
                     <EntityActions
                       entityType="TICKET"
                       entityId={ticket.id}

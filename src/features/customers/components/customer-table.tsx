@@ -122,14 +122,14 @@ export function CustomerTable({ customers }: { customers: Customer[] }) {
                   <td className="px-4 py-4">
                     <div className="flex items-center justify-center gap-2">
                       <Link
-                        href={`/dashboard/customers?mode=view&id=${customer.id}`}
+                        href={`/customers?mode=view&id=${customer.id}`}
                         className="p-1.5 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors"
                         title="Görüntüle"
                       >
                         <Eye size={16} />
                       </Link>
                       <Link
-                        href={`/dashboard/customers?mode=edit&id=${customer.id}`}
+                        href={`/customers?mode=edit&id=${customer.id}`}
                         className="p-1.5 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors"
                         title="Düzenle"
                       >

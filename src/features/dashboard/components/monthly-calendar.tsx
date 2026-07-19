@@ -31,7 +31,7 @@ export function MonthlyCalendar() {
   const fetchCalendarData = async (year: number, month: number) => {
     setLoading(true);
     try {
-      const response = await fetch(`/api/dashboard/calendar?year=${year}&month=${month}`);
+      const response = await fetch(`/api/calendar?year=${year}&month=${month}`);
       const data = await response.json();
       setCalendarData(data);
     } catch (error) {

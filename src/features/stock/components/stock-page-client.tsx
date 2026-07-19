@@ -52,7 +52,7 @@ export function StockPageClient({
 
   return (
     <>
-      <div className="mb-6 shrink-0">
+      <div className="mb-6">
         <StockStatsCards
           totalProducts={totalProducts}
           criticalStock={criticalStock}

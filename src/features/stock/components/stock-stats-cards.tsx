@@ -19,17 +19,9 @@ export function StockStatsCards({
 }: StockStatsCardsProps) {
   const stats = [
     {
-      title: "Toplam Stok Değeri",
-      value: totalStockValue,
-      isCurrency: true,
-      icon: "💰",
-      clickable: false,
-      tab: null
-    },
-    {
       title: "Toplam Ürün",
       value: totalProducts,
-      icon: "📦",
+      icon: "�",
       clickable: true,
       tab: "all" as const
     },
@@ -46,6 +38,14 @@ export function StockStatsCards({
       icon: "❌",
       clickable: true,
       tab: "out-of-stock" as const
+    },
+    {
+      title: "Toplam Stok Değeri",
+      value: totalStockValue,
+      isCurrency: true,
+      icon: "💰",
+      clickable: false,
+      tab: null
     }
   ];
 

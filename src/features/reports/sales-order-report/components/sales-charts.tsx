@@ -1,6 +1,7 @@
 "use client";
 
 import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
+import { useTranslations } from "next-intl";
 
 interface SalesChartsProps {
   startDate: string;
@@ -8,6 +9,8 @@ interface SalesChartsProps {
 }
 
 export function SalesCharts({ startDate, endDate }: SalesChartsProps) {
+  const t = useTranslations("salesOrderReport");
+
   // Mock data for daily sales - in real implementation, this would come from API
   const dailySalesData = [
     { date: "01.05", sales: 45000 },
@@ -70,7 +73,7 @@ export function SalesCharts({ startDate, endDate }: SalesChartsProps) {
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
       {/* Daily Sales Chart */}
       <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
-        <h3 className="text-lg font-semibold text-slate-800 mb-4">Günlük Satış Tutarı</h3>
+        <h3 className="text-lg font-semibold text-slate-800 mb-4">{String(t("dailySalesAmount"))}</h3>
         <ResponsiveContainer width="100%" height={300}>
           <LineChart data={dailySalesData}>
             <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
@@ -95,7 +98,7 @@ export function SalesCharts({ startDate, endDate }: SalesChartsProps) {
                 borderRadius: "8px",
                 boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1)",
               }}
-              formatter={(value: any) => [`${formatCurrency(Number(value) || 0)} ₺`, "Satış"]}
+              formatter={(value: any) => [`${formatCurrency(Number(value) || 0)} ₺`, String(t("sales"))]}
             />
             <Legend />
             <Line 
@@ -112,7 +115,7 @@ export function SalesCharts({ startDate, endDate }: SalesChartsProps) {
 
       {/* Monthly Comparison Chart */}
       <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
-        <h3 className="text-lg font-semibold text-slate-800 mb-4">Aylara Göre Satış Karşılaştırması</h3>
+        <h3 className="text-lg font-semibold text-slate-800 mb-4">{String(t("monthlySalesComparison"))}</h3>
         <ResponsiveContainer width="100%" height={300}>
           <BarChart data={monthlyComparisonData}>
             <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />

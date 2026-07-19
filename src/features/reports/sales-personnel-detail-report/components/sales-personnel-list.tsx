@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { User, ChevronRight } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 interface SalesPersonnel {
   id: string;
@@ -23,6 +24,8 @@ export function SalesPersonnelList({
   onSelectPersonnel,
   selectedPersonnelId 
 }: SalesPersonnelListProps) {
+  const t = useTranslations("salesPersonnelDetailReport");
+
   // Mock data - in real implementation, this would come from API
   const personnelList: SalesPersonnel[] = [
     {
@@ -65,7 +68,7 @@ export function SalesPersonnelList({
   return (
     <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
       <div className="p-4 border-b border-slate-200">
-        <h3 className="text-lg font-semibold text-slate-800">Satış Personeli Listesi</h3>
+        <h3 className="text-lg font-semibold text-slate-800">{String(t("personnelList"))}</h3>
       </div>
       
       <div className="divide-y divide-slate-100">
@@ -84,7 +87,7 @@ export function SalesPersonnelList({
                 </div>
                 <div>
                   <p className="font-medium text-slate-800">{personnel.name}</p>
-                  <p className="text-sm text-slate-500">{formatNumber(personnel.orderCount)} sipariş</p>
+                  <p className="text-sm text-slate-500">{formatNumber(personnel.orderCount)} {String(t("orders"))}</p>
                 </div>
               </div>
               <div className="flex items-center gap-3">

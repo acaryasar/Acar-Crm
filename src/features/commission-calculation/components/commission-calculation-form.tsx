@@ -121,8 +121,8 @@ export function CommissionCalculationForm() {
             onChange={(e) => setSelectedUser(e.target.value)}
             className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
           >
-            <option value="">Kullanıcı Seçin</option>
-            <option value="all">Tümü</option>
+            <option value="">{String(t("selectUser"))}</option>
+            <option value="all">{String(t("all"))}</option>
             {users.map((user) => (
               <option key={user.id} value={user.id}>
                 {user.firstName} {user.lastName}
@@ -159,7 +159,7 @@ export function CommissionCalculationForm() {
             onChange={(e) => setSelectedRule(e.target.value)}
             className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
           >
-            <option value="">Kural Seçin</option>
+            <option value="">{String(t("selectRule"))}</option>
             {rules.map((rule) => (
               <option key={rule.id} value={rule.id}>
                 {rule.name} ({t(rule.commissionType?.toLowerCase() || "percentage")})
@@ -204,7 +204,7 @@ export function CommissionCalculationForm() {
                   <Calculator size={20} className="text-emerald-600" />
                 </div>
                 <span className="text-sm font-medium text-emerald-700">
-                  {results.isAllUsers ? "Toplam Prim" : t("totalCommission")}
+                  {results.isAllUsers ? String(t("totalCommission")) : t("totalCommission")}
                 </span>
               </div>
               <div className="text-3xl font-bold text-emerald-900">
@@ -218,7 +218,7 @@ export function CommissionCalculationForm() {
                   <Calculator size={20} className="text-purple-600" />
                 </div>
                 <span className="text-sm font-medium text-purple-700">
-                  {results.isAllUsers ? "Ortalama Prim" : "Prim Oranı"}
+                  {results.isAllUsers ? String(t("averageCommission")) : String(t("commissionRate"))}
                 </span>
               </div>
               <div className="text-3xl font-bold text-purple-900">
@@ -235,14 +235,14 @@ export function CommissionCalculationForm() {
             <div>
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-lg font-semibold text-slate-800">
-                  Kullanıcı Prim Listesi ({results.totalUsers} kullanıcı)
+                  {String(t("userCommissionList")).replace("{count}", String(results.totalUsers))}
                 </h3>
                 <button
                   onClick={() => setSelectedUserForDetail(null)}
                   className="inline-flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium px-4 py-2 rounded-xl transition-colors shadow-sm"
                 >
                   <Eye size={16} />
-                  Detay Görüntüle
+                  {String(t("salesDetails"))}
                 </button>
               </div>
               <div className="rounded-xl border border-slate-200 overflow-hidden">
@@ -253,16 +253,16 @@ export function CommissionCalculationForm() {
                         Kullanıcı
                       </th>
                       <th className="text-right text-xs font-semibold text-slate-600 uppercase tracking-wider px-4 py-3">
-                        Toplam Satış
+                        {String(t("totalSales"))}
                       </th>
                       <th className="text-right text-xs font-semibold text-slate-600 uppercase tracking-wider px-4 py-3">
-                        Prim Tutarı
+                        {String(t("commissionAmount"))}
                       </th>
                       <th className="text-right text-xs font-semibold text-slate-600 uppercase tracking-wider px-4 py-3">
-                        Ortalama Prim Oranı %
+                        {String(t("averageCommissionRate"))}
                       </th>
                       <th className="text-center text-xs font-semibold text-slate-600 uppercase tracking-wider px-4 py-3">
-                        İşlemler
+                        {String(t("actions"))}
                       </th>
                     </tr>
                   </thead>
@@ -303,11 +303,11 @@ export function CommissionCalculationForm() {
                 <div className="flex items-center justify-between p-6 border-b border-slate-200">
                   <div>
                     <h3 className="text-xl font-semibold text-slate-800">
-                      {selectedUserForDetail.userName} - Prim Detayları
+                      {selectedUserForDetail.userName} - {String(t("commissionDetails"))}
                     </h3>
                     <p className="text-sm text-slate-500 mt-1">
-                      Toplam Satış: ₺{selectedUserForDetail.totalSales.toLocaleString()} | 
-                      Prim Tutarı: ₺{selectedUserForDetail.commission.toLocaleString()}
+                      {String(t("totalSales"))}: ₺{selectedUserForDetail.totalSales.toLocaleString()} | 
+                      {String(t("commissionAmount"))}: ₺{selectedUserForDetail.commission.toLocaleString()}
                     </p>
                   </div>
                   <button
@@ -324,7 +324,7 @@ export function CommissionCalculationForm() {
                         <div className="h-10 w-10 rounded-lg bg-blue-100 flex items-center justify-center">
                           <TrendingUp size={20} className="text-blue-600" />
                         </div>
-                        <span className="text-sm font-medium text-blue-700">Toplam Satış</span>
+                        <span className="text-sm font-medium text-blue-700">{String(t("totalSales"))}</span>
                       </div>
                       <div className="text-3xl font-bold text-blue-900">
                         ₺{selectedUserForDetail.totalSales.toLocaleString()}
@@ -335,7 +335,7 @@ export function CommissionCalculationForm() {
                         <div className="h-10 w-10 rounded-lg bg-emerald-100 flex items-center justify-center">
                           <Calculator size={20} className="text-emerald-600" />
                         </div>
-                        <span className="text-sm font-medium text-emerald-700">Prim Tutarı</span>
+                        <span className="text-sm font-medium text-emerald-700">{String(t("commissionAmount"))}</span>
                       </div>
                       <div className="text-3xl font-bold text-emerald-900">
                         ₺{selectedUserForDetail.commission.toLocaleString()}
@@ -348,7 +348,7 @@ export function CommissionCalculationForm() {
                       <div className="h-10 w-10 rounded-lg bg-purple-100 flex items-center justify-center">
                         <Calculator size={20} className="text-purple-600" />
                       </div>
-                      <span className="text-sm font-medium text-purple-700">Prim Oranı</span>
+                      <span className="text-sm font-medium text-purple-700">{String(t("commissionRate"))}</span>
                     </div>
                     <div className="text-3xl font-bold text-purple-900">
                       {selectedUserForDetail.totalSales > 0 
@@ -415,7 +415,7 @@ export function CommissionCalculationForm() {
                   {/* Commission Details */}
                   {selectedUserForDetail.commissionDetails && selectedUserForDetail.commissionDetails.length > 0 && (
                     <div>
-                      <h4 className="text-sm font-semibold text-slate-700 mb-4">Prim Detayları</h4>
+                      <h4 className="text-sm font-semibold text-slate-700 mb-4">{String(t("commissionDetails"))}</h4>
                       <div className="rounded-xl border border-slate-200 overflow-hidden">
                         <table className="w-full">
                           <thead className="bg-slate-50 border-b border-slate-200">
@@ -427,7 +427,7 @@ export function CommissionCalculationForm() {
                                 Oran
                               </th>
                               <th className="text-right text-xs font-semibold text-slate-600 uppercase tracking-wider px-4 py-3">
-                                Prim Tutarı
+                                {String(t("commissionAmount"))}
                               </th>
                             </tr>
                           </thead>
@@ -507,7 +507,7 @@ export function CommissionCalculationForm() {
                         Oran
                       </th>
                       <th className="text-right text-xs font-semibold text-slate-600 uppercase tracking-wider px-4 py-3">
-                        Prim Tutarı
+                        {String(t("commissionAmount"))}
                       </th>
                     </tr>
                   </thead>
@@ -542,15 +542,15 @@ export function CommissionCalculationForm() {
           <AlertDialogHeader>
             <div className="flex items-center gap-2">
               <AlertCircle className="h-5 w-5 text-amber-600" />
-              <AlertDialogTitle>Eksik Bilgi</AlertDialogTitle>
+              <AlertDialogTitle>{String(t("missingInfo"))}</AlertDialogTitle>
             </div>
             <AlertDialogDescription>
-              Lütfen kullanıcı ve kural seçin
+              {String(t("pleaseSelectUserAndRule"))}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogAction onClick={() => setShowValidationDialog(false)}>
-              Tamam
+              {String(t("ok"))}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

@@ -1,6 +1,7 @@
 "use client";
 
 import { DollarSign, ShoppingCart, Calculator, TrendingUp } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 interface OverallSummaryProps {
   startDate: string;
@@ -8,6 +9,8 @@ interface OverallSummaryProps {
 }
 
 export function OverallSummary({ startDate, endDate }: OverallSummaryProps) {
+  const t = useTranslations("salesPersonnelDetailReport");
+
   // Mock data - in real implementation, this would come from API
   const summaryData = {
     totalSalesAmount: 1245750.00,
@@ -29,25 +32,25 @@ export function OverallSummary({ startDate, endDate }: OverallSummaryProps) {
 
   const cards = [
     {
-      title: "Toplam Satış Tutarı",
+      title: String(t("totalSalesAmount")),
       value: formatCurrency(summaryData.totalSalesAmount),
       icon: DollarSign,
       color: "blue",
     },
     {
-      title: "Toplam Sipariş Adedi",
+      title: String(t("totalOrderCount")),
       value: formatNumber(summaryData.totalOrderCount),
       icon: ShoppingCart,
       color: "green",
     },
     {
-      title: "Ortalama Sipariş Tutarı",
+      title: String(t("averageOrderAmount")),
       value: formatCurrency(summaryData.averageOrderAmount),
       icon: Calculator,
       color: "purple",
     },
     {
-      title: "Prim Toplamı",
+      title: String(t("totalCommission")),
       value: formatCurrency(summaryData.totalCommission),
       icon: TrendingUp,
       color: "orange",

@@ -1,6 +1,7 @@
 "use client";
 
 import { DollarSign, ShoppingCart, Calculator, TrendingUp, User } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 interface PersonnelSummaryProps {
   personnelName: string;
@@ -9,6 +10,8 @@ interface PersonnelSummaryProps {
 }
 
 export function PersonnelSummary({ personnelName, startDate, endDate }: PersonnelSummaryProps) {
+  const t = useTranslations("salesPersonnelDetailReport");
+
   // Mock data - in real implementation, this would come from API based on selected personnel
   const summaryData = {
     totalSales: 512450.00,
@@ -30,25 +33,25 @@ export function PersonnelSummary({ personnelName, startDate, endDate }: Personne
 
   const cards = [
     {
-      title: "Toplam Satış",
+      title: String(t("totalSales")),
       value: formatCurrency(summaryData.totalSales),
       icon: DollarSign,
       color: "blue",
     },
     {
-      title: "Sipariş Adedi",
+      title: String(t("orderCount")),
       value: formatNumber(summaryData.orderCount),
       icon: ShoppingCart,
       color: "green",
     },
     {
-      title: "Ortalama Sipariş",
+      title: String(t("averageOrder")),
       value: formatCurrency(summaryData.averageOrder),
       icon: Calculator,
       color: "purple",
     },
     {
-      title: "Prim Tutarı",
+      title: String(t("commissionAmount")),
       value: formatCurrency(summaryData.commissionAmount),
       icon: TrendingUp,
       color: "orange",
@@ -88,8 +91,8 @@ export function PersonnelSummary({ personnelName, startDate, endDate }: Personne
           <User size={20} className="text-indigo-600" />
         </div>
         <div>
-          <h3 className="text-lg font-semibold text-slate-800">{personnelName} - Detay</h3>
-          <p className="text-sm text-slate-500">Personel performans özeti</p>
+          <h3 className="text-lg font-semibold text-slate-800">{personnelName} - {String(t("detail"))}</h3>
+          <p className="text-sm text-slate-500">{String(t("personnelPerformanceSummary"))}</p>
         </div>
       </div>
 

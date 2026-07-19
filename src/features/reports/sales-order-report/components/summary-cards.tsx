@@ -1,6 +1,7 @@
 "use client";
 
 import { TrendingUp, TrendingDown, DollarSign, ShoppingCart, Package, Calculator } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 interface SummaryCardsProps {
   startDate: string;
@@ -8,6 +9,8 @@ interface SummaryCardsProps {
 }
 
 export function SummaryCards({ startDate, endDate }: SummaryCardsProps) {
+  const t = useTranslations("salesOrderReport");
+
   // Mock data - in real implementation, this would come from API
   const summaryData = {
     totalSalesAmount: {
@@ -70,7 +73,7 @@ export function SummaryCards({ startDate, endDate }: SummaryCardsProps) {
 
   const cards = [
     {
-      title: "Toplam Satış Tutarı",
+      title: String(t("totalSalesAmount")),
       value: formatCurrency(summaryData.totalSalesAmount.value),
       change: summaryData.totalSalesAmount.change,
       trend: summaryData.totalSalesAmount.trend,
@@ -78,7 +81,7 @@ export function SummaryCards({ startDate, endDate }: SummaryCardsProps) {
       color: "blue" as ColorKey,
     },
     {
-      title: "Toplam Sipariş Tutarı",
+      title: String(t("totalOrderAmount")),
       value: formatCurrency(summaryData.totalOrderAmount.value),
       change: summaryData.totalOrderAmount.change,
       trend: summaryData.totalOrderAmount.trend,
@@ -86,7 +89,7 @@ export function SummaryCards({ startDate, endDate }: SummaryCardsProps) {
       color: "green" as ColorKey,
     },
     {
-      title: "Toplam Sipariş Adedi",
+      title: String(t("totalOrderCount")),
       value: formatNumber(summaryData.totalOrderCount.value),
       change: summaryData.totalOrderCount.change,
       trend: summaryData.totalOrderCount.trend,
@@ -94,7 +97,7 @@ export function SummaryCards({ startDate, endDate }: SummaryCardsProps) {
       color: "purple" as ColorKey,
     },
     {
-      title: "Ortalama Sipariş Tutarı",
+      title: String(t("averageOrderAmount")),
       value: formatCurrency(summaryData.averageOrderAmount.value),
       change: summaryData.averageOrderAmount.change,
       trend: summaryData.averageOrderAmount.trend,
@@ -130,7 +133,7 @@ export function SummaryCards({ startDate, endDate }: SummaryCardsProps) {
                     %{card.change}
                   </span>
                   <span className="text-xs text-slate-500 ml-1">
-                    önceki döneme göre
+                    {String(t("comparedToPreviousPeriod"))}
                   </span>
                 </div>
               </div>

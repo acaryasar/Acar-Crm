@@ -7,6 +7,7 @@ import { DateRangeFilterExport } from "@/features/reports/sales-personnel-detail
 import { SalesPersonnelList } from "@/features/reports/sales-personnel-detail-report/components/sales-personnel-list";
 import { PersonnelSummary } from "@/features/reports/sales-personnel-detail-report/components/personnel-summary";
 import { SalesDetailsTable } from "@/features/reports/sales-personnel-detail-report/components/sales-details-table";
+import { useTranslations } from "next-intl";
 
 interface SalesPersonnel {
   id: string;
@@ -16,6 +17,7 @@ interface SalesPersonnel {
 }
 
 export default function SalesPersonnelDetailReportPage() {
+  const t = useTranslations("salesPersonnelDetailReport");
   const [selectedPersonnel, setSelectedPersonnel] = useState<SalesPersonnel>({
     id: "1",
     name: "Ahmet Yılmaz",
@@ -38,8 +40,8 @@ export default function SalesPersonnelDetailReportPage() {
             <FileText size={20} className="text-indigo-600" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-slate-800">Satış Personeli Detay Raporu</h1>
-            <p className="text-sm text-slate-500">Raporlar &gt; Satış Personeli Detay Raporu</p>
+            <h1 className="text-2xl font-bold text-slate-800">{String(t("title"))}</h1>
+            <p className="text-sm text-slate-500">Raporlar &gt; {String(t("title"))}</p>
           </div>
         </div>
 

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Calendar, Filter, Download } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 interface DateRangeFilterExportProps {
   initialStartDate: string;
@@ -10,6 +11,7 @@ interface DateRangeFilterExportProps {
 }
 
 export function DateRangeFilterExport({ initialStartDate, initialEndDate }: DateRangeFilterExportProps) {
+  const t = useTranslations("salesPersonnelDetailReport");
   const router = useRouter();
   const searchParams = useSearchParams();
   const [startDate, setStartDate] = useState(initialStartDate);
@@ -37,7 +39,7 @@ export function DateRangeFilterExport({ initialStartDate, initialEndDate }: Date
 
   const handleExport = () => {
     // In real implementation, this would generate and download the report
-    alert(`Rapor dışa aktarılıyor: ${formatDateForDisplay(startDate)} - ${formatDateForDisplay(endDate)}`);
+    alert(`${String(t("exportingReport"))}: ${formatDateForDisplay(startDate)} - ${formatDateForDisplay(endDate)}`);
   };
 
   return (
@@ -64,7 +66,7 @@ export function DateRangeFilterExport({ initialStartDate, initialEndDate }: Date
         className="inline-flex items-center justify-center gap-2 bg-white border border-slate-200 text-slate-700 text-sm font-medium px-4 py-2 rounded-lg hover:bg-slate-50 transition-colors"
       >
         <Filter size={16} />
-        Filtrele
+        {String(t("filter"))}
       </button>
 
       <button
@@ -72,7 +74,7 @@ export function DateRangeFilterExport({ initialStartDate, initialEndDate }: Date
         className="inline-flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors shadow-sm"
       >
         <Download size={16} />
-        Dışa Aktar
+        {String(t("export"))}
       </button>
     </div>
   );

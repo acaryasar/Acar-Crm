@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { ChevronLeft, ChevronRight, FileText } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 interface SalesOrderDetailsTableProps {
   startDate: string;
@@ -23,6 +24,7 @@ interface OrderDetail {
 }
 
 export function SalesOrderDetailsTable({ startDate, endDate }: SalesOrderDetailsTableProps) {
+  const t = useTranslations("salesOrderReport");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
 
@@ -192,8 +194,8 @@ export function SalesOrderDetailsTable({ startDate, endDate }: SalesOrderDetails
             <FileText size={20} className="text-indigo-600" />
           </div>
           <div>
-            <h3 className="text-lg font-semibold text-slate-800">Satış / Sipariş Detayları</h3>
-            <p className="text-sm text-slate-500">Toplam {totalItems} kayıt</p>
+            <h3 className="text-lg font-semibold text-slate-800">{String(t("salesOrderDetails"))}</h3>
+            <p className="text-sm text-slate-500">{String(t("totalRecords")).replace("{count}", String(totalItems))}</p>
           </div>
         </div>
       </div>
@@ -212,7 +214,7 @@ export function SalesOrderDetailsTable({ startDate, endDate }: SalesOrderDetails
                 Müşteri
               </th>
               <th className="text-left text-xs font-semibold text-slate-600 uppercase tracking-wider px-6 py-3">
-                Satış Personeli
+                {String(t("salesPersonnel"))}
               </th>
               <th className="text-right text-xs font-semibold text-slate-600 uppercase tracking-wider px-6 py-3">
                 Sipariş Adedi

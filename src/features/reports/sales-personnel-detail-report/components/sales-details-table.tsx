@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { ChevronLeft, ChevronRight, FileText } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 interface SalesDetailsTableProps {
   personnelId: string;
@@ -22,6 +23,7 @@ interface SaleDetail {
 }
 
 export function SalesDetailsTable({ personnelId, startDate, endDate }: SalesDetailsTableProps) {
+  const t = useTranslations("salesPersonnelDetailReport");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
@@ -181,8 +183,8 @@ export function SalesDetailsTable({ personnelId, startDate, endDate }: SalesDeta
             <FileText size={20} className="text-indigo-600" />
           </div>
           <div>
-            <h3 className="text-lg font-semibold text-slate-800">Satış Detayları</h3>
-            <p className="text-sm text-slate-500">Toplam {totalItems} kayıt</p>
+            <h3 className="text-lg font-semibold text-slate-800">{String(t("salesDetails"))}</h3>
+            <p className="text-sm text-slate-500">{String(t("totalRecords"))}: {totalItems}</p>
           </div>
         </div>
       </div>
@@ -192,28 +194,28 @@ export function SalesDetailsTable({ personnelId, startDate, endDate }: SalesDeta
           <thead className="bg-slate-50">
             <tr>
               <th className="text-left text-xs font-semibold text-slate-600 uppercase tracking-wider px-6 py-3">
-                Tarih
+                {String(t("date"))}
               </th>
               <th className="text-left text-xs font-semibold text-slate-600 uppercase tracking-wider px-6 py-3">
-                Belge No
+                {String(t("documentNo"))}
               </th>
               <th className="text-left text-xs font-semibold text-slate-600 uppercase tracking-wider px-6 py-3">
-                Müşteri
+                {String(t("customer"))}
               </th>
               <th className="text-right text-xs font-semibold text-slate-600 uppercase tracking-wider px-6 py-3">
-                Tutar (₺)
+                {String(t("amount"))} (₺)
               </th>
               <th className="text-right text-xs font-semibold text-slate-600 uppercase tracking-wider px-6 py-3">
-                İskonto (₺)
+                {String(t("discount"))} (₺)
               </th>
               <th className="text-right text-xs font-semibold text-slate-600 uppercase tracking-wider px-6 py-3">
-                KDV (₺)
+                {String(t("vat"))} (₺)
               </th>
               <th className="text-right text-xs font-semibold text-slate-600 uppercase tracking-wider px-6 py-3">
-                Genel Toplam (₺)
+                {String(t("grandTotal"))} (₺)
               </th>
               <th className="text-right text-xs font-semibold text-slate-600 uppercase tracking-wider px-6 py-3">
-                Prim (₺)
+                {String(t("commission"))} (₺)
               </th>
             </tr>
           </thead>
@@ -231,7 +233,7 @@ export function SalesDetailsTable({ personnelId, startDate, endDate }: SalesDeta
               </tr>
             ))}
             <tr className="bg-slate-50 font-semibold">
-              <td className="px-6 py-4 text-sm text-slate-800" colSpan={3}>Toplam</td>
+              <td className="px-6 py-4 text-sm text-slate-800" colSpan={3}>{String(t("total"))}</td>
               <td className="px-6 py-4 text-sm text-slate-800 text-right">{formatCurrency(totals.amount)}</td>
               <td className="px-6 py-4 text-sm text-slate-800 text-right">{formatCurrency(totals.discount)}</td>
               <td className="px-6 py-4 text-sm text-slate-800 text-right">{formatCurrency(totals.vat)}</td>
@@ -244,7 +246,7 @@ export function SalesDetailsTable({ personnelId, startDate, endDate }: SalesDeta
 
       <div className="px-6 py-4 border-t border-slate-200 bg-slate-50 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <span className="text-sm text-slate-600">10 / sayfa</span>
+          <span className="text-sm text-slate-600">10 / {String(t("page"))}</span>
         </div>
         <div className="flex items-center gap-2">
           <button
@@ -253,7 +255,7 @@ export function SalesDetailsTable({ personnelId, startDate, endDate }: SalesDeta
             className="inline-flex items-center gap-1 px-3 py-2 text-sm font-medium text-slate-600 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
             <ChevronLeft size={16} />
-            Önceki
+            {String(t("previous"))}
           </button>
           <div className="flex items-center gap-1">
             {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
@@ -293,7 +295,7 @@ export function SalesDetailsTable({ personnelId, startDate, endDate }: SalesDeta
             disabled={currentPage === totalPages}
             className="inline-flex items-center gap-1 px-3 py-2 text-sm font-medium text-slate-600 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
-            Sonraki
+            {String(t("next"))}
             <ChevronRight size={16} />
           </button>
         </div>

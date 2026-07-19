@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { UserTable } from "@/features/users/components/user-table"
-import { UserForm } from "@/features/users/components/user-form"
+import { UserFormComprehensive } from "@/features/users/components/user-form-comprehensive"
 import Link from "next/link";
 import { UserSearch } from "@/features/users/components/user-search";
 import { cookies } from "next/headers";
@@ -85,7 +85,7 @@ export default async function UsersPage({
         </div>
 
         <div className="flex-1 min-h-0 overflow-auto">
-          <UserForm 
+          <UserFormComprehensive 
             mode={mode} 
             user={user ? {
               id: user.id,
@@ -93,6 +93,19 @@ export default async function UsersPage({
               lastName: user.lastName,
               email: user.email,
               role: user.role,
+              phone: user.phone || undefined,
+              nationalId: user.nationalId || undefined,
+              dateOfBirth: user.dateOfBirth?.toISOString().split('T')[0] || undefined,
+              gender: user.gender as string || undefined,
+              department: user.department || undefined,
+              position: user.position || undefined,
+              workplace: user.workplace || undefined,
+              manager: user.manager || undefined,
+              startDate: user.startDate?.toISOString().split('T')[0] || undefined,
+              description: user.description || undefined,
+              username: user.username || undefined,
+              accountStatus: user.accountStatus || undefined,
+              accountEndDate: user.accountEndDate?.toISOString().split('T')[0] || undefined,
             } : undefined}
           />
         </div>

@@ -28,6 +28,27 @@ model User {
   lastName  String
   role      UserRole @default(EMPLOYEE)
 
+  // Personal Information
+  phone        String?
+  nationalId   String?
+  dateOfBirth  DateTime?
+  gender       String?
+  profilePicture String?
+
+  // Account Information
+  username                 String?
+  changePasswordOnFirstLogin Boolean @default(false)
+  accountStatus            Boolean @default(true)
+  accountEndDate           DateTime?
+
+  // Organization Information
+  department  String?
+  position    String?
+  workplace   String?
+  manager     String?
+  startDate   DateTime?
+  description String?
+
   assignedTickets Ticket[]        @relation("AssignedTickets")
   appointments    Appointment[]
   activityLogs    ActivityLog[]

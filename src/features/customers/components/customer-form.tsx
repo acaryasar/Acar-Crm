@@ -38,15 +38,10 @@ export function CustomerForm({ mode = "create", customer }: CustomerFormProps) {
   const isReadonly = mode === "view";
   const action = mode === "create" ? createCustomer : updateCustomer;
   const [users, setUsers] = useState<any[]>([]);
-  const [responsiblePerson, setResponsiblePerson] = useState(customer?.responsiblePerson || "");
 
   useEffect(() => {
     fetchUsers();
   }, []);
-
-  useEffect(() => {
-    setResponsiblePerson(customer?.responsiblePerson || "");
-  }, [customer]);
 
   const fetchUsers = async () => {
     try {
@@ -169,13 +164,12 @@ export function CustomerForm({ mode = "create", customer }: CustomerFormProps) {
                 <select
                   name="responsiblePerson"
                   className={isReadonly ? inputClassReadonly : inputClass}
-                  value={responsiblePerson}
-                  onChange={(e) => setResponsiblePerson(e.target.value)}
+                  defaultValue={customer?.responsiblePerson || ""}
                   disabled={isReadonly}
                 >
                   <option value="">Seçiniz</option>
                   {users.map((user) => (
-                    <option key={user.id} value={user.id}>
+                    <option key={user.id} value={`${user.firstName} ${user.lastName}`}>
                       {user.firstName} {user.lastName}
                     </option>
                   ))}

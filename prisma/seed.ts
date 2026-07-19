@@ -383,13 +383,78 @@ async function main() {
     update: {},
   });
 
-  // Customers - Company 1
+  // Customers - Company 1 (Updated with corporate information)
   const customers1Data = [
-    { firstName: "Mehmet", lastName: "Yılmaz", email: "mehmet.yilmaz@gmail.com", phone: "+90 532 1234567", street: "Atatürk Caddesi 12", city: "İstanbul", postalCode: "34000" },
-    { firstName: "Ayşe", lastName: "Demir", email: "ayse.demir@hotmail.com", phone: "+90 533 9876543", street: "Bağdat Caddesi 45", city: "İstanbul", postalCode: "34700" },
-    { firstName: "Ali", lastName: "Kaya", email: "ali.kaya@outlook.com", phone: "+90 534 5554433", street: "Barış Manço Sokak 7", city: "Ankara", postalCode: "06000" },
-    { firstName: "Fatma", lastName: "Çelik", email: "fatma.celik@gmail.com", phone: "+90 535 6667788", street: "Cumhuriyet Caddesi 22", city: "İzmir", postalCode: "35000" },
-    { firstName: "Mustafa", lastName: "Şahin", email: "mustafa.sahin@yahoo.com", phone: "+90 542 1112233", street: "Gül Sokak 3", city: "Bursa", postalCode: "16000" },
+    { 
+      firstName: "Yılmaz", 
+      lastName: "Endüstriyel A.Ş.", 
+      email: "mehmet.yilmaz@gmail.com", 
+      phone: "+90 532 1234567", 
+      street: "Atatürk Caddesi 12", 
+      city: "İstanbul", 
+      postalCode: "34000",
+      responsiblePerson: "Ahmet Yılmaz",
+      customerGroup: "Kurumsal",
+      sector: "Otomotiv",
+      taxOffice: "İstanbul Kurumlar Vergi Dairesi Müdürlüğü",
+      taxNumber: "1234567890"
+    },
+    { 
+      firstName: "Demir", 
+      lastName: "Yapı Malzemeleri San. Tic. Ltd. Şti.", 
+      email: "ayse.demir@hotmail.com", 
+      phone: "+90 533 9876543", 
+      street: "Bağdat Caddesi 45", 
+      city: "İstanbul", 
+      postalCode: "34700",
+      responsiblePerson: "Ayşe Demir",
+      customerGroup: "Toptancı",
+      sector: "İnşaat",
+      taxOffice: "Çankaya Vergi Dairesi Müdürlüğü",
+      taxNumber: "2345678901"
+    },
+    { 
+      firstName: "Kaya", 
+      lastName: "Teknoloji Sistemleri A.Ş.", 
+      email: "ali.kaya@outlook.com", 
+      phone: "+90 534 5554433", 
+      street: "Barış Manço Sokak 7", 
+      city: "Ankara", 
+      postalCode: "06000",
+      responsiblePerson: "Ali Kaya",
+      customerGroup: "Kurumsal",
+      sector: "Bilgi Teknolojileri",
+      taxOffice: "Yenimahalle Vergi Dairesi Müdürlüğü",
+      taxNumber: "3456789012"
+    },
+    { 
+      firstName: "Çelik", 
+      lastName: "Gıda Sanayi A.Ş.", 
+      email: "fatma.celik@gmail.com", 
+      phone: "+90 535 6667788", 
+      street: "Cumhuriyet Caddesi 22", 
+      city: "İzmir", 
+      postalCode: "35000",
+      responsiblePerson: "Fatma Çelik",
+      customerGroup: "Üretici",
+      sector: "Gıda",
+      taxOffice: "Konak Vergi Dairesi Müdürlüğü",
+      taxNumber: "4567890123"
+    },
+    { 
+      firstName: "Şahin", 
+      lastName: "Lojistik ve Dağıtım A.Ş.", 
+      email: "mustafa.sahin@yahoo.com", 
+      phone: "+90 542 1112233", 
+      street: "Gül Sokak 3", 
+      city: "Bursa", 
+      postalCode: "16000",
+      responsiblePerson: "Mustafa Şahin",
+      customerGroup: "Distribütör",
+      sector: "Lojistik",
+      taxOffice: "Osmangazi Vergi Dairesi Müdürlüğü",
+      taxNumber: "5678901234"
+    },
   ];
 
   const customers1 = [];
@@ -402,12 +467,64 @@ async function main() {
     customers1.push(customer);
   }
 
-  // Customers - Company 2
+  // Customers - Company 2 (Updated with corporate information)
   const customers2Data = [
-    { firstName: "Kemal", lastName: "Öztürk", email: "kemal.ozturk@acartech.com", phone: "+90 555 2345678", street: "Teknoloji Parkı 5", city: "İstanbul", postalCode: "34400" },
-    { firstName: "Selin", lastName: "Arslan", email: "selin.arslan@acartech.com", phone: "+90 556 3456789", street: "İnovasyon Caddesi 12", city: "Ankara", postalCode: "06100" },
-    { firstName: "Burak", lastName: "Koç", email: "burak.koc@acartech.com", phone: "+90 557 4567890", street: "Yazılım Sokak 8", city: "İzmir", postalCode: "35100" },
-    { firstName: "Elif", lastName: "Yıldız", email: "elif.yildiz@acartech.com", phone: "+90 558 5678901", street: "Dijital Meydan 3", city: "Bursa", postalCode: "16100" },
+    { 
+      firstName: "Öztürk", 
+      lastName: "Mühendislik A.Ş.", 
+      email: "kemal.ozturk@acartech.com", 
+      phone: "+90 555 2345678", 
+      street: "Teknoloji Parkı 5", 
+      city: "İstanbul", 
+      postalCode: "34400",
+      responsiblePerson: "Kemal Öztürk",
+      customerGroup: "Kurumsal",
+      sector: "Mühendislik",
+      taxOffice: "Üsküdar Vergi Dairesi Müdürlüğü",
+      taxNumber: "6789012345"
+    },
+    { 
+      firstName: "Arslan", 
+      lastName: "Yazılım Çözümleri Ltd. Şti.", 
+      email: "selin.arslan@acartech.com", 
+      phone: "+90 556 3456789", 
+      street: "İnovasyon Caddesi 12", 
+      city: "Ankara", 
+      postalCode: "06100",
+      responsiblePerson: "Selin Arslan",
+      customerGroup: "Kurumsal",
+      sector: "Yazılım",
+      taxOffice: "Keçiören Vergi Dairesi Müdürlüğü",
+      taxNumber: "7890123456"
+    },
+    { 
+      firstName: "Koç", 
+      lastName: "Elektronik San. Tic. A.Ş.", 
+      email: "burak.koc@acartech.com", 
+      phone: "+90 557 4567890", 
+      street: "Yazılım Sokak 8", 
+      city: "İzmir", 
+      postalCode: "35100",
+      responsiblePerson: "Burak Koç",
+      customerGroup: "Üretici",
+      sector: "Elektronik",
+      taxOffice: "Karşıyaka Vergi Dairesi Müdürlüğü",
+      taxNumber: "8901234567"
+    },
+    { 
+      firstName: "Yıldız", 
+      lastName: "Danışmanlık Hizmetleri A.Ş.", 
+      email: "elif.yildiz@acartech.com", 
+      phone: "+90 558 5678901", 
+      street: "Dijital Meydan 3", 
+      city: "Bursa", 
+      postalCode: "16100",
+      responsiblePerson: "Elif Yıldız",
+      customerGroup: "Hizmet Sağlayıcı",
+      sector: "Danışmanlık",
+      taxOffice: "Nilüfer Vergi Dairesi Müdürlüğü",
+      taxNumber: "9012345678"
+    },
   ];
 
   const customers2 = [];
@@ -420,12 +537,64 @@ async function main() {
     customers2.push(customer);
   }
 
-  // Customers - Company 3
+  // Customers - Company 3 (Updated with corporate information)
   const customers3Data = [
-    { firstName: "Tolga", lastName: "Polat", email: "tolga.polat@acarglobal.com", phone: "+90 559 6789012", street: "Global Caddesi 15", city: "Antalya", postalCode: "07000" },
-    { firstName: "Seda", lastName: "Kaya", email: "seda.kaya@acarglobal.com", phone: "+90 560 7890123", street: "Hizmet Meydanı 7", city: "İzmir", postalCode: "35200" },
-    { firstName: "Mert", lastName: "Çelik", email: "mert.celik@acarglobal.com", phone: "+90 561 8901234", street: "Uluslararası Sokak 22", city: "Ankara", postalCode: "06200" },
-    { firstName: "Zeynep", lastName: "Demir", email: "zeynep.demir@acarglobal.com", phone: "+90 562 9012345", street: "Dünya Pazarı 9", city: "İstanbul", postalCode: "34100" },
+    { 
+      firstName: "Polat", 
+      lastName: "Uluslararası Ticaret A.Ş.", 
+      email: "tolga.polat@acarglobal.com", 
+      phone: "+90 559 6789012", 
+      street: "Global Caddesi 15", 
+      city: "Antalya", 
+      postalCode: "07000",
+      responsiblePerson: "Tolga Polat",
+      customerGroup: "İhracatçı",
+      sector: "Uluslararası Ticaret",
+      taxOffice: "Muratpaşa Vergi Dairesi Müdürlüğü",
+      taxNumber: "0123456789"
+    },
+    { 
+      firstName: "Kaya", 
+      lastName: "Turizm ve Seyahat A.Ş.", 
+      email: "seda.kaya@acarglobal.com", 
+      phone: "+90 560 7890123", 
+      street: "Hizmet Meydanı 7", 
+      city: "İzmir", 
+      postalCode: "35200",
+      responsiblePerson: "Seda Kaya",
+      customerGroup: "Hizmet Sağlayıcı",
+      sector: "Turizm",
+      taxOffice: "Bornova Vergi Dairesi Müdürlüğü",
+      taxNumber: "1123456789"
+    },
+    { 
+      firstName: "Çelik", 
+      lastName: "Enerji Sistemleri A.Ş.", 
+      email: "mert.celik@acarglobal.com", 
+      phone: "+90 561 8901234", 
+      street: "Uluslararası Sokak 22", 
+      city: "Ankara", 
+      postalCode: "06200",
+      responsiblePerson: "Mert Çelik",
+      customerGroup: "Üretici",
+      sector: "Enerji",
+      taxOffice: "Sincan Vergi Dairesi Müdürlüğü",
+      taxNumber: "2123456789"
+    },
+    { 
+      firstName: "Demir", 
+      lastName: "Finans ve Yatırım A.Ş.", 
+      email: "zeynep.demir@acarglobal.com", 
+      phone: "+90 562 9012345", 
+      street: "Dünya Pazarı 9", 
+      city: "İstanbul", 
+      postalCode: "34100",
+      responsiblePerson: "Zeynep Demir",
+      customerGroup: "Kurumsal",
+      sector: "Finans",
+      taxOffice: "Kadıköy Vergi Dairesi Müdürlüğü",
+      taxNumber: "3123456789"
+    },
   ];
 
   const customers3 = [];

@@ -36,21 +36,32 @@ export async function createCustomer(formData: FormData) {
       },
     } as any);
 
-    await prisma.activityLog.create({
-      data: {
-        action: "CUSTOMER_CREATED",
-        entityType: "CUSTOMER",
-        entityId: customer.id,
-        metadata: {
-          customerName: `${customer.firstName} ${customer.lastName}`,
-        },
-      },
-    });
+    // Activity log creation temporarily disabled due to schema sync issues
+    // if (session?.user?.id) {
+    //   try {
+    //     await prisma.activityLog.create({
+    //       data: {
+    //         userId: session.user.id,
+    //         action: "CUSTOMER_CREATED",
+    //         entityType: "CUSTOMER",
+    //         entityId: customer.id,
+    //         metadata: {
+    //           customerName: `${customer.firstName} ${customer.lastName}`,
+    //         },
+    //       },
+    //     } as any);
+    //   } catch (logError) {
+    //     console.error("Error creating activity log:", logError);
+    //   }
+    // }
 
     revalidatePath("/customers");
-    redirect(`/customers?mode=view&id=${customer.id}`);
+    redirect(`/customers?mode=view&id=${encodeURIComponent(customer.id)}`);
   } catch (error) {
     console.error("Error creating customer:", error);
+    if (error instanceof Error) {
+      throw new Error(`Failed to create customer: ${error.message}`);
+    }
     throw new Error("Failed to create customer. Please try again.");
   }
 }
@@ -69,7 +80,7 @@ export async function updateCustomer(formData: FormData) {
   }
 
   try {
-    await prisma.customer.update({
+    const customer = await prisma.customer.update({
       where: { id },
       data: {
         firstName: String(formData.get("firstName")),
@@ -88,6 +99,25 @@ export async function updateCustomer(formData: FormData) {
       },
     } as any);
 
+    // Activity log creation temporarily disabled due to schema sync issues
+    // if (session?.user?.id) {
+    //   try {
+    //     await prisma.activityLog.create({
+    //       data: {
+    //         userId: session.user.id,
+    //         action: "CUSTOMER_UPDATED",
+    //         entityType: "CUSTOMER",
+    //         entityId: customer.id,
+    //         metadata: {
+    //           customerName: `${customer.firstName} ${customer.lastName}`,
+    //         },
+    //       },
+    //     } as any);
+    //   } catch (logError) {
+    //     console.error("Error creating activity log:", logError);
+    //   }
+    // }
+
     revalidatePath("/customers");
   } catch (error) {
     console.error("Error updating customer:", error);
@@ -97,5 +127,5 @@ export async function updateCustomer(formData: FormData) {
     throw new Error("Failed to update customer. Please try again.");
   }
 
-  redirect(`/customers?mode=view&id=${id}`);
+  redirect(`/customers?mode=view&id=${encodeURIComponent(id)}`);
 }

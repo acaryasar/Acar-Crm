@@ -59,7 +59,7 @@ export function OrderForm({ mode, order }: Props) {
   useEffect(() => {
     // Load customers and products
     Promise.all([
-      fetch("/api/customers").then(res => res.json()).then(data => setCustomers(data.customers || [])),
+      fetch("/api/customers").then(res => res.json()).then(data => setCustomers(data.data || [])),
       fetch("/api/products").then(res => res.json()).then(data => setProducts(data.products || [])),
     ]).catch(console.error);
   }, []);

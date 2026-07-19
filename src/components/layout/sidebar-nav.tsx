@@ -108,11 +108,11 @@ const items: NavItem[] = [
 
     children: [
 
-      { label: "commissionRules", href: "/dashboard/commission-rules", icon: FileText },
+      { label: "commissionRules", href: "/commission-rules", icon: FileText },
 
-      { label: "commissionCalculation", href: "/dashboard/commission-calculation", icon: BarChart3 },
+      { label: "commissionCalculation", href: "/commission-calculation", icon: BarChart3 },
 
-      { label: "commissionPayment", href: "/dashboard/commission-payment", icon: Receipt },
+      { label: "commissionPayment", href: "/commission-payment", icon: Receipt },
 
     ]
 

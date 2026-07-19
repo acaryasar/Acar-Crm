@@ -1,54 +1,51 @@
+"use client";
+
 import { prisma } from "@/lib/prisma";
 
-export async function StockStatsCards() {
-  const products = await prisma.product.findMany({
-    where: { deletedAt: null },
-    select: {
-      currentStock: true,
-      minStock: true,
-      purchasePrice: true,
-    },
-  });
+interface StockStatsCardsProps {
+  totalProducts: number;
+  criticalStock: number;
+  outOfStock: number;
+  totalStockValue: number;
+  onTabClick: (tab: "all" | "critical" | "out-of-stock") => void;
+}
 
-  const totalProducts = products.length;
-  
-  // Calculate total stock value (currentStock * purchasePrice)
-  const totalStockValue = products.reduce((sum, product) => {
-    const stockValue = product.currentStock * (parseFloat(product.purchasePrice || "0"));
-    return sum + stockValue;
-  }, 0);
-
-  // Critical stock: products where currentStock <= minStock
-  const criticalStock = products.filter(
-    (product) => product.currentStock <= product.minStock
-  ).length;
-
-  // Out of stock: products where currentStock = 0
-  const outOfStock = products.filter(
-    (product) => product.currentStock === 0
-  ).length;
-
+export function StockStatsCards({ 
+  totalProducts, 
+  criticalStock, 
+  outOfStock, 
+  totalStockValue,
+  onTabClick 
+}: StockStatsCardsProps) {
   const stats = [
     {
       title: "Toplam Stok Değeri",
       value: totalStockValue,
       isCurrency: true,
-      icon: "💰"
+      icon: "💰",
+      clickable: false,
+      tab: null
     },
     {
       title: "Toplam Ürün",
       value: totalProducts,
-      icon: "📦"
+      icon: "📦",
+      clickable: true,
+      tab: "all" as const
     },
     {
       title: "Kritik Stok Sayısı",
       value: criticalStock,
-      icon: "⚠️"
+      icon: "⚠️",
+      clickable: true,
+      tab: "critical" as const
     },
     {
       title: "Stokta Olmayan",
       value: outOfStock,
-      icon: "❌"
+      icon: "❌",
+      clickable: true,
+      tab: "out-of-stock" as const
     }
   ];
 
@@ -57,7 +54,10 @@ export async function StockStatsCards() {
       {stats.map((stat, index) => (
         <div
           key={index}
-          className="bg-white rounded-lg border border-slate-200 shadow-sm p-4"
+          className={`bg-white rounded-lg border border-slate-200 shadow-sm p-4 ${
+            stat.clickable ? "cursor-pointer hover:border-indigo-300 hover:shadow-md transition-all" : ""
+          }`}
+          onClick={() => stat.tab && onTabClick(stat.tab)}
         >
           <p className="text-xs font-medium text-slate-600 mb-2">{stat.title}</p>
           <div className="flex items-center gap-2">

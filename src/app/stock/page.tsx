@@ -7,7 +7,7 @@ import { BarChart3, Plus, ArrowLeft, Edit, Save } from "lucide-react";
 import { StockTable } from "@/features/stock/components/stock-table";
 import { StockForm } from "@/features/stock/components/stock-form";
 import { StockSearch } from "@/features/stock/components/stock-search";
-import { StockStatsCards } from "@/features/stock/components/stock-stats-cards";
+import { StockPageClient } from "@/features/stock/components/stock-page-client";
 
 export default async function StockPage({
   searchParams,
@@ -139,6 +139,19 @@ export default async function StockPage({
     take: 100,
   });
 
+  // Calculate stats for the cards
+  const totalProducts = products.length;
+  const totalStockValue = products.reduce((sum, product) => {
+    const stockValue = product.currentStock * (parseFloat(product.purchasePrice || "0"));
+    return sum + stockValue;
+  }, 0);
+  const criticalStock = products.filter(
+    (product) => product.currentStock <= product.minStock
+  ).length;
+  const outOfStock = products.filter(
+    (product) => product.currentStock === 0
+  ).length;
+
   return (
     <div className="h-full flex flex-col">
       <div className="flex items-center justify-between mb-6 shrink-0">
@@ -163,13 +176,13 @@ export default async function StockPage({
         </div>
       </div>
 
-      <div className="mb-6 shrink-0">
-        <StockStatsCards />
-      </div>
-
-      <div className="flex-1 min-h-0">
-        <StockTable products={products} />
-      </div>
+      <StockPageClient
+        allProducts={products}
+        totalProducts={totalProducts}
+        criticalStock={criticalStock}
+        outOfStock={outOfStock}
+        totalStockValue={totalStockValue}
+      />
     </div>
   );
 }

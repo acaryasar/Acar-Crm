@@ -75,6 +75,30 @@ export async function toggleEntityStatus({
       });
       break;
 
+    case "ORDER":
+      entity = await prisma.order.findUnique({
+        where: { id: entityId },
+      });
+      if (!entity) throw new Error("Order not found");
+      newStatus = !entity.isActive;
+      await prisma.order.update({
+        where: { id: entityId },
+        data: { isActive: newStatus },
+      });
+      break;
+
+    case "PRODUCT":
+      entity = await prisma.product.findUnique({
+        where: { id: entityId },
+      });
+      if (!entity) throw new Error("Product not found");
+      newStatus = !entity.isActive;
+      await prisma.product.update({
+        where: { id: entityId },
+        data: { isActive: newStatus },
+      });
+      break;
+
     default:
       throw new Error(`Unsupported entity type: ${entityType}`);
   }
@@ -83,7 +107,7 @@ export async function toggleEntityStatus({
     action: newStatus ? "ACTIVATE" : "DEACTIVATE",
     entityType,
     entityId,
-    metadata: { previousStatus: entity.is_active, newStatus },
+    metadata: { previousStatus: entity.is_active || entity.isActive, newStatus },
   });
 
   if (pathToRevalidate) {

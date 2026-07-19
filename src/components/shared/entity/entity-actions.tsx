@@ -35,20 +35,32 @@ export function EntityActions({
   userRole,
 }: Props) {
   const t = useTranslations("dialogs"); // Veya ilgili namespace
-  const config = ENTITY_CONFIG[entityType];
+  const config = ENTITY_CONFIG[entityType as keyof typeof ENTITY_CONFIG];
 
-  // Config içindeki generic fonksiyonu çağırıyoruz
-  const actions = config.getActions(
+  // Config bulunamazsa varsayılan aksiyonları kullan
+  const actions = config ? config.getActions(
     entityId,
     isActive,
-    (id) => onDelete?.(id),
-    (id) => onToggleStatus?.(id),
+    (id: string) => onDelete?.(id),
+    (id: string) => onToggleStatus?.(id),
     t,
     userRole
-  );
+  ) : [
+    {
+      label: t("edit") || "Edit",
+      icon: "edit",
+      href: `/${entityType.toLowerCase()}?mode=edit&id=${entityId}`,
+    },
+    {
+      label: t("delete") || "Delete",
+      icon: "trash",
+      destructive: true,
+      onClick: () => onDelete?.(entityId),
+    },
+  ];
 
   // Modify delete action to trigger dialog instead of direct delete
-  const modifiedActions = actions.map((action) => {
+  const modifiedActions = actions.map((action: any) => {
     if (action.destructive && action.onClick) {
       return {
         ...action,

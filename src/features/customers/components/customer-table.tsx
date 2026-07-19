@@ -2,7 +2,14 @@
 
 import Link from "next/link";
 import { useTranslations } from "next-intl";
+import { useSession } from "next-auth/react";
 import { Eye, Edit } from "lucide-react";
+import { useEntityDelete } from "@/hooks/use-entity-delete";
+import { useEntityToggleStatus } from "@/hooks/use-entity-toggle-status";
+import { EntityActions } from "@/components/shared/entity/entity-actions";
+import { ViewButton } from "@/components/shared/entity/view-button";
+import { deleteCustomer } from "@/features/customers/actions/delete-customer";
+import { toggleEntityStatus } from "@/features/shared/actions/toggle-status";
 
 interface Customer {
   id: string;
@@ -28,6 +35,10 @@ interface Customer {
 
 export function CustomerTable({ customers }: { customers: Customer[] }) {
   const t = useTranslations("customers");
+  const { data: session } = useSession();
+  const { handleDelete, deleteId, confirmDelete, cancelDelete } = useEntityDelete(deleteCustomer);
+  const { handleToggleStatus } = useEntityToggleStatus((id) => toggleEntityStatus({ entityType: "CUSTOMER", entityId: id, revalidatePath: "/customers" }));
+  const userRole = session?.user?.role;
 
   if (!customers.length) {
     return (
@@ -120,21 +131,19 @@ export function CustomerTable({ customers }: { customers: Customer[] }) {
                   </td>
 
                   <td className="px-4 py-4">
-                    <div className="flex items-center justify-center gap-2">
-                      <Link
-                        href={`/customers?mode=view&id=${customer.id}`}
-                        className="p-1.5 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors"
-                        title="Görüntüle"
-                      >
-                        <Eye size={16} />
-                      </Link>
-                      <Link
-                        href={`/customers?mode=edit&id=${customer.id}`}
-                        className="p-1.5 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors"
-                        title="Düzenle"
-                      >
-                        <Edit size={16} />
-                      </Link>
+                    <div className="flex items-center justify-end gap-2">
+                      <ViewButton href={`/customers?mode=view&id=${customer.id}`} />
+                      <EntityActions
+                        entityType="CUSTOMER"
+                        entityId={customer.id}
+                        isActive={!customer.deletedAt && customer.is_active}
+                        onDelete={handleDelete}
+                        onToggleStatus={handleToggleStatus}
+                        deleteId={deleteId}
+                        confirmDelete={confirmDelete}
+                        cancelDelete={cancelDelete}
+                        userRole={userRole}
+                      />
                     </div>
                   </td>
                 </tr>

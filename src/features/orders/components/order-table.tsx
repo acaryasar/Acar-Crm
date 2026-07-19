@@ -4,8 +4,11 @@ import { useTranslations } from "next-intl";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { ShoppingCart, UserRound, Eye, Edit, Trash2 } from "lucide-react";
+import { EntityActions } from "@/components/shared/entity/entity-actions";
+import { ViewButton } from "@/components/shared/entity/view-button";
 import { useEntityDelete } from "@/hooks/use-entity-delete";
 import { useEntityToggleStatus } from "@/hooks/use-entity-toggle-status";
+import { toggleEntityStatus } from "@/features/shared/actions/toggle-status";
 
 interface Props {
   orders: any[];
@@ -15,6 +18,7 @@ export function OrderTable({ orders }: Props) {
   const t = useTranslations("orders");
   const { data: session } = useSession();
   const { handleDelete, deleteId, confirmDelete, cancelDelete } = useEntityDelete(() => Promise.resolve());
+  const { handleToggleStatus } = useEntityToggleStatus((id) => toggleEntityStatus({ entityType: "ORDER", entityId: id, revalidatePath: "/orders" }));
   const userRole = session?.user?.role;
 
   const statusColors: Record<string, string> = {
@@ -116,20 +120,18 @@ export function OrderTable({ orders }: Props) {
                 </td>
                 <td className="px-4 py-3 text-right">
                   <div className="flex items-center justify-end gap-2">
-                    <Link
-                      href={`/orders?mode=view&id=${order.id}`}
-                      className="inline-flex items-center justify-center gap-1 text-xs font-medium text-slate-600 hover:text-slate-800 bg-slate-50 hover:bg-slate-100 px-2 py-1.5 rounded-lg transition-colors"
-                    >
-                      <Eye size={12} />
-                      {t("view")}
-                    </Link>
-                    <Link
-                      href={`/orders?mode=edit&id=${order.id}`}
-                      className="inline-flex items-center justify-center gap-1 text-xs font-medium text-indigo-600 hover:text-indigo-700 bg-indigo-50 hover:bg-indigo-100 px-2 py-1.5 rounded-lg transition-colors"
-                    >
-                      <Edit size={12} />
-                      {t("edit")}
-                    </Link>
+                    <ViewButton href={`/orders?mode=view&id=${order.id}`} />
+                    <EntityActions
+                      entityType="ORDER"
+                      entityId={order.id}
+                      isActive={order.status !== "CANCELLED"}
+                      onDelete={handleDelete}
+                      onToggleStatus={handleToggleStatus}
+                      deleteId={deleteId}
+                      confirmDelete={confirmDelete}
+                      cancelDelete={cancelDelete}
+                      userRole={userRole}
+                    />
                   </div>
                 </td>
               </tr>

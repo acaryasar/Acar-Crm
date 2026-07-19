@@ -7,7 +7,6 @@ import { useEntityDelete } from "@/hooks/use-entity-delete";
 import { toggleEntityStatus } from "@/features/shared/actions/toggle-status";
 import { useEntityToggleStatus } from "@/hooks/use-entity-toggle-status";
 import { useSession } from "next-auth/react";
-import { Eye, Edit } from "lucide-react";
 import Link from "next/link";
 
 interface Product {
@@ -135,20 +134,18 @@ export function ProductTable({ products }: Props) {
 
                   <td className="px-6 py-4">
                     <div className="flex items-center justify-end gap-2">
-                      <Link
-                        href={`/products?mode=view&id=${product.id}`}
-                        className="p-1.5 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors"
-                        title={t("view")}
-                      >
-                        <Eye size={16} />
-                      </Link>
-                      <Link
-                        href={`/products?mode=edit&id=${product.id}`}
-                        className="p-1.5 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors"
-                        title={t("edit")}
-                      >
-                        <Edit size={16} />
-                      </Link>
+                      <ViewButton href={`/products?mode=view&id=${product.id}`} />
+                      <EntityActions
+                        entityType="PRODUCT"
+                        entityId={product.id}
+                        isActive={!product.deletedAt && product.isActive}
+                        onDelete={handleDelete}
+                        onToggleStatus={handleToggleStatus}
+                        deleteId={deleteId}
+                        confirmDelete={confirmDelete}
+                        cancelDelete={cancelDelete}
+                        userRole={userRole}
+                      />
                     </div>
                   </td>
                 </tr>

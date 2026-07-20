@@ -1,34 +1,8 @@
 import { requireRole } from "@/lib/auth-guard";
-import { cookies } from "next/headers";
-import { LOCALE_STORAGE_KEY, isLocale, defaultLocale, messages } from "@/i18n/config";
-import { Receipt } from "lucide-react";
+import { PremiumPaymentsPage } from "@/features/premium-payments/components/premium-payments-page";
 
 export default async function CommissionPaymentPage() {
-  await requireRole(["ADMIN", "SUPERVISOR", "MANAGER"]);
+  await requireRole(["ADMIN", "SUPERVISOR"]);
 
-  const cookieStore = await cookies();
-  const localeCookie = cookieStore.get(LOCALE_STORAGE_KEY);
-  const locale = localeCookie && isLocale(localeCookie.value) ? localeCookie.value : defaultLocale;
-  const t = (key: string) => messages[locale].commission[key as keyof typeof messages[typeof locale]["commission"]];
-
-  return (
-    <div className="h-full flex flex-col">
-      <div className="flex items-center gap-3 mb-6 shrink-0">
-        <div className="h-10 w-10 rounded-xl bg-slate-100 flex items-center justify-center">
-          <Receipt size={20} className="text-slate-600" />
-        </div>
-        <div>
-          <h1 className="text-2xl font-bold text-slate-800">{t("paymentTitle")}</h1>
-          <p className="text-sm text-slate-500">{t("paymentDescription")}</p>
-        </div>
-      </div>
-
-      <div className="flex-1 min-h-0 bg-white rounded-2xl border border-slate-100 shadow-sm p-8">
-        <div className="text-center py-16">
-          <div className="text-slate-400 text-4xl mb-3">💰</div>
-          <p className="text-slate-500 font-medium">{t("paymentComingSoon")}</p>
-        </div>
-      </div>
-    </div>
-  );
+  return <PremiumPaymentsPage />;
 }

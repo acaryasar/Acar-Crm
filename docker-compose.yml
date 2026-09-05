@@ -34,6 +34,26 @@ services:
 
       - postgres_data:/var/lib/postgresql/data
 
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    container_name: acar-crm-app
+
+    restart: unless-stopped
+
+    ports:
+      - "3006:3000"
+
+    environment:
+      DATABASE_URL: postgresql://acarcrm:acar-crm123@postgres:5432/acar_crm_ai
+      NODE_ENV: production
+      PORT: 3006
+
+    depends_on:
+      - postgres
+
 
 
 volumes:

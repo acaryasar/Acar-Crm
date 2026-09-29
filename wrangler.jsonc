@@ -1,0 +1,30 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "iyicrm",
+  "main": ".open-next/worker.js",
+  // Bump this to today's date when you first deploy, and keep it there
+  // (don't auto-update it on every deploy — see Cloudflare's docs on
+  // compatibility dates).
+  "compatibility_date": "2026-09-29",
+  // Required by @opennextjs/cloudflare and by Node built-ins this app still
+  // uses at the edge (e.g. the `crypto` module in the WhatsApp webhook
+  // signature check).
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  // Custom domain. acaryasar.com is already a Cloudflare-managed zone in
+  // this account, so `wrangler deploy` creates the DNS record + attaches
+  // this Worker to it automatically — no manual DNS edit needed.
+  "routes": [
+    { "pattern": "iyicrm.acaryasar.com", "custom_domain": true }
+  ],
+  // Fill in with `wrangler secret put <NAME>` for each value in .env.example
+  // (AUTH_SECRET, TURSO_DATABASE_URL, TURSO_AUTH_TOKEN, OPENAI_API_KEY, ...).
+  // Non-secret values can instead go under "vars" here.
+  "vars": {
+    "AI_PROVIDER": "mock",
+    "AUTH_URL": "https://iyicrm.acaryasar.com"
+  }
+}

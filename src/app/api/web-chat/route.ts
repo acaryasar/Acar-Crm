@@ -1,9 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { AIOrchestrator } from '@/features/ai/core/ai-orchestrator';
 import { IncomingMessage } from '@/features/ai/channels/types';
+import { checkRateLimit, getClientIp } from '@/lib/rate-limit';
 
 export async function POST(req: NextRequest) {
   try {
+    // Anonymous, public-facing endpoint — each message triggers an AI call,
+    // so throttle per IP to limit cost/DoS abuse.
+    const ip = getClientIp(req);
+    const rate = checkRateLimit(`web-chat:${ip}`, 20, 10 * 60 * 1000);
+    if (!rate.allowed) {
+      return NextResponse.json({ error: 'Too many requests' }, { status: 429 });
+    }
+
     const body = await req.json();
     const { message, sessionId, customerEmail, customerName } = body;
 

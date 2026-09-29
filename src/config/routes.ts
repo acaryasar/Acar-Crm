@@ -121,7 +121,7 @@ export const routeMetadata: Record<string, { titleKey: string; descriptionKey?: 
 export function createPageMetadata(titleKey: string, customTitle?: string): Metadata {
   const title = customTitle || titleKey;
   return {
-    title: `${title} | Acar CRM`,
+    title: `${title} | iyiCRM`,
   };
 }
 

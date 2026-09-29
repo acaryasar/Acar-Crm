@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { logActivity } from "@/lib/entity/activity-log";
+import { safeUserSelect } from "@/lib/user-select";
 
 export async function GET() {
   const session = await auth();
@@ -25,7 +26,7 @@ export async function GET() {
     where: whereClause,
     include: {
       customer: true,
-      employee: true,
+      employee: { select: safeUserSelect },
     },
     orderBy: { startAt: "asc" },
   });

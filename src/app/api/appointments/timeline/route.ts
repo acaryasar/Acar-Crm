@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
+import { safeUserSelect } from "@/lib/user-select";
 
 export async function GET(request: Request) {
   const session = await auth();
@@ -96,7 +97,7 @@ export async function GET(request: Request) {
       customerId: { in: appointments.map((a: any) => a.customerId) },
     },
     include: {
-      assignedUser: true,
+      assignedUser: { select: safeUserSelect },
     },
   });
 

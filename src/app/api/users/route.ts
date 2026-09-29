@@ -1,9 +1,9 @@
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import { logActivity } from "@/lib/entity/activity-log";
 import { auth } from "@/auth";
-
+import { safeUserSelect } from "@/lib/user-select";
 
 export async function GET() {
   const session = await auth();
@@ -25,6 +25,7 @@ export async function GET() {
 
   const users = await prisma.user.findMany({
     where: whereClause,
+    select: safeUserSelect,
     orderBy: {
       createdAt: "desc",
     },
@@ -36,6 +37,19 @@ export async function GET() {
 export async function POST(
   request: Request
 ) {
+  // Creating a user or reassigning a role/password is an admin-only action:
+  // without this check anyone (even signed-out) could create or take over
+  // an ADMIN account. See docs/guvenlik-inceleme-raporu-2026-09-10.md #1.1.
+  const session = await auth();
+
+  if (!session) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  if (session.user.role !== "ADMIN") {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  }
+
   const body = await request.json();
 
   // Handle update action
@@ -71,6 +85,7 @@ export async function POST(
     const user = await prisma.user.update({
       where: { id: body.id },
       data: updateData,
+      select: safeUserSelect,
     });
 
     await logActivity({ action: "USER_UPDATED", entityType: "USER", entityId: user.id });
@@ -108,6 +123,7 @@ export async function POST(
       startDate: body.startDate ? new Date(body.startDate) : null,
       description: body.description,
     },
+    select: safeUserSelect,
   });
 
   await logActivity({ action: "USER_CREATED", entityType: "USER", entityId: user.id });

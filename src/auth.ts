@@ -2,11 +2,17 @@ import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { prisma } from "@/lib/prisma";
 import { type UserRole } from "@prisma/client";
-import bcrypt from "bcrypt";
-
+import bcrypt from "bcryptjs";
+import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   secret: process.env.AUTH_SECRET,
+  // Cloudflare Workers isn't Vercel, so Auth.js won't auto-trust the
+  // incoming Host header unless told to — without this, login fails with
+  // an "UntrustedHost" error as soon as this runs somewhere other than
+  // localhost. AUTH_URL (set in wrangler.jsonc vars) still pins the
+  // canonical callback URL.
+  trustHost: true,
 
   providers: [
     Credentials({
@@ -15,13 +21,26 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         password: {},
       },
 
-      async authorize(credentials) {
+      async authorize(credentials, request) {
         if (!credentials?.email || !credentials?.password) {
           return null;
         }
 
+        const email = String(credentials.email);
+
+        // Basic brute-force throttle: max 10 attempts per 15 minutes per
+        // IP+email pair. This is an in-memory, single-instance limiter —
+        // see src/lib/rate-limit.ts for its limitations.
+        const ip = getClientIp(request);
+        const rate = checkRateLimit(`login:${ip}:${email.toLowerCase()}`, 10, 15 * 60 * 1000);
+
+        if (!rate.allowed) {
+          console.warn(`Login rate limit exceeded for ${email} from ${ip}`);
+          return null;
+        }
+
         const user = await prisma.user.findUnique({
-          where: { email: String(credentials.email) },
+          where: { email },
         });
 
         if (!user) {
@@ -43,6 +62,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           name: `${user.firstName} ${user.lastName}`,
           role: user.role,
           locale: user.locale ?? undefined,
+          isDemo: user.isDemo,
         };
       },
     }),
@@ -58,6 +78,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         token.id = user.id;
         token.role = user.role;
         token.locale = user.locale;
+        token.isDemo = user.isDemo;
       }
 
       return token;
@@ -68,6 +89,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         session.user.id = token.id as string;
         session.user.role = token.role as UserRole;
         session.user.locale = token.locale as string | undefined;
+        session.user.isDemo = token.isDemo as boolean | undefined;
       }
 
       return session;
@@ -76,7 +98,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     async redirect({ url, baseUrl }) {
       // Logout sonrası doğru baseUrl'e yönlendir
       if (url.startsWith('/')) return `${baseUrl}${url}`;
-      else if (new URL(url).origin === baseUrl) return url;
+      try {
+        if (new URL(url).origin === baseUrl) return url;
+      } catch {
+        // Malformed url — fall through to baseUrl.
+      }
       return baseUrl;
     },
   },

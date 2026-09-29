@@ -1,41 +1,113 @@
 "use client";
 
 import { loginAction } from "../actions/login-action";
-import { useActionState } from "react";
-import { Mail, Lock, LogIn, AlertCircle } from "lucide-react";
+import { useActionState, useState } from "react";
+import { Mail, LockKeyhole, Eye, EyeOff, Check, ArrowRight, AlertCircle } from "lucide-react";
 
 export function LoginForm() {
   const [state, formAction, pending] = useActionState(loginAction, null);
+  const [showPassword, setShowPassword] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
 
   return (
-    <form action={formAction} className="flex flex-col gap-4">
+    <form action={formAction} className="space-y-4">
 
+      {/* Email */}
       <div>
-        <label className="block text-sm font-medium text-slate-300 mb-1.5">Email</label>
+
+        <label className="mb-1 block text-[11px] font-medium text-slate-700">
+          Kullanıcı Adı veya E-posta
+        </label>
+
         <div className="relative">
-          <Mail size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500" />
+
+          <Mail
+            size={14}
+            className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
+          />
+
           <input
             name="email"
-            type="email"
-            placeholder="admin@handwerk.local"
-            className="w-full rounded-xl border border-white/10 bg-white/5 py-2.5 pl-10 pr-4 text-sm text-white placeholder:text-slate-600 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition"
+            type="text"
+            placeholder="ornek@firma.com"
+            className="h-10 w-full rounded-xl border border-slate-200 bg-white pl-9 pr-4 text-[11px] outline-none transition focus:ring-4 focus:border-blue-500 focus:ring-blue-500/10"
             required
           />
+
         </div>
+
       </div>
 
+      {/* Password */}
       <div>
-        <label className="block text-sm font-medium text-slate-300 mb-1.5">Password</label>
+
+        <label className="mb-1 block text-[11px] font-medium text-slate-700">
+          Şifre
+        </label>
+
         <div className="relative">
-          <Lock size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500" />
+
+          <LockKeyhole
+            size={14}
+            className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
+          />
+
           <input
             name="password"
-            type="password"
+            type={showPassword ? "text" : "password"}
             placeholder="••••••••"
-            className="w-full rounded-xl border border-white/10 bg-white/5 py-2.5 pl-10 pr-4 text-sm text-white placeholder:text-slate-600 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition"
+            className="h-10 w-full rounded-xl border border-slate-200 bg-white pl-9 pr-10 text-[11px] outline-none transition focus:ring-4 focus:border-blue-500 focus:ring-blue-500/10"
             required
           />
+
+          <button
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-blue-500"
+          >
+            {showPassword ? (
+              <EyeOff size={14} />
+            ) : (
+              <Eye size={14} />
+            )}
+          </button>
+
         </div>
+
+      </div>
+
+      {/* Remember */}
+      <div className="flex items-center justify-between">
+
+        <label className="flex cursor-pointer items-center gap-2">
+
+          <button
+            type="button"
+            onClick={() => setRememberMe(!rememberMe)}
+            className={`flex h-3.5 w-3.5 items-center justify-center rounded border ${
+              rememberMe
+                ? "border-blue-500 bg-blue-500 text-white"
+                : "border-slate-300"
+            }`}
+          >
+            {rememberMe && (
+              <Check size={9} strokeWidth={3} />
+            )}
+          </button>
+
+          <span className="text-[10px] text-slate-500">
+            Beni hatırla
+          </span>
+
+        </label>
+
+        <button
+          type="button"
+          className="text-[10px] font-medium text-blue-500 hover:text-blue-600"
+        >
+          Şifremi Unuttum?
+        </button>
+
       </div>
 
       {state?.error && (
@@ -45,14 +117,65 @@ export function LoginForm() {
         </div>
       )}
 
+      {/* Login */}
       <button
         type="submit"
         disabled={pending}
-        className="mt-1 flex items-center justify-center gap-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 disabled:opacity-60 py-2.5 text-sm font-semibold text-white transition-colors shadow-lg shadow-indigo-600/20"
+        className="group flex h-10 w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-violet-600 text-[11px] font-semibold text-white shadow-lg shadow-blue-500/20 transition hover:-translate-y-0.5 hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-70"
       >
-        <LogIn size={15} />
-        {pending ? "Signing in..." : "Sign in"}
+        {pending ? (
+          <div className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-white/30 border-t-white" />
+        ) : (
+          <>
+            Giriş Yap
+            <ArrowRight
+              size={14}
+              className="transition-transform group-hover:translate-x-1"
+            />
+          </>
+        )}
       </button>
+
+      {/* Divider */}
+      <div className="my-4 flex items-center gap-3">
+
+        <div className="h-px flex-1 bg-slate-200" />
+
+        <span className="text-[9px] text-slate-400">
+          veya
+        </span>
+
+        <div className="h-px flex-1 bg-slate-200" />
+
+      </div>
+
+      {/* SSO */}
+      <div className="space-y-2">
+
+        <button
+          type="button"
+          className="flex h-9 w-full items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white text-[11px] font-medium text-slate-700 transition hover:bg-slate-50"
+        >
+          <span className="font-bold">G</span>
+          Google ile Giriş Yap
+        </button>
+
+        <button
+          type="button"
+          className="flex h-9 w-full items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white text-[11px] font-medium text-slate-700 transition hover:bg-slate-50"
+        >
+          <span className="grid h-3 w-3 grid-cols-2">
+            <span className="bg-red-500" />
+            <span className="bg-green-500" />
+            <span className="bg-blue-500" />
+            <span className="bg-yellow-500" />
+          </span>
+
+          Microsoft ile Giriş Yap
+        </button>
+
+      </div>
+
     </form>
   );
 }

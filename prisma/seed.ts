@@ -1,9 +1,16 @@
 import { PrismaClient } from "@prisma/client";
-import bcrypt from "bcrypt";
+import { PrismaLibSQL } from "@prisma/adapter-libsql";
+import bcrypt from "bcryptjs";
 import { readFileSync } from "fs";
 import { join } from "path";
 
-const prisma = new PrismaClient();
+// Same libSQL adapter as src/lib/prisma.ts (this script runs standalone,
+// so it cannot import that module) — see it for details.
+const adapter = new PrismaLibSQL({
+  url: process.env.TURSO_DATABASE_URL || "file:./prisma/dev.db", // relative to project root (where `tsx prisma/seed.ts` runs from)
+  authToken: process.env.TURSO_AUTH_TOKEN,
+});
+const prisma = new PrismaClient({ adapter });
 
 async function main() {
   const password = await bcrypt.hash("Admin123!", 10);
@@ -382,6 +389,37 @@ async function main() {
     },
     update: {},
   });
+
+  // Demo (read-only) accounts for the login page's "view as" buttons.
+  // NOTE: these exact email/password pairs are also referenced in
+  // src/features/auth/actions/demo-login-action.ts — keep both in sync.
+  const demoAccounts: { email: string; password: string; firstName: string; lastName: string; role: "ADMIN" | "SUPERVISOR" | "MANAGER" | "EMPLOYEE" }[] = [
+    { email: "demo.admin@acar-crm.local", password: "Demo-Admin-2026!", firstName: "Demo", lastName: "Yönetici", role: "ADMIN" },
+    { email: "demo.supervisor@acar-crm.local", password: "Demo-Supervisor-2026!", firstName: "Demo", lastName: "Süpervizör", role: "SUPERVISOR" },
+    { email: "demo.manager@acar-crm.local", password: "Demo-Manager-2026!", firstName: "Demo", lastName: "Müdür", role: "MANAGER" },
+    { email: "demo.employee@acar-crm.local", password: "Demo-Employee-2026!", firstName: "Demo", lastName: "Çalışan", role: "EMPLOYEE" },
+  ];
+
+  for (const account of demoAccounts) {
+    const demoPassword = await bcrypt.hash(account.password, 10);
+    await prisma.user.upsert({
+      where: { email: account.email },
+      create: {
+        email: account.email,
+        password: demoPassword,
+        firstName: account.firstName,
+        lastName: account.lastName,
+        role: account.role,
+        locale: "TR",
+        isDemo: true,
+      },
+      update: {
+        password: demoPassword,
+        role: account.role,
+        isDemo: true,
+      },
+    });
+  }
 
   // Customers - Company 1 (Updated with corporate information)
   const customers1Data = [

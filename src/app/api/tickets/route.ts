@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { logActivity } from "@/lib/entity/activity-log";
 import { createNotification } from "@/lib/notification";
+import { safeUserSelect } from "@/lib/user-select";
 
 export async function GET() {
   const session = await auth();
@@ -26,7 +27,7 @@ export async function GET() {
     where: whereClause,
     include: {
       customer: true,
-      assignedUser: true,
+      assignedUser: { select: safeUserSelect },
     },
     orderBy: { createdAt: "desc" },
   });

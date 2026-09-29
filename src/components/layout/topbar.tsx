@@ -2,7 +2,7 @@ import { getSession } from "@/lib/auth-guard";
 import { LogoutButton } from "./logout-button";
 import { LanguageSwitcher } from "./language-switcher";
 import { NotificationBell } from "./notification-bell";
-import { Search } from "lucide-react";
+import { Search, Lock } from "lucide-react";
 import { cookies } from "next/headers";
 import { LOCALE_STORAGE_KEY, isLocale, defaultLocale, messages } from "@/i18n/config";
 
@@ -27,12 +27,21 @@ export async function Topbar() {
     <header className="h-16 bg-white border-b border-slate-100 flex items-center justify-between px-6 gap-4">
 
       {/* Search */}
-      <div className="relative w-72">
-        <Search size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
-        <input
-          placeholder={t("search")}
-          className="w-full rounded-xl border border-slate-200 bg-slate-50 py-2 pl-9 pr-4 text-sm text-slate-700 placeholder:text-slate-400 outline-none focus:border-indigo-400 focus:bg-white focus:ring-2 focus:ring-indigo-100 transition"
-        />
+      <div className="flex items-center gap-3">
+        <div className="relative w-72">
+          <Search size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+          <input
+            placeholder={t("search")}
+            className="w-full rounded-xl border border-slate-200 bg-slate-50 py-2 pl-9 pr-4 text-sm text-slate-700 placeholder:text-slate-400 outline-none focus:border-indigo-400 focus:bg-white focus:ring-2 focus:ring-indigo-100 transition"
+          />
+        </div>
+
+        {session?.user?.isDemo && (
+          <span className="flex items-center gap-1.5 rounded-full bg-amber-100 px-3 py-1.5 text-xs font-semibold text-amber-700">
+            <Lock size={12} />
+            Demo Modu · Salt Okunur
+          </span>
+        )}
       </div>
 
       {/* Right section */}

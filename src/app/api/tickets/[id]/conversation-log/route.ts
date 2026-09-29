@@ -1,12 +1,36 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { auth } from '@/auth';
 
 export async function GET(
   req: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const session = await auth();
+
+    if (!session) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     const { id } = await params;
+
+    // Bu görüşme kayıtları müşteri adı/telefonu/şikayet içeriği gibi hassas
+    // verileri içerdiğinden yalnızca yetkili kullanıcılar erişebilmeli.
+    const ticket = await prisma.ticket.findUnique({
+      where: { id },
+      select: { id: true, assignedUserId: true },
+    });
+
+    if (!ticket) {
+      return NextResponse.json({ error: 'Ticket not found' }, { status: 404 });
+    }
+
+    const isPrivileged = session.user.role === 'ADMIN' || session.user.role === 'SUPERVISOR';
+
+    if (!isPrivileged && ticket.assignedUserId !== session.user.id) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     // AI Conversation Log'u al
     const conversationLog = await prisma.aIConversationLog.findUnique({

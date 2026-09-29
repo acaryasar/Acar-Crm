@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { logActivity } from "@/lib/entity/activity-log";
+import { safeUserSelect } from "@/lib/user-select";
 
 export async function PATCH(
   req: Request,
@@ -19,7 +20,7 @@ export async function PATCH(
   const ticket = await prisma.ticket.update({
     where: { id },
     data: body,
-    include: { customer: true, assignedUser: true },
+    include: { customer: true, assignedUser: { select: safeUserSelect } },
   });
 
   await logActivity({ 

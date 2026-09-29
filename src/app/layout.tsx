@@ -12,13 +12,10 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: "NDT Servis",
-    template: "%s NDT Servis",
+    default: "iyiCRM",
+    template: "%s | iyiCRM",
   },
-  description: "NDT Servis Management System",
-  icons: {
-    icon: "https://www.ndtservis.com/theme/ndt-servis-logo.svg"
-  },
+  description: "iyiCRM - Kurumsal Yönetim Platformu",
 };
 
 export default function RootLayout({
@@ -27,7 +24,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="de" suppressHydrationWarning className={inter.variable}>
+    <html lang="tr" suppressHydrationWarning className={inter.variable}>
       <body>
         <I18nProvider>{children}</I18nProvider>
       </body>

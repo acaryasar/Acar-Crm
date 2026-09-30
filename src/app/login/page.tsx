@@ -298,10 +298,10 @@ export default function LoginPage() {
         {/* =====================================================
             RIGHT PANEL
         ====================================================== */}
-        <section className="relative flex h-full w-1/2 min-w-0 items-center justify-center overflow-hidden px-5 py-5 sm:px-8 bg-gradient-to-br from-slate-100 via-white to-blue-50">
+        <section className="relative h-full w-1/2 min-w-0 overflow-y-auto px-5 py-6 sm:px-8 bg-gradient-to-br from-slate-100 via-white to-blue-50">
 
           {/* Login Container */}
-          <div className="w-full max-w-[400px]">
+          <div className="mx-auto flex min-h-full w-full max-w-[400px] flex-col justify-center py-4">
 
             {/* Card */}
             <div className="rounded-[20px] border border-white bg-white/90 p-5 shadow-2xl backdrop-blur-xl sm:p-6 shadow-slate-300/40">
@@ -381,9 +381,9 @@ export default function LoginPage() {
         {/* =====================================================
             MOBILE LOGIN
         ====================================================== */}
-        <section className="flex h-full w-full items-center justify-center overflow-hidden bg-gradient-to-br from-slate-100 via-white to-blue-50 px-4 py-4 lg:hidden">
+        <section className="h-full w-full overflow-y-auto bg-gradient-to-br from-slate-100 via-white to-blue-50 px-4 py-4 lg:hidden">
 
-          <div className="w-full max-w-[380px]">
+          <div className="mx-auto flex min-h-full w-full max-w-[380px] flex-col justify-center py-4">
 
             <div className="rounded-[20px] border border-white bg-white/90 p-4 shadow-2xl sm:p-5">
 

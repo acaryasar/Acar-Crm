@@ -8,9 +8,9 @@
     "start": "next start -p 3004",
     "lint": "eslint",
     "prisma:seed": "tsx prisma/seed.ts",
-    "cf:build": "opennextjs-cloudflare build",
-    "cf:preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
-    "cf:deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy"
+    "cf:build": "prisma generate && opennextjs-cloudflare build",
+    "cf:preview": "prisma generate && opennextjs-cloudflare build && opennextjs-cloudflare preview",
+    "cf:deploy": "prisma generate && opennextjs-cloudflare build && opennextjs-cloudflare deploy"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.4.0",

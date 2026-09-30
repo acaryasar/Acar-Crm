@@ -19,6 +19,15 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+  // Prisma publishes a Cloudflare-Workers-specific ("workerd") build via
+  // conditional exports in its package.json (see prisma/schema.prisma's
+  // `runtime = "workerd"`). Left un-externalized, Next.js bundles these
+  // packages under generic Node.js resolution conditions and silently
+  // drops the workerd-specific entrypoint, which is what makes the
+  // client fall back to a Node-style fs read for its .wasm query
+  // compiler — one that doesn't exist in the Cloudflare Worker bundle.
+  // See: https://opennext.js.org/cloudflare/howtos/workerd
+  serverExternalPackages: ["@prisma/client", ".prisma/client"],
   async headers() {
     return [
       {

@@ -26,5 +26,15 @@
   "vars": {
     "AI_PROVIDER": "mock",
     "AUTH_URL": "https://iyicrm.acaryasar.com"
+  },
+  // Enabled from the dashboard on 2026-09-30 (Settings > Observability) —
+  // mirrored here so `wrangler deploy` doesn't drift from it.
+  "observability": {
+    "logs": {
+      "enabled": true,
+      "head_sampling_rate": 1,
+      "invocation_logs": true,
+      "persist": true
+    }
   }
 }

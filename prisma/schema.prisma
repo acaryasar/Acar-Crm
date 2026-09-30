@@ -1,9 +1,12 @@
 generator client {
   provider        = "prisma-client-js"
-  binaryTargets   = ["native", "linux-musl-openssl-3.0.x", "debian-openssl-3.0.x"]
-  // Needed to use @prisma/adapter-libsql (Turso in production, plain local
-  // sqlite in dev) instead of Prisma's own native query engine binary —
-  // see src/lib/prisma.ts and docs/deploy-cloudflare-turso.md.
+  // engineType "client" removes Prisma's Rust query engine entirely (no
+  // native binary, no WASM engine to load) — required on Cloudflare
+  // Workers, which has no OS/OpenSSL for the engine to link against.
+  // Needed together with driverAdapters to use @prisma/adapter-libsql
+  // (Turso in production, plain local sqlite in dev) — see src/lib/prisma.ts
+  // and docs/deploy-cloudflare-turso.md.
+  engineType      = "client"
   previewFeatures = ["driverAdapters"]
 }
 

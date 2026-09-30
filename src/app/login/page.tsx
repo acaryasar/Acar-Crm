@@ -1,3 +1,4 @@
+import type { JSX } from "react";
 import { LoginForm } from "@/features/auth/components/login-form";
 import { DemoLoginPanel } from "@/features/auth/components/demo-login-panel";
 

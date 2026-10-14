@@ -1,5 +1,6 @@
 import { getSession } from "@/lib/auth-guard";
 import { LogoutButton } from "./logout-button";
+import { DeleteAccountButton } from "./delete-account-button";
 import { LanguageSwitcher } from "./language-switcher";
 import { NotificationBell } from "./notification-bell";
 import { Search, Lock } from "lucide-react";
@@ -63,6 +64,7 @@ export async function Topbar() {
           </div>
         </div>
 
+        {!session?.user?.isDemo && <DeleteAccountButton locale={locale} />}
         <LogoutButton label={t("logout")} />
       </div>
     </header>
